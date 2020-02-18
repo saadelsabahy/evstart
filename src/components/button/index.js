@@ -7,7 +7,7 @@ import {
    ActivityIndicator,
 } from 'react-native';
 
-const Button = ({
+const CustomButton = ({
    buttonTitle,
    buttonTitleStyle,
    loading,
@@ -51,4 +51,4 @@ const styles = StyleSheet.create({
    },
 });
 
-export default Button;
+export { CustomButton };
