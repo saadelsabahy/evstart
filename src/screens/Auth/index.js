@@ -12,7 +12,6 @@ class Login extends Component {
          loginLoading,
          onLoginPressed,
       } = this.props;
-      console.log(this.props);
 
       return (
          <View style={styles.container}>

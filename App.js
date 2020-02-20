@@ -4,25 +4,46 @@ if (__DEV__) {
    );
 }
 
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, StatusBar } from 'react-native';
-import firebase from 'react-native-firebase';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 import store from './src/redux/store';
 import AppNavigation from './src/navigation';
 import AsyncStorage from '@react-native-community/async-storage';
 import FlashMessage from 'react-native-flash-message';
-export class App extends Component {
-   constructor(props) {
-      super(props);
-      this.state = {
-         showSplash: true,
-         showAuth: null,
-      };
-   }
+import firebase from 'react-native-firebase';
 
-   async componentDidMount() {
-      this.interval = setInterval(this.checkLogin, 950);
+const App = () => {
+   const [showSplash, setShowSplash] = useState(true);
+   const [userToken, setUserToken] = useState(null);
+
+   useEffect(() => {
+      var splashTimeOut = setTimeout(async () => {
+         const userToken = await AsyncStorage.getItem('userToken');
+         userToken ? setUserToken(userToken) : setUserToken(null);
+         setShowSplash(false);
+      }, 950);
+      getFcmToken();
+      // getNotification();
+      return () => {
+         clearInterval(splashTimeOut);
+      };
+   }, [userToken]);
+   const getFcmToken = async () => {
+      const enabled = await firebase.messaging().hasPermission();
+      if (enabled) {
+         const fcmToken = await firebase.messaging().getToken();
+         await AsyncStorage.setItem('fcmToken', fcmToken);
+         console.log(fcmToken);
+      } else {
+         try {
+            firebase.messaging().requestPermission();
+         } catch (e) {
+            alert('user rejected the permissions');
+         }
+      }
+   };
+   /*  const getNotification = async () => {
       const enabled = await firebase.messaging().hasPermission();
 
       if (enabled) {
@@ -40,34 +61,17 @@ export class App extends Component {
             alert('user rejected the permissions');
          }
       }
-   }
-
-   componentWillUnmount() {
-      clearInterval(this.interval);
-   }
-
-   checkLogin = async () => {
-      const token = await AsyncStorage.getItem('userToken');
-      if (!token) {
-         this.setState({ showSplash: false });
-      } else {
-         this.setState({ showSplash: false });
-      }
-   };
-
-   render() {
-      const { showAuth, showSplash } = this.state;
-      return (
-         <Provider store={store}>
-            <View style={styles.container}>
-               <StatusBar backgroundColor={'#000'} />
-               <AppNavigation showSplash={showSplash} />
-               <FlashMessage position="bottom" style={styles.flashMessage} />
-            </View>
-         </Provider>
-      );
-   }
-}
+   }; */
+   return (
+      <Provider store={store}>
+         <View style={styles.container}>
+            <StatusBar backgroundColor={'#000'} />
+            <AppNavigation showSplash={showSplash} userToken={userToken} />
+            <FlashMessage position="bottom" style={styles.flashMessage} />
+         </View>
+      </Provider>
+   );
+};
 
 const styles = StyleSheet.create({
    container: {

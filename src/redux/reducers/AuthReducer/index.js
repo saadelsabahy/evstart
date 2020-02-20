@@ -12,7 +12,7 @@ const initialState = {
    loginPassword: '',
    loginLoading: false,
    loginError: false,
-   logedIn: false,
+   logedIn: null,
 };
 
 export default (state = initialState, { type, payload }) => {

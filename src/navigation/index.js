@@ -4,13 +4,21 @@ import Splash from '../screens/splash';
 import HomeStack from './HomeStack';
 import { NavigationContainer } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
-const AppNavigation = ({ showSplash, showAuth }) => {
+import AsyncStorage from '@react-native-community/async-storage';
+const AppNavigation = ({ showSplash, userToken }) => {
    const logedIn = useSelector(state => state.Auth.logedIn);
-   console.log(logedIn);
+
+   console.log('logedIn', logedIn || userToken, 'log', logedIn);
 
    return (
       <NavigationContainer>
-         {showSplash ? <Splash /> : logedIn ? <HomeStack /> : <AuthStack />}
+         {showSplash ? (
+            <Splash />
+         ) : logedIn || userToken ? (
+            <HomeStack />
+         ) : (
+            <AuthStack />
+         )}
       </NavigationContainer>
    );
 };

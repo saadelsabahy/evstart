@@ -1,24 +1,27 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { Text, View } from 'react-native';
 import { CustomButton } from '../../components';
 import { connect } from 'react-redux';
-import * as Actions from '../../redux/actions';
+import { getNotification, onLogoutPressed } from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
-export class Home extends Component {
-   render() {
-      const { route, onLogoutPressed } = this.props;
+const Home = ({ navigation, route }) => {
+   console.log(route);
 
-      return (
-         <View>
-            <Text> Home </Text>
-            <CustomButton
-               buttonTitle={'logout'}
-               onButtonPressed={onLogoutPressed}
-            />
-         </View>
-      );
-   }
-}
-const mapStateToProps = state => ({});
+   const dispatch = useDispatch();
 
-export default connect(mapStateToProps, Actions)(Home);
+   useEffect(() => {
+      dispatch(getNotification());
+   }, []);
+   return (
+      <View>
+         <Text> Home </Text>
+         <CustomButton
+            buttonTitle={'logout'}
+            onButtonPressed={() => dispatch(onLogoutPressed(navigation))}
+         />
+      </View>
+   );
+};
+
+export default Home;

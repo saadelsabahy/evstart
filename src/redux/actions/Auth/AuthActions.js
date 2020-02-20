@@ -30,9 +30,13 @@ export const onLoginPressed = navigation => async (dispatch, getState) => {
       });
    } else {
       dispatch({ type: LOGIN_SPINNER, payload: true });
+      console.log(loginName, loginPassword);
+
       var loginResponse = await get_request({
          target: `User/Authenticate?userName=${loginName}&password=${loginPassword}&encrypteddata=${false}`,
       });
+      console.log(loginResponse);
+
       if (loginResponse) {
          showMessage({
             message: 'login success',
@@ -51,9 +55,9 @@ export const onLoginPressed = navigation => async (dispatch, getState) => {
    }
 };
 //logout
-export const onLogoutPressed = () => async dispatch => {
+export const onLogoutPressed = navigation => async dispatch => {
+   console.log('logout pressed');
+
    await AsyncStorage.removeItem('userToken');
-   dispatch({
-      type: LOGOUT,
-   });
+   dispatch({ type: LOGOUT });
 };
