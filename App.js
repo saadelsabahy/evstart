@@ -36,7 +36,7 @@ const App = () => {
    return (
       <Provider store={store}>
          <View style={styles.container}>
-            <StatusBar backgroundColor={'#000'} />
+            <StatusBar backgroundColor={'#001'} />
             <AppNavigation />
             <FlashMessage position="bottom" style={styles.flashMessage} />
          </View>

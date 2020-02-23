@@ -24,6 +24,7 @@ const NotificationCard = ({
    timeContainerStyle,
    timeTextStyle,
    notificationDetailes,
+   notificationDateText,
 }) => {
    return (
       <TouchableOpacity
@@ -44,6 +45,9 @@ const NotificationCard = ({
             <View style={[styles.timeContainer, timeContainerStyle]}>
                <Text style={[styles.timeText, timeTextStyle]}>
                   {notificationTimeText}
+               </Text>
+               <Text style={[styles.timeText, timeTextStyle]}>
+                  {notificationDateText}
                </Text>
             </View>
          </View>
@@ -71,6 +75,7 @@ const styles = StyleSheet.create({
             shadowRadius: 3,
          },
       }),
+      marginVertical: 5,
    },
    headContainer: {
       width: '99%',
