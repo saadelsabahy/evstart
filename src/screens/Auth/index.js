@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Keyboard } from 'react-native';
 import { CustomInput, CustomButton } from '../../components';
 import { connect } from 'react-redux';
 import * as Ations from '../../redux/actions';
 class Login extends Component {
+   onLoginPressed = () => {
+      const { navigation, onLoginPressed } = this.props;
+      Keyboard.dismiss();
+      onLoginPressed(navigation);
+   };
    render() {
       const {
          name,
@@ -43,7 +48,7 @@ class Login extends Component {
             </View>
             <CustomButton
                buttonTitle={'login'}
-               onButtonPressed={() => onLoginPressed(navigation)}
+               onButtonPressed={this.onLoginPressed}
                buttonContainerStyle={styles.button}
                loading={loginLoading}
                spinnerColor={'#fff'}
@@ -57,6 +62,7 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
+      backgroundColor: '#fff',
    },
    inputsContainer: {
       width: '100%',

@@ -1,24 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import AuthStack from './AuthStack';
 import Splash from '../screens/splash';
 import HomeStack from './HomeStack';
 import { NavigationContainer } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
-const AppNavigation = ({ showSplash, userToken }) => {
+const AppNavigation = () => {
    const logedIn = useSelector(state => state.Auth.logedIn);
+   const [showSplash, setShowSplash] = useState(true);
+   const [userToken, setUserToken] = useState(
+      AsyncStorage.getItem('userToken', (err, res) => setUserToken(res))
+   );
 
-   console.log('logedIn', logedIn || userToken, 'log', logedIn);
+   useEffect(() => {
+      var splashTimeOut = setTimeout(async () => {
+         setShowSplash(false);
+      }, 950);
+
+      return () => {
+         clearInterval(splashTimeOut);
+      };
+   }, [userToken]);
 
    return (
       <NavigationContainer>
-         {showSplash ? (
-            <Splash />
-         ) : logedIn || userToken ? (
-            <HomeStack />
-         ) : (
-            <AuthStack />
-         )}
+         {showSplash ? <Splash /> : userToken ? <HomeStack /> : <AuthStack />}
       </NavigationContainer>
    );
 };

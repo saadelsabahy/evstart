@@ -6,7 +6,7 @@ import {
    LOGIN_SPINNER,
    LOGOUT,
 } from './AuthTypes';
-import { get_request } from '../../../utils/api';
+import { get_request, post_request } from '../../../utils/api';
 import { showMessage, hideMessage } from 'react-native-flash-message';
 import AsyncStorage from '@react-native-community/async-storage';
 export const onInputsChange = (inputName, inputValue) => {
@@ -22,6 +22,7 @@ export const onInputsChange = (inputName, inputValue) => {
 
 export const onLoginPressed = navigation => async (dispatch, getState) => {
    const { loginName, loginPassword } = getState().Auth;
+   const fcmToken = await AsyncStorage.getItem('fcmToken');
 
    if (!(loginName.length && loginPassword.length)) {
       showMessage({
@@ -33,9 +34,8 @@ export const onLoginPressed = navigation => async (dispatch, getState) => {
       console.log(loginName, loginPassword);
 
       var loginResponse = await get_request({
-         target: `User/Authenticate?userName=${loginName}&password=${loginPassword}&encrypteddata=${false}`,
+         target: `Components.UserManagement.WebAPI/api/User/Authenticate?userName=${loginName}&password=${loginPassword}&encrypteddata=${false}`,
       });
-      console.log(loginResponse);
 
       if (loginResponse) {
          showMessage({
@@ -43,8 +43,13 @@ export const onLoginPressed = navigation => async (dispatch, getState) => {
             type: 'success',
          });
          await AsyncStorage.setItem('userToken', 'tkn');
-
          dispatch({ type: LOGIN_SUCCESS, payload: loginResponse });
+         const sendFcmTokenResponse = await post_request({
+            target:
+               'EV.UHF.LMS.EncodingTool.Notifications.API/api/UserNotifications',
+            body: { UserID: loginResponse.Id, UsrToken: fcmToken },
+         });
+         console.log('sendFcmTokenResponse', sendFcmTokenResponse);
       } else {
          dispatch({ type: LOGIN_FAILED });
          showMessage({

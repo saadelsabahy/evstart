@@ -6,8 +6,6 @@ import { getNotification, onLogoutPressed } from '../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Home = ({ navigation, route }) => {
-   console.log(route);
-
    const dispatch = useDispatch();
 
    useEffect(() => {

@@ -1,11 +1,11 @@
-const base_url = 'http://772d62bf.ngrok.io/Components.UserManagement.WebAPI';
+const base_url = 'http://30095b70.ngrok.io/';
 export const image_url = base_url;
 
 import AsyncStorage from '@react-native-community/async-storage';
 
 // get request
 export const get_request = async ({ target }) => {
-   const url = `${base_url}/api/${target}`;
+   const url = `${base_url}/${target}`;
 
    const access_token = await AsyncStorage.getItem('userToken');
    console.log('access token>>>', access_token);
@@ -28,7 +28,7 @@ export const get_request = async ({ target }) => {
 
 // post request
 export const post_request = async ({ target, body = {} }) => {
-   const url = `${base_url}/api/${target}`;
+   const url = `${base_url}/${target}`;
    const access_token = await AsyncStorage.getItem('userToken');
 
    try {

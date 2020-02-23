@@ -14,21 +14,10 @@ import FlashMessage from 'react-native-flash-message';
 import firebase from 'react-native-firebase';
 
 const App = () => {
-   const [showSplash, setShowSplash] = useState(true);
-   const [userToken, setUserToken] = useState(null);
-
    useEffect(() => {
-      var splashTimeOut = setTimeout(async () => {
-         const userToken = await AsyncStorage.getItem('userToken');
-         userToken ? setUserToken(userToken) : setUserToken(null);
-         setShowSplash(false);
-      }, 950);
       getFcmToken();
       // getNotification();
-      return () => {
-         clearInterval(splashTimeOut);
-      };
-   }, [userToken]);
+   }, []);
    const getFcmToken = async () => {
       const enabled = await firebase.messaging().hasPermission();
       if (enabled) {
@@ -43,30 +32,12 @@ const App = () => {
          }
       }
    };
-   /*  const getNotification = async () => {
-      const enabled = await firebase.messaging().hasPermission();
 
-      if (enabled) {
-         const fcmToken = await firebase.messaging().getToken();
-         console.log('fcmToken', fcmToken);
-         firebase.notifications().onNotification(notification => {
-            console.log(notification);
-
-            alert('got a notification');
-         });
-      } else {
-         try {
-            firebase.messaging().requestPermission();
-         } catch (e) {
-            alert('user rejected the permissions');
-         }
-      }
-   }; */
    return (
       <Provider store={store}>
          <View style={styles.container}>
             <StatusBar backgroundColor={'#000'} />
-            <AppNavigation showSplash={showSplash} userToken={userToken} />
+            <AppNavigation />
             <FlashMessage position="bottom" style={styles.flashMessage} />
          </View>
       </Provider>
