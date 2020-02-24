@@ -1,4 +1,4 @@
-const base_url = 'https://a44297be.ngrok.io/';
+const base_url = 'https://cf92439a.ngrok.io/';
 export const image_url = base_url;
 
 import AsyncStorage from '@react-native-community/async-storage';

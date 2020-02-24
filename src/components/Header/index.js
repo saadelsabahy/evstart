@@ -1,11 +1,38 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
-const Header = ({ headerText }) => {
+import { IconButton } from '../IconButton';
+const Header = ({
+   headerText,
+   onIconStartPressed,
+   onIconEndPressed,
+   iconStart,
+   iconStartColor,
+   iconEnd,
+   iconEndColor,
+   iconEndSize,
+   iconStartSize,
+}) => {
    return (
       <View style={styles.container}>
-         <Text style={styles.headerText}>{headerText}</Text>
+         <View style={styles.contentContainer}>
+            {iconStart && (
+               <IconButton
+                  iconName={iconStart}
+                  iconColor={iconStartColor || '#fff'}
+                  onIconPressed={onIconStartPressed}
+                  iconSize={iconStartSize}
+               />
+            )}
+            <Text style={styles.headerText}>{headerText}</Text>
+            {iconEnd && (
+               <IconButton
+                  iconName={iconEnd}
+                  iconColor={iconEndColor || '#fff'}
+                  onIconPressed={onIconEndPressed}
+                  iconSize={iconEndSize}
+               />
+            )}
+         </View>
       </View>
    );
 };
@@ -17,7 +44,12 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
-      marginBottom: 10,
+   },
+   contentContainer: {
+      width: '95%',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
    },
    headerText: {
       color: '#fff',

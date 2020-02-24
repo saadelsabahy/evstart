@@ -42,7 +42,13 @@ export const onLoginPressed = navigation => async (dispatch, getState) => {
             message: 'login success',
             type: 'success',
          });
-         await AsyncStorage.setItem('userToken', 'tkn');
+         const { UserName, Email, Mobile } = loginResponse;
+         await AsyncStorage.multiSet([
+            ['userToken', 'tkn'],
+            ['name', UserName],
+            ['phone', Mobile],
+            ['email', Email],
+         ]);
          dispatch({ type: LOGIN_SUCCESS, payload: loginResponse });
          const sendFcmTokenResponse = await post_request({
             target:
@@ -63,6 +69,6 @@ export const onLoginPressed = navigation => async (dispatch, getState) => {
 export const onLogoutPressed = navigation => async dispatch => {
    console.log('logout pressed');
 
-   await AsyncStorage.removeItem('userToken');
+   await AsyncStorage.clear();
    dispatch({ type: LOGOUT });
 };

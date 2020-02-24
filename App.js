@@ -12,7 +12,8 @@ import AppNavigation from './src/navigation';
 import AsyncStorage from '@react-native-community/async-storage';
 import FlashMessage from 'react-native-flash-message';
 import firebase from 'react-native-firebase';
-
+import { YellowBox } from 'react-native';
+YellowBox.ignoreWarnings(['Remote debugger']);
 const App = () => {
    useEffect(() => {
       getFcmToken();

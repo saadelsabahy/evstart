@@ -13,6 +13,9 @@ const initialState = {
    loginLoading: false,
    loginError: false,
    logedIn: null,
+   name: '',
+   email: '',
+   phone: '',
 };
 
 export default (state = initialState, { type, payload }) => {
