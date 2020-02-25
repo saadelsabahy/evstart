@@ -45,7 +45,7 @@ const Home = ({ navigation, route }) => {
       <View style={styles.container}>
          <Header
             headerText={'home'}
-            onIconStartPressed={() => setModalVisible(true)}
+            onIconStartPressed={() => navigation.navigate('Profile')}
             iconStart={'account'}
             iconEnd={'logout'}
             onIconEndPressed={() => dispatch(onLogoutPressed(navigation))}

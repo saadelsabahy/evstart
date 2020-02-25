@@ -9,9 +9,14 @@ const IconButton = ({
    iconStyle,
    iconColor,
    iconSize,
+   touchableStyle,
+   activeOpacity,
 }) => {
    return (
-      <TouchableOpacity onPress={onIconPressed}>
+      <TouchableOpacity
+         onPress={onIconPressed}
+         style={[touchableStyle]}
+         activeOpacity={activeOpacity || 0.9}>
          <View style={[styles.iconContainer, iconContainerStyle]}>
             <Icon
                name={iconName}
