@@ -51,6 +51,7 @@ const Home = ({ navigation, route }) => {
             onIconEndPressed={() => dispatch(onLogoutPressed(navigation))}
             iconEndSize={25}
             iconStartSize={25}
+            iconEndText={'logout'}
          />
          {getNotificationLoader ? (
             <View style={styles.loaderContainer}>
@@ -59,13 +60,6 @@ const Home = ({ navigation, route }) => {
          ) : (
             <NotificationList data={notifications} />
          )}
-         <ProfileModal
-            modalVisible={modalVisible}
-            onBackdropPress={() => setModalVisible(false)}
-            name={name}
-            phone={phone}
-            email={email}
-         />
       </View>
    );
 };

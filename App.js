@@ -7,7 +7,8 @@ if (__DEV__) {
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, StatusBar } from 'react-native';
 import { Provider, useDispatch, useSelector } from 'react-redux';
-import store from './src/redux/store';
+import { store, persistor } from './src/redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
 import AppNavigation from './src/navigation';
 import AsyncStorage from '@react-native-community/async-storage';
 import FlashMessage from 'react-native-flash-message';
@@ -36,11 +37,13 @@ const App = () => {
 
    return (
       <Provider store={store}>
-         <View style={styles.container}>
-            <StatusBar backgroundColor={'#001'} />
-            <AppNavigation />
-            <FlashMessage position="bottom" style={styles.flashMessage} />
-         </View>
+         <PersistGate persistor={persistor}>
+            <View style={styles.container}>
+               <StatusBar backgroundColor={'#001'} />
+               <AppNavigation />
+               <FlashMessage position="bottom" style={styles.flashMessage} />
+            </View>
+         </PersistGate>
       </Provider>
    );
 };

@@ -42,12 +42,10 @@ export const onLoginPressed = navigation => async (dispatch, getState) => {
             message: 'login success',
             type: 'success',
          });
-         const { UserName, Email, Mobile } = loginResponse;
+         const { UserName, Email, Mobile, Id } = loginResponse;
          await AsyncStorage.multiSet([
             ['userToken', 'tkn'],
-            ['name', UserName],
-            ['phone', Mobile],
-            ['email', Email],
+            ['userId', Id],
          ]);
          dispatch({ type: LOGIN_SUCCESS, payload: loginResponse });
          const sendFcmTokenResponse = await post_request({

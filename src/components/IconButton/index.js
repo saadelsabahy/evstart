@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const IconButton = ({
@@ -11,6 +11,8 @@ const IconButton = ({
    iconSize,
    touchableStyle,
    activeOpacity,
+   buttonTextStyle,
+   iconButtonText,
 }) => {
    return (
       <TouchableOpacity
@@ -24,6 +26,11 @@ const IconButton = ({
                size={iconSize || 20}
                style={[iconStyle]}
             />
+            {iconButtonText && (
+               <Text style={[styles.text, buttonTextStyle]}>
+                  {iconButtonText}
+               </Text>
+            )}
          </View>
       </TouchableOpacity>
    );
@@ -34,6 +41,12 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
       marginHorizontal: 10,
+   },
+   text: {
+      fontSize: 15,
+      color: '#fff',
+      textTransform: 'capitalize',
+      letterSpacing: 1,
    },
 });
 export { IconButton };

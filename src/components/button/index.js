@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
       color: '#fff',
       textTransform: 'capitalize',
       fontSize: 18,
-      letterSpacing: 1,
+      letterSpacing: 0.8,
    },
 });
 

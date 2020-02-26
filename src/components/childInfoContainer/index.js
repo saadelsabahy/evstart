@@ -12,25 +12,18 @@ const StudentInfoCard = ({ containerStyle, childName }) => {
                <Text style={[styles.infoVaue]}>9</Text>
             </View>
          </View>
-
-         <View style={[styles.infoContainer]}>
-            <View style={[styles.infoDataContainer]}>
-               <Text style={[styles.infoTitle]}>percentage</Text>
-               <Text style={[styles.infoVaue]}>9</Text>
-            </View>
-         </View>
       </View>
    );
 };
 const styles = StyleSheet.create({
    container: {
       backgroundColor: '#fff',
-      width: '100%',
+      width: '98%',
       height: 60,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      borderRadius: 10,
+      borderRadius: 5,
       ...Platform.select({
          android: {
             elevation: 2,
@@ -44,8 +37,10 @@ const styles = StyleSheet.create({
       }),
       paddingHorizontal: 5,
       marginVertical: 10,
+      alignSelf: 'center',
    },
    infoContainer: {
+      width: '40%',
       height: '100%',
       alignItems: 'center',
       justifyContent: 'center',
@@ -55,6 +50,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
    },
    childName: {
+      flex: 1,
       textTransform: 'capitalize',
       fontSize: 15,
       fontWeight: '400',
