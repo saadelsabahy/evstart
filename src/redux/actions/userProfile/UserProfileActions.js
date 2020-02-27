@@ -6,9 +6,10 @@ import {
    GET_PROFILE_INFO_SPINNER,
    GET_PROFILE_INFO_SUCCESS,
    GET_PROFILE_INFO_FAILED,
+   UPDATE_PROFILE_FAILED,
 } from './UserProfileTypes';
 import AsyncStorage from '@react-native-community/async-storage';
-import { get_request } from '../../../utils/api';
+import { get_request, post_request } from '../../../utils/api';
 
 const options = {
    title: 'Select Avatar',
@@ -18,21 +19,21 @@ const options = {
    },
 };
 export const getProfileData = () => async (dispatch, getState) => {
-   console.log('called...........');
-
-   dispatch({ type: GET_PROFILE_INFO_SPINNER, type: true });
+   dispatch({ type: GET_PROFILE_INFO_SPINNER, payload: true });
    const userId = await AsyncStorage.getItem('userId');
    const getProfileInfoResponse = await get_request({
-      target: `EV.UHF.LMS.EncodingTool.API/api/ParentProfile?UserID=${11}`,
+      target: `EV.UHF.LMS.EncodingTool.API/api/ParentProfile?UserID=${userId}`,
    });
 
-   console.log('info...........', getProfileInfoResponse);
    if (getProfileInfoResponse) {
+      console.log('success');
       dispatch({
          type: GET_PROFILE_INFO_SUCCESS,
          payload: getProfileInfoResponse,
       });
    } else {
+      console.log('failed');
+
       dispatch({ type: GET_PROFILE_INFO_FAILED });
    }
 };
@@ -60,6 +61,7 @@ export const changeProfilePicture = () => async (dispatch, getState) => {
 export const updateProfilePhoto = () => async (dispatch, getState) => {
    dispatch({ type: UPDATE_PROFILE_SPINNER, payload: true });
    const { image } = getState().UserProfile;
+   const userId = await AsyncStorage.getItem('userId');
    console.log(image);
 
    const form = new FormData();
@@ -69,6 +71,13 @@ export const updateProfilePhoto = () => async (dispatch, getState) => {
       name: 'parentProfile.jpg',
    });
    console.log('update profile Photo pressed', form);
-
-   dispatch({ type: UPDATE_PROFILE_SUCCESS });
+   const UpdateProfilePicture = await post_request({
+      target: `EV.UHF.LMS.EncodingTool.API/api/ParentProfile?UserID=${userId}`,
+      body: { file: form },
+   });
+   if (UpdateProfilePicture) {
+      dispatch({ type: UPDATE_PROFILE_SUCCESS });
+   } else {
+      dispatch({ type: UPDATE_PROFILE_FAILED });
+   }
 };

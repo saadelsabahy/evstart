@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
    },
    studentsListContentContainer: {
       width: '95%',
+      height: '100%',
       alignSelf: 'center',
       marginVertical: 5,
       top: '-5%',

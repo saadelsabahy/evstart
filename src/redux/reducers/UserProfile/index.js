@@ -9,11 +9,11 @@ import {
 } from '../../actions/userProfile/UserProfileTypes';
 
 const initialState = {
-   image: '',
+   image: null,
    showSaveButton: false,
    updateProfileLoader: false,
    updateProfileError: false,
-   getInfoLoader: false,
+   getInfoLoader: true,
    userInfo: {},
    getUserInfoError: false,
 };
@@ -24,6 +24,7 @@ export default (state = initialState, { type, payload }) => {
          return {
             ...state,
             getInfoLoader: payload,
+            getUserInfoError: false,
          };
          break;
       case GET_PROFILE_INFO_SUCCESS:
@@ -31,6 +32,8 @@ export default (state = initialState, { type, payload }) => {
             ...state,
             getInfoLoader: false,
             userInfo: payload,
+            getUserInfoError: false,
+            image: payload.ParentImageURL,
          };
          break;
       case GET_PROFILE_INFO_FAILED:

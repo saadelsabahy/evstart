@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
    View,
    Text,
@@ -7,7 +7,13 @@ import {
    FlatList,
    ActivityIndicator,
 } from 'react-native';
-import { IconButton, StudentInfoCard, CustomButton } from '../../components';
+import {
+   IconButton,
+   StudentInfoCard,
+   CustomButton,
+   EmptyList,
+   LoaderAndRetry,
+} from '../../components';
 import Profile from '../../assets/profile.png';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -16,6 +22,7 @@ import {
    getProfileData,
 } from '../../redux/actions';
 import styles from './style';
+import { CustomDropDown } from '../../components/dropDown';
 
 const UserProfile = ({ navigation }) => {
    const dispatch = useDispatch();
@@ -23,7 +30,6 @@ const UserProfile = ({ navigation }) => {
       dispatch(getProfileData());
       /* dispatch(updateProfilePhoto()); */
    }, []);
-   const profileImage = useSelector(state => state.UserProfile.image);
    const updateProfileLoader = useSelector(
       state => state.UserProfile.updateProfileLoader
    );
@@ -32,22 +38,22 @@ const UserProfile = ({ navigation }) => {
    );
    const userInfo = useSelector(state => state.UserProfile.userInfo);
    const getInfoLoader = useSelector(state => state.UserProfile.getInfoLoader);
+   const userProfileImage = useSelector(state => state.UserProfile.image);
    const getUserInfoError = useSelector(
       state => state.UserProfile.getUserInfoError
    );
+   console.log('getInfoLoader', getUserInfoError);
 
-   if (getInfoLoader) {
+   if (getInfoLoader || getUserInfoError) {
       return (
-         <View
-            style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <ActivityIndicator size="large" color="#000" />
-            {/* {getInfoLoader && } */}
-            {/* {getUserInfoError && <CustomButton buttonTitle={'retry'} />} */}
-         </View>
+         <LoaderAndRetry
+            loading={getInfoLoader}
+            error={getUserInfoError}
+            onRetryPressed={() => dispatch(getProfileData())}
+         />
       );
    } else {
-      const { ParentName, Email, Phone, Students, ParentImageURL } = userInfo;
-      console.log(Students.length);
+      const { ParentName, Email, Phone, Students } = userInfo;
 
       return (
          <View style={styles.container}>
@@ -73,8 +79,8 @@ const UserProfile = ({ navigation }) => {
                <View style={styles.profileImageContainer}>
                   <Image
                      source={
-                        profileImage.length !== 0
-                           ? { uri: profileImage.uri }
+                        userProfileImage
+                           ? { uri: userProfileImage.uri }
                            : Profile
                      }
                      style={styles.profileImage}
@@ -103,13 +109,25 @@ const UserProfile = ({ navigation }) => {
             {/* children info */}
             <View style={styles.studentsListContainer}>
                <View style={styles.studentsListContentContainer}>
-                  <Text style={styles.studentListTitle}>children</Text>
+                  <View
+                     style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                     }}>
+                     <Text style={styles.studentListTitle}>children</Text>
+                     <CustomDropDown
+                        labels={['this weak', 'this month']}
+                        onMenuItemPressed={menu => menu.hide()}
+                     />
+                  </View>
                   <FlatList
                      data={Students}
                      keyExtractor={(item, index) => `${index}`}
                      renderItem={({ item: { StudentName }, index }) => {
                         return <StudentInfoCard childName={StudentName} />;
                      }}
+                     ListEmptyComponent={() => <EmptyList />}
                   />
                </View>
             </View>
