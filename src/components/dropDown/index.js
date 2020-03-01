@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
 import { IconButton } from '../IconButton';
-const CustomDropDown = ({ labels, onMenuItemPressed }) => {
+const CustomDropDown = ({ labels, onMenuItemPressed, selectedItem }) => {
    const ref = useRef(null);
    return (
       <View style={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -18,10 +18,11 @@ const CustomDropDown = ({ labels, onMenuItemPressed }) => {
             {labels.map((label, index) => {
                return (
                   <MenuItem
-                     onPress={() => {
-                        onMenuItemPressed(ref.current);
+                     onPress={item => {
+                        onMenuItemPressed(ref.current, label);
                      }}
-                     key={index + label}>
+                     key={index + label}
+                     style={label === selectedItem ? styles.selectedItem : {}}>
                      {label}
                   </MenuItem>
                );
@@ -30,5 +31,10 @@ const CustomDropDown = ({ labels, onMenuItemPressed }) => {
       </View>
    );
 };
+const styles = StyleSheet.create({
+   selectedItem: {
+      backgroundColor: '#eee',
+   },
+});
 
 export { CustomDropDown };

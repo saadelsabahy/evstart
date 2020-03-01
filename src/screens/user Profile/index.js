@@ -20,6 +20,7 @@ import {
    changeProfilePicture,
    updateProfilePhoto,
    getProfileData,
+   onFilterCommitmentItemPressed,
 } from '../../redux/actions';
 import styles from './style';
 import { CustomDropDown } from '../../components/dropDown';
@@ -28,7 +29,6 @@ const UserProfile = ({ navigation }) => {
    const dispatch = useDispatch();
    useEffect(() => {
       dispatch(getProfileData());
-      /* dispatch(updateProfilePhoto()); */
    }, []);
    const updateProfileLoader = useSelector(
       state => state.UserProfile.updateProfileLoader
@@ -42,15 +42,25 @@ const UserProfile = ({ navigation }) => {
    const getUserInfoError = useSelector(
       state => state.UserProfile.getUserInfoError
    );
-   console.log('getInfoLoader', getUserInfoError);
-
+   const commitMentLabel = useSelector(
+      state => state.UserProfile.commitMentLabel
+   );
    if (getInfoLoader || getUserInfoError) {
       return (
-         <LoaderAndRetry
-            loading={getInfoLoader}
-            error={getUserInfoError}
-            onRetryPressed={() => dispatch(getProfileData())}
-         />
+         <React.Fragment>
+            <LoaderAndRetry
+               loading={getInfoLoader}
+               error={getUserInfoError}
+               onRetryPressed={() => dispatch(getProfileData())}
+            />
+            <IconButton
+               iconName={'keyboard-backspace'}
+               iconColor="#fff"
+               iconSize={25}
+               onIconPressed={() => navigation.goBack()}
+               touchableStyle={styles.backContainer}
+            />
+         </React.Fragment>
       );
    } else {
       const { ParentName, Email, Phone, Students } = userInfo;
@@ -116,10 +126,19 @@ const UserProfile = ({ navigation }) => {
                         justifyContent: 'space-between',
                      }}>
                      <Text style={styles.studentListTitle}>children</Text>
-                     <CustomDropDown
-                        labels={['this weak', 'this month']}
-                        onMenuItemPressed={menu => menu.hide()}
-                     />
+                     <View
+                        style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <CustomDropDown
+                           labels={['this weak', 'this month']}
+                           onMenuItemPressed={(menu, label) =>
+                              dispatch(
+                                 onFilterCommitmentItemPressed(menu, label)
+                              )
+                           }
+                           selectedItem={commitMentLabel}
+                        />
+                        <Text>{commitMentLabel}</Text>
+                     </View>
                   </View>
                   <FlatList
                      data={Students}

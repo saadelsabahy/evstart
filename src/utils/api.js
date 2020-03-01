@@ -1,4 +1,4 @@
-const base_url = 'http://73013f79.ngrok.io/';
+const base_url = 'http://83f00e9d.ngrok.io/';
 export const image_url = base_url;
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -20,9 +20,9 @@ export const get_request = async ({ target }) => {
       });
       return await result.json();
    } catch (err) {
-      console.log('------------------PUT  REQUEST ERROR------------------');
+      console.log('------------------GET  REQUEST ERROR------------------');
       console.log(err);
-      console.log('------------------PUT  REQUEST ERROR------------------');
+      console.log('------------------GET  REQUEST ERROR------------------');
    }
 };
 
@@ -43,9 +43,9 @@ export const post_request = async ({ target, body = {} }) => {
       });
       return await result.json();
    } catch (err) {
-      console.log('------------------PUT  REQUEST ERROR------------------');
+      console.log('------------------POST  REQUEST ERROR------------------');
       console.log(err);
-      console.log('------------------PUT  REQUEST ERROR------------------');
+      console.log('------------------POST  REQUEST ERROR------------------');
    }
 };
 

@@ -7,9 +7,11 @@ import {
    GET_PROFILE_INFO_SUCCESS,
    GET_PROFILE_INFO_FAILED,
    UPDATE_PROFILE_FAILED,
+   CHANGE_COMMITMENT_FILTER,
 } from './UserProfileTypes';
 import AsyncStorage from '@react-native-community/async-storage';
 import { get_request, post_request } from '../../../utils/api';
+import { showMessage, hideMessage } from 'react-native-flash-message';
 
 const options = {
    title: 'Select Avatar',
@@ -26,14 +28,11 @@ export const getProfileData = () => async (dispatch, getState) => {
    });
 
    if (getProfileInfoResponse) {
-      console.log('success');
       dispatch({
          type: GET_PROFILE_INFO_SUCCESS,
          payload: getProfileInfoResponse,
       });
    } else {
-      console.log('failed');
-
       dispatch({ type: GET_PROFILE_INFO_FAILED });
    }
 };
@@ -47,8 +46,6 @@ export const changeProfilePicture = () => async (dispatch, getState) => {
       } else if (response.customButton) {
          console.log('User tapped custom button: ', response.customButton);
       } else {
-         console.log(response);
-
          const source = { uri: response.uri };
          dispatch({
             type: USER_CHANGE_PHOTO_SUCCESSFULLY,
@@ -62,7 +59,6 @@ export const updateProfilePhoto = () => async (dispatch, getState) => {
    dispatch({ type: UPDATE_PROFILE_SPINNER, payload: true });
    const { image } = getState().UserProfile;
    const userId = await AsyncStorage.getItem('userId');
-   console.log(image);
 
    const form = new FormData();
    form.append('image', {
@@ -70,14 +66,32 @@ export const updateProfilePhoto = () => async (dispatch, getState) => {
       type: 'image/jpg',
       name: 'parentProfile.jpg',
    });
-   console.log('update profile Photo pressed', form);
+   console.log('new profile picture', form);
+
    const UpdateProfilePicture = await post_request({
       target: `EV.UHF.LMS.EncodingTool.API/api/ParentProfile?UserID=${userId}`,
       body: { file: form },
    });
-   if (UpdateProfilePicture) {
+   if (!UpdateProfilePicture) {
       dispatch({ type: UPDATE_PROFILE_SUCCESS });
+      showMessage({
+         message: 'update profile success',
+         type: 'success',
+      });
    } else {
       dispatch({ type: UPDATE_PROFILE_FAILED });
+      showMessage({
+         message: 'update profile failed',
+         type: 'danger',
+         position: 'top',
+      });
    }
+};
+
+export const onFilterCommitmentItemPressed = (menu, label) => async (
+   dispatch,
+   getState
+) => {
+   dispatch({ type: CHANGE_COMMITMENT_FILTER, payload: label });
+   menu.hide();
 };

@@ -6,6 +6,7 @@ import {
    GET_PROFILE_INFO_SPINNER,
    GET_PROFILE_INFO_SUCCESS,
    GET_PROFILE_INFO_FAILED,
+   CHANGE_COMMITMENT_FILTER,
 } from '../../actions/userProfile/UserProfileTypes';
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
    getInfoLoader: true,
    userInfo: {},
    getUserInfoError: false,
+   commitMentLabel: 'this week',
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -71,6 +73,9 @@ export default (state = initialState, { type, payload }) => {
             updateProfileLoader: false,
             updateProfileError: true,
          };
+         break;
+      case CHANGE_COMMITMENT_FILTER:
+         return { ...state, commitMentLabel: payload };
          break;
       default:
          return state;

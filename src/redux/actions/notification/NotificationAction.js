@@ -8,18 +8,25 @@ import {
 } from './NotificationTypes';
 
 export const getNotification = () => async (dispatch, getState) => {
-   firebase.notifications().onNotification(async notification => {
-      console.log(notification);
-      await dispatch({ type: RECEIVE_NOTIFICATION, payload: {} });
-      alert('got a notification');
-      /* firebase
-         .firestore()
-         .collection('users')
-         .add({
-            fullname: 'saad',
-            date: new Date(),
-         }); */
-   });
+   firebase
+      .notifications()
+      .onNotification(async ({ _data: { userId, type } }) => {
+         console.log('data', _data);
+         await dispatch({ type: RECEIVE_NOTIFICATION, payload: {} });
+         /* firebase
+            .firestore()
+            .collection('notifications')
+            .collection(`${userId}`)
+            .add({
+               type,
+               date: new Date(),
+            }); */
+      });
+   // firebase
+   //    .notifications()
+   //    .onNotificationOpened(({ notification: { _data } }) => {
+   //       console.log('notification opend', _data);
+   //    });
 };
 
 export const getAllNotifications = () => async (dispatch, getState) => {
