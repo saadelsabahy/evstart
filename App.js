@@ -39,7 +39,7 @@ const App = () => {
       <Provider store={store}>
          <PersistGate persistor={persistor}>
             <View style={styles.container}>
-               <StatusBar backgroundColor={'#001'} />
+               <StatusBar backgroundColor={'#000'} />
                <AppNavigation />
                <FlashMessage position="bottom" style={styles.flashMessage} />
             </View>

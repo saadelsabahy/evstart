@@ -32,7 +32,9 @@ const NotificationList = ({ data }) => {
                />
             );
          }}
-         ListFooterComponent={() => <EmptyList />}
+         ListFooterComponent={() => (
+            <EmptyList iconSize={40} emptyText="No notifications yet" />
+         )}
       />
    );
 };
