@@ -7,6 +7,7 @@ import {
    TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { WHITE_COLOR } from '../../constants/colors';
 
 const NotificationCard = ({
    notificationTimeText,
@@ -62,7 +63,7 @@ const NotificationCard = ({
 const styles = StyleSheet.create({
    container: {
       width: '97%',
-      backgroundColor: '#fff',
+      backgroundColor: WHITE_COLOR,
       borderRadius: 7,
       ...Platform.select({
          android: {

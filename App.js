@@ -15,10 +15,10 @@ import FlashMessage from 'react-native-flash-message';
 import firebase from 'react-native-firebase';
 import { YellowBox } from 'react-native';
 YellowBox.ignoreWarnings(['Remote debugger']);
+import moment from 'moment';
 const App = () => {
    useEffect(() => {
       getFcmToken();
-      // getNotification();
    }, []);
    const getFcmToken = async () => {
       const enabled = await firebase.messaging().hasPermission();

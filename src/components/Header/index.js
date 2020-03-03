@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { IconButton } from '../IconButton';
+import { BLACK_COLOR, WHITE_COLOR } from '../../constants/colors';
 const Header = ({
    headerText,
    onIconStartPressed,
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
    container: {
       width: '100%',
       height: '8%',
-      backgroundColor: '#000',
+      backgroundColor: BLACK_COLOR,
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
    },
    headerText: {
-      color: '#fff',
+      color: WHITE_COLOR,
       fontSize: 18,
       textTransform: 'capitalize',
    },

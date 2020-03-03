@@ -6,7 +6,9 @@ import {
    GET_PROFILE_INFO_SPINNER,
    GET_PROFILE_INFO_SUCCESS,
    GET_PROFILE_INFO_FAILED,
-   CHANGE_COMMITMENT_FILTER,
+   CHANGE_COMMITMENT_SPINNER,
+   CHANGE_COMMITMENT_SUCCESS,
+   CHANGE_COMMITMENT_FAILED,
 } from '../../actions/userProfile/UserProfileTypes';
 
 const initialState = {
@@ -18,6 +20,8 @@ const initialState = {
    userInfo: {},
    getUserInfoError: false,
    commitMentLabel: 'this week',
+   getCommitmentSpinner: false,
+   getCommitmentError: false,
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -74,8 +78,28 @@ export default (state = initialState, { type, payload }) => {
             updateProfileError: true,
          };
          break;
-      case CHANGE_COMMITMENT_FILTER:
-         return { ...state, commitMentLabel: payload };
+      case CHANGE_COMMITMENT_SPINNER:
+         return {
+            ...state,
+            commitMentLabel: payload,
+            getCommitmentSpinner: true,
+            getCommitmentError: false,
+         };
+         break;
+      case CHANGE_COMMITMENT_SUCCESS:
+         return {
+            ...state,
+            getCommitmentSpinner: false,
+            userInfo: { ...state.userInfo, Students: payload },
+         };
+         break;
+      case CHANGE_COMMITMENT_FAILED:
+         return {
+            ...state,
+            commitMentLabel: payload,
+            getCommitmentSpinner: false,
+            getCommitmentError: true,
+         };
          break;
       default:
          return state;

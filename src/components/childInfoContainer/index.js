@@ -1,7 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 
-const StudentInfoCard = ({ containerStyle, childName }) => {
+const StudentInfoCard = ({
+   containerStyle,
+   childName,
+   commitmentPercentage,
+}) => {
    return (
       <View style={[styles.container, containerStyle]}>
          <Text style={styles.childName}>{childName}</Text>
@@ -9,7 +13,7 @@ const StudentInfoCard = ({ containerStyle, childName }) => {
          <View style={[styles.infoContainer]}>
             <View style={[styles.infoDataContainer]}>
                <Text style={[styles.infoTitle]}>commitment</Text>
-               <Text style={[styles.infoVaue]}>9</Text>
+               <Text style={[styles.infoVaue]}>{commitmentPercentage}</Text>
             </View>
          </View>
       </View>

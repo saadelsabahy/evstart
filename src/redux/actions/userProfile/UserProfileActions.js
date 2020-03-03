@@ -7,11 +7,29 @@ import {
    GET_PROFILE_INFO_SUCCESS,
    GET_PROFILE_INFO_FAILED,
    UPDATE_PROFILE_FAILED,
-   CHANGE_COMMITMENT_FILTER,
+   CHANGE_COMMITMENT_SPINNER,
+   CHANGE_COMMITMENT_SUCCESS,
+   CHANGE_COMMITMENT_FAILED,
 } from './UserProfileTypes';
 import AsyncStorage from '@react-native-community/async-storage';
 import { get_request, post_request } from '../../../utils/api';
 import { showMessage, hideMessage } from 'react-native-flash-message';
+import { log } from 'react-native-reanimated';
+import moment from 'moment';
+const currentWeekStart = moment()
+   .startOf('week')
+   .format('YYYY-MM-DD');
+const currentWeekEnd = moment()
+   .endOf('week')
+   .format('YYYY-MM-DD');
+const lastMonthStart = moment()
+   .subtract(1, 'month')
+   .startOf('month')
+   .format('YYYY-MM-DD');
+const endOfLastMonth = moment()
+   .subtract(1, 'month')
+   .endOf('month')
+   .format('YYYY-MM-DD');
 
 const options = {
    title: 'Select Avatar',
@@ -24,7 +42,7 @@ export const getProfileData = () => async (dispatch, getState) => {
    dispatch({ type: GET_PROFILE_INFO_SPINNER, payload: true });
    const userId = await AsyncStorage.getItem('userId');
    const getProfileInfoResponse = await get_request({
-      target: `EV.UHF.LMS.EncodingTool.API/api/ParentProfile?UserID=${userId}`,
+      target: `EV.UHF.LMS.EncodingTool.API/api/ParentProfile?UserID=${userId}&From=${currentWeekStart}&To=${currentWeekEnd}`,
    });
 
    if (getProfileInfoResponse) {
@@ -88,10 +106,29 @@ export const updateProfilePhoto = () => async (dispatch, getState) => {
    }
 };
 
-export const onFilterCommitmentItemPressed = (menu, label) => async (
+export const onFilterCommitmentItemPressed = (label, menu) => async (
    dispatch,
    getState
 ) => {
-   dispatch({ type: CHANGE_COMMITMENT_FILTER, payload: label });
+   dispatch({ type: CHANGE_COMMITMENT_SPINNER, payload: label });
    menu.hide();
+   const { commitMentLabel } = getState().UserProfile;
+   const userId = await AsyncStorage.getItem('userId');
+
+   const getCommitmentResponse = await get_request({
+      target: `EV.UHF.LMS.EncodingTool.API/api/ParentProfile?UserID=${userId}&From=${
+         commitMentLabel === 'this week' ? currentWeekStart : lastMonthStart
+      }&To=${
+         commitMentLabel === 'this week' ? currentWeekEnd : endOfLastMonth
+      }`,
+   });
+
+   if (getCommitmentResponse) {
+      dispatch({
+         type: CHANGE_COMMITMENT_SUCCESS,
+         payload: getCommitmentResponse.Students,
+      });
+   } else {
+      dispatch({ type: CHANGE_COMMITMENT_FAILED });
+   }
 };

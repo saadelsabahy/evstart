@@ -37,7 +37,14 @@ const UserProfile = ({ navigation }) => {
       state => state.UserProfile.showSaveButton
    );
    const userInfo = useSelector(state => state.UserProfile.userInfo);
+   const getCommitmentSpinner = useSelector(
+      state => state.UserProfile.getCommitmentSpinner
+   );
    const getInfoLoader = useSelector(state => state.UserProfile.getInfoLoader);
+
+   const getCommitmentError = useSelector(
+      state => state.UserProfile.getCommitmentError
+   );
    const userProfileImage = useSelector(state => state.UserProfile.image);
    const getUserInfoError = useSelector(
       state => state.UserProfile.getUserInfoError
@@ -129,10 +136,10 @@ const UserProfile = ({ navigation }) => {
                      <View
                         style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <CustomDropDown
-                           labels={['this weak', 'this month']}
+                           labels={['this week', 'last month']}
                            onMenuItemPressed={(menu, label) =>
                               dispatch(
-                                 onFilterCommitmentItemPressed(menu, label)
+                                 onFilterCommitmentItemPressed(label, menu)
                               )
                            }
                            selectedItem={commitMentLabel}
@@ -140,14 +147,35 @@ const UserProfile = ({ navigation }) => {
                         <Text>{commitMentLabel}</Text>
                      </View>
                   </View>
-                  <FlatList
-                     data={Students}
-                     keyExtractor={(item, index) => `${index}`}
-                     renderItem={({ item: { StudentName }, index }) => {
-                        return <StudentInfoCard childName={StudentName} />;
-                     }}
-                     ListEmptyComponent={() => <EmptyList />}
-                  />
+
+                  {getCommitmentError || getCommitmentSpinner ? (
+                     <LoaderAndRetry
+                        loading={getCommitmentSpinner}
+                        error={getCommitmentError}
+                        onRetryPressed={() =>
+                           dispatch(
+                              onFilterCommitmentItemPressed(commitMentLabel)
+                           )
+                        }
+                     />
+                  ) : (
+                     <FlatList
+                        data={Students}
+                        keyExtractor={(item, index) => `${index}`}
+                        renderItem={({
+                           item: { StudentName, CommitmentPercentage },
+                           index,
+                        }) => {
+                           return (
+                              <StudentInfoCard
+                                 childName={StudentName}
+                                 commitmentPercentage={CommitmentPercentage}
+                              />
+                           );
+                        }}
+                        ListEmptyComponent={() => <EmptyList />}
+                     />
+                  )}
                </View>
             </View>
             {showSaveButton && (

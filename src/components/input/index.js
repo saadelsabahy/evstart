@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { BLACK_COLOR, ERROR_RED_COLOR } from '../../constants/colors';
 
 const CustomInput = ({
    placeholder,
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
    },
    input: {
       flex: 1,
-      borderBottomColor: '#000',
+      borderBottomColor: BLACK_COLOR,
       borderBottomWidth: 1,
    },
    leftIcon: {
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
       marginHorizontal: 5,
    },
    errorText: {
-      color: '#f00',
+      color: ERROR_RED_COLOR,
       marginVertical: 4,
       fontSize: 18,
    },

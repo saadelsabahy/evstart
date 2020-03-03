@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { NotificationCard } from '../notificationCard';
 import moment from 'moment';
+import { EmptyList } from '../noData';
 
 const NotificationList = ({ data }) => {
    console.log(data);
@@ -10,6 +11,11 @@ const NotificationList = ({ data }) => {
       <FlatList
          data={data}
          keyExtractor={(item, index) => `${index}`}
+         style={{ flexGrow: 1 }}
+         contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: 'center',
+         }}
          renderItem={({ item, index }) => {
             return (
                <NotificationCard
@@ -26,6 +32,7 @@ const NotificationList = ({ data }) => {
                />
             );
          }}
+         ListFooterComponent={() => <EmptyList />}
       />
    );
 };

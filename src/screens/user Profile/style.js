@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { BLACK_COLOR } from '../../constants/colors';
 
 const styles = StyleSheet.create({
    container: {
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
       height: 100,
       borderRadius: 50,
       overflow: 'visible',
-      backgroundColor: '#000',
+      backgroundColor: BLACK_COLOR,
    },
    profileImage: {
       width: '100%',

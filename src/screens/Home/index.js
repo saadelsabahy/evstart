@@ -6,7 +6,7 @@ import {
    ActivityIndicator,
    StyleSheet,
 } from 'react-native';
-import { CustomButton, ProfileModal } from '../../components';
+import { CustomButton, ProfileModal, LoaderAndRetry } from '../../components';
 import { connect } from 'react-redux';
 import {
    getNotification,
@@ -24,7 +24,9 @@ const Home = ({ navigation, route }) => {
    const getNotificationLoader = useSelector(
       state => state.Notification.getNotificationLoader
    );
-
+   const getNotificationError = useSelector(
+      state => state.Notification.getNotificationError
+   );
    const notifications = useSelector(state => state.Notification.notifications);
    const [modalVisible, setModalVisible] = useState(false);
    useEffect(() => {
@@ -53,9 +55,13 @@ const Home = ({ navigation, route }) => {
             iconStartSize={25}
             iconEndText={'logout'}
          />
-         {getNotificationLoader ? (
+         {getNotificationLoader || getNotificationError ? (
             <View style={styles.loaderContainer}>
-               <ActivityIndicator color="#000" animating size="large" />
+               <LoaderAndRetry
+                  error={getNotificationError}
+                  loading={getNotificationLoader}
+                  onRetryPressed={() => dispatch(getAllNotifications())}
+               />
             </View>
          ) : (
             <NotificationList data={notifications} />

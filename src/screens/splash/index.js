@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { BLACK_COLOR, WHITE_COLOR } from '../../constants/colors';
 
 const Splash = () => {
    return (
@@ -13,10 +14,10 @@ const styles = StyleSheet.create({
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: '#000',
+      backgroundColor: BLACK_COLOR,
    },
    splashText: {
-      color: '#fff',
+      color: WHITE_COLOR,
       fontSize: 18,
    },
 });

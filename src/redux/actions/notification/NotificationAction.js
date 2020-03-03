@@ -6,35 +6,44 @@ import {
    GET_NOTIFICATON_SUCCESS,
    GET_NOTIFICATION_LOADER,
 } from './NotificationTypes';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export const getNotification = () => async (dispatch, getState) => {
-   firebase
-      .notifications()
-      .onNotification(async ({ _data: { userId, type } }) => {
-         console.log('data', _data);
-         await dispatch({ type: RECEIVE_NOTIFICATION, payload: {} });
-         /* firebase
-            .firestore()
-            .collection('notifications')
-            .collection(`${userId}`)
-            .add({
-               type,
-               date: new Date(),
-            }); */
-      });
-   // firebase
-   //    .notifications()
-   //    .onNotificationOpened(({ notification: { _data } }) => {
-   //       console.log('notification opend', _data);
-   //    });
+   firebase.notifications().onNotification(async notification => {
+      console.log('data', notification._data);
+      await dispatch({ type: RECEIVE_NOTIFICATION, payload: {} });
+      firebase
+         .firestore()
+         .collection(`${notification._data.userId}`)
+         .add({
+            type: notification._data.type,
+            date: new Date(),
+         });
+   });
+   firebase.notifications().onNotificationOpened(notificationOpen => {
+      const {
+         notification: {
+            _data: { type, userId },
+         },
+      } = notificationOpen;
+      console.log('notification opend', type, userId);
+      firebase
+         .firestore()
+         .collection(`${userId}`)
+         .add({
+            type,
+            date: new Date(),
+         });
+   });
 };
 
 export const getAllNotifications = () => async (dispatch, getState) => {
    try {
       dispatch({ type: GET_NOTIFICATION_LOADER, payload: true });
+      const userId = await AsyncStorage.getItem('userId');
       let getNotificationResponse = await firebase
          .firestore()
-         .collection('users')
+         .collection(`${userId}`)
          .get()
          .then(querySnapshot => {
             let data = [];
