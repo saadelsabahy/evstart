@@ -110,8 +110,8 @@ export const onFilterCommitmentItemPressed = (label, menu) => async (
    dispatch,
    getState
 ) => {
-   dispatch({ type: CHANGE_COMMITMENT_SPINNER, payload: label });
    menu.hide();
+   dispatch({ type: CHANGE_COMMITMENT_SPINNER, payload: label });
    const { commitMentLabel } = getState().UserProfile;
    const userId = await AsyncStorage.getItem('userId');
 

@@ -77,7 +77,6 @@ const styles = StyleSheet.create({
          },
       }),
       marginVertical: 10,
-      minHeight: '10%',
    },
    headContainer: {
       width: '99%',

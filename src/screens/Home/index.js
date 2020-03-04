@@ -30,6 +30,8 @@ const Home = ({ navigation, route }) => {
    const notifications = useSelector(state => state.Notification.notifications);
    const [modalVisible, setModalVisible] = useState(false);
    useEffect(() => {
+      console.log('called');
+
       dispatch(getAllNotifications());
       dispatch(getNotification());
    }, []);
@@ -42,6 +44,7 @@ const Home = ({ navigation, route }) => {
    const [email, setEmail] = useState(
       AsyncStorage.getItem('email', (err, res) => setEmail(res))
    );
+   console.log(notifications);
 
    return (
       <View style={styles.container}>

@@ -1,12 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import {
-   View,
-   Text,
-   Image,
-   ScrollView,
-   FlatList,
-   ActivityIndicator,
-} from 'react-native';
+import { View, Text, Image, FlatList } from 'react-native';
 import {
    IconButton,
    StudentInfoCard,
@@ -24,34 +17,35 @@ import {
 } from '../../redux/actions';
 import styles from './style';
 import { CustomDropDown } from '../../components/dropDown';
+import { WHITE_COLOR } from '../../constants/colors';
 
 const UserProfile = ({ navigation }) => {
    const dispatch = useDispatch();
    useEffect(() => {
       dispatch(getProfileData());
    }, []);
-   const updateProfileLoader = useSelector(
-      state => state.UserProfile.updateProfileLoader
-   );
-   const showSaveButton = useSelector(
-      state => state.UserProfile.showSaveButton
-   );
-   const userInfo = useSelector(state => state.UserProfile.userInfo);
-   const getCommitmentSpinner = useSelector(
-      state => state.UserProfile.getCommitmentSpinner
-   );
-   const getInfoLoader = useSelector(state => state.UserProfile.getInfoLoader);
+   const {
+      updateProfileLoader,
+      showSaveButton,
+      userInfo,
+      getInfoLoader,
+      getCommitmentSpinner,
+      getCommitmentError,
+      userProfileImage,
+      getUserInfoError,
+      commitMentLabel,
+   } = useSelector(state => ({
+      commitMentLabel: state.UserProfile.commitMentLabel,
+      getUserInfoError: state.UserProfile.getUserInfoError,
+      userProfileImage: state.UserProfile.image,
+      getCommitmentError: state.UserProfile.getCommitmentError,
+      getInfoLoader: state.UserProfile.getInfoLoader,
+      getCommitmentSpinner: state.UserProfile.getCommitmentSpinner,
+      userInfo: state.UserProfile.userInfo,
+      showSaveButton: state.UserProfile.showSaveButton,
+      updateProfileLoader: state.UserProfile.updateProfileLoader,
+   }));
 
-   const getCommitmentError = useSelector(
-      state => state.UserProfile.getCommitmentError
-   );
-   const userProfileImage = useSelector(state => state.UserProfile.image);
-   const getUserInfoError = useSelector(
-      state => state.UserProfile.getUserInfoError
-   );
-   const commitMentLabel = useSelector(
-      state => state.UserProfile.commitMentLabel
-   );
    if (getInfoLoader || getUserInfoError) {
       return (
          <React.Fragment>
@@ -184,7 +178,7 @@ const UserProfile = ({ navigation }) => {
                   buttonContainerStyle={styles.saveButton}
                   onButtonPressed={() => dispatch(updateProfilePhoto())}
                   loading={updateProfileLoader}
-                  spinnerColor={'#fff'}
+                  spinnerColor={WHITE_COLOR}
                />
             )}
          </View>

@@ -5,8 +5,6 @@ import moment from 'moment';
 import { EmptyList } from '../noData';
 
 const NotificationList = ({ data }) => {
-   console.log(data);
-
    return (
       <FlatList
          data={data}
@@ -14,25 +12,24 @@ const NotificationList = ({ data }) => {
          style={{ flexGrow: 1 }}
          contentContainerStyle={{
             flexGrow: 1,
-            justifyContent: 'center',
          }}
          renderItem={({ item, index }) => {
             return (
                <NotificationCard
-                  notificationTimeText={moment
+                  /* notificationTimeText={moment
                      .unix(item.date.seconds)
                      .format('LT')}
                   notificationDateText={moment
                      .unix(item.date.seconds)
-                     .format('DD-MM-YYYY')}
+                     .format('DD-MM-YYYY')} */
                   notificationIconSize={20}
                   containerStyle={{ alignSelf: 'center' }}
                   notificationName={'login'}
-                  notificationDetailes={item.fullname}
+                  notificationDetailes={`${index}`}
                />
             );
          }}
-         ListFooterComponent={() => (
+         ListEmptyComponent={() => (
             <EmptyList iconSize={40} emptyText="No notifications yet" />
          )}
       />

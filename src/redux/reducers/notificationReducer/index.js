@@ -2,6 +2,7 @@ import {
    GET_NOTIFICATION_FAILED,
    GET_NOTIFICATON_SUCCESS,
    GET_NOTIFICATION_LOADER,
+   RECEIVE_NOTIFICATION,
 } from '../../actions/notification/NotificationTypes';
 
 const initialState = {
@@ -29,6 +30,13 @@ export default (state = initialState, { type, payload }) => {
          return {
             ...initialState,
             getNotificationLoader: payload,
+         };
+         break;
+      case RECEIVE_NOTIFICATION:
+         return {
+            ...state,
+            notifications: payload,
+            getNotificationLoader: false,
          };
          break;
       default:

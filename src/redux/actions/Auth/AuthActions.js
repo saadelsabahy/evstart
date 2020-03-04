@@ -48,10 +48,12 @@ export const onLoginPressed = navigation => async (dispatch, getState) => {
             ['userId', `${Id}`],
          ]);
          dispatch({ type: LOGIN_SUCCESS, payload: loginResponse });
+         console.log('fcm token', fcmToken);
+
          const sendFcmTokenResponse = await post_request({
             target:
                'EV.UHF.LMS.EncodingTool.Notifications.API/api/UserNotifications',
-            body: { UserID: loginResponse.Id, UsrToken: fcmToken },
+            body: { UserID: Id, UsrToken: fcmToken },
          });
          console.log('sendFcmTokenResponse', sendFcmTokenResponse);
       } else {

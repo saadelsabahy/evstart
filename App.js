@@ -19,6 +19,17 @@ import moment from 'moment';
 const App = () => {
    useEffect(() => {
       getFcmToken();
+      firebase
+         .firestore()
+         .collection('11')
+         .doc('type')
+         .delete()
+         .then(function() {
+            console.log('Document successfully deleted!');
+         })
+         .catch(function(error) {
+            console.error('Error removing document: ', error);
+         });
    }, []);
    const getFcmToken = async () => {
       const enabled = await firebase.messaging().hasPermission();
