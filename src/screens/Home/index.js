@@ -44,8 +44,13 @@ const Home = ({ navigation, route }) => {
    const [email, setEmail] = useState(
       AsyncStorage.getItem('email', (err, res) => setEmail(res))
    );
+   const [refreshing, setRefreshing] = useState(false);
    console.log(notifications);
-
+   const handleRefresh = async () => {
+      setRefreshing(true);
+      dispatch(getAllNotifications());
+      setRefreshing(false);
+   };
    return (
       <View style={styles.container}>
          <Header
@@ -67,7 +72,11 @@ const Home = ({ navigation, route }) => {
                />
             </View>
          ) : (
-            <NotificationList data={notifications} />
+            <NotificationList
+               data={notifications}
+               refreshing={refreshing}
+               handleRefresh={handleRefresh}
+            />
          )}
       </View>
    );

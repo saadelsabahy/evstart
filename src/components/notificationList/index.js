@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, RefreshControl } from 'react-native';
 import { NotificationCard } from '../notificationCard';
 import moment from 'moment';
 import { EmptyList } from '../noData';
+import { BLACK_COLOR } from '../../constants/colors';
 
-const NotificationList = ({ data }) => {
+const NotificationList = ({ data, handleRefresh, refreshing }) => {
    return (
       <FlatList
          data={data}
@@ -32,6 +33,13 @@ const NotificationList = ({ data }) => {
          ListEmptyComponent={() => (
             <EmptyList iconSize={40} emptyText="No notifications yet" />
          )}
+         refreshControl={
+            <RefreshControl
+               refreshing={refreshing}
+               onRefresh={handleRefresh}
+               colors={[BLACK_COLOR]}
+            />
+         }
       />
    );
 };
