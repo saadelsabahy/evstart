@@ -17,6 +17,7 @@ const CustomInput = ({
    error,
    errorText,
    errorTextStyle,
+   onRightIconPressed,
 }) => {
    return (
       <View style={{ marginVertical: 10 }}>
@@ -25,7 +26,7 @@ const CustomInput = ({
                <Icon
                   name={iconLeftName}
                   style={[styles.leftIcon, iconLeftStyle]}
-                  size={iconLeftSzie || 17}
+                  size={iconLeftSzie || 20}
                />
             )}
             <TextInput
@@ -37,7 +38,8 @@ const CustomInput = ({
                <Icon
                   name={IconRightName}
                   style={[styles.rightIcon, iconRightStyle]}
-                  size={iconRightSize || 17}
+                  size={iconRightSize || 20}
+                  onPress={onRightIconPressed}
                />
             )}
          </View>

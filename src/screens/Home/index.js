@@ -30,8 +30,6 @@ const Home = ({ navigation, route }) => {
    const notifications = useSelector(state => state.Notification.notifications);
    const [modalVisible, setModalVisible] = useState(false);
    useEffect(() => {
-      console.log('called');
-
       dispatch(getAllNotifications());
       dispatch(getNotification());
    }, []);

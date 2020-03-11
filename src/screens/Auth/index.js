@@ -4,6 +4,9 @@ import { CustomInput, CustomButton } from '../../components';
 import { connect } from 'react-redux';
 import * as Ations from '../../redux/actions';
 class Login extends Component {
+   state = {
+      showPassword: false,
+   };
    onLoginPressed = () => {
       const { navigation, onLoginPressed } = this.props;
       Keyboard.dismiss();
@@ -29,13 +32,17 @@ class Login extends Component {
                         this.props.onInputsChange('loginName', loginName);
                      },
                      value: name,
+                     returnKeyType: 'next',
+                     onSubmitEditing: () => this.passwordInput.focus(),
+                     blurOnSubmit: false,
                   }}
                />
                <CustomInput
                   placeholder={'password'}
                   iconLeftName="lock-outline"
                   inputProps={{
-                     secureTextEntry: true,
+                     ref: ref => (this.passwordInput = ref),
+                     secureTextEntry: !this.state.showPassword,
                      onChangeText: loginPassword => {
                         this.props.onInputsChange(
                            'loginPassword',
@@ -44,6 +51,14 @@ class Login extends Component {
                      },
                      value: password,
                   }}
+                  IconRightName={
+                     !this.state.showPassword
+                        ? 'eye-off-outline'
+                        : 'eye-outline'
+                  }
+                  onRightIconPressed={() =>
+                     this.setState({ showPassword: !this.state.showPassword })
+                  }
                />
             </View>
             <CustomButton

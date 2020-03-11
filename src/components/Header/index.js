@@ -41,7 +41,7 @@ const Header = ({
 const styles = StyleSheet.create({
    container: {
       width: '100%',
-      height: '8%',
+      height: '10%',
       backgroundColor: BLACK_COLOR,
       flexDirection: 'row',
       justifyContent: 'center',
@@ -55,8 +55,9 @@ const styles = StyleSheet.create({
    },
    headerText: {
       color: WHITE_COLOR,
-      fontSize: 18,
+      fontSize: 20,
       textTransform: 'capitalize',
+      letterSpacing: 1,
    },
 });
 
