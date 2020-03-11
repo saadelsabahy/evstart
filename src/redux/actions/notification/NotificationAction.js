@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 export const getNotification = () => async (dispatch, getState) => {
    const userId = await AsyncStorage.getItem('userId');
-
+   //when app opend
    firebase.notifications().onNotification(async notification => {
       await addNotificationToFireStore(
          notification._data.userId,
@@ -22,6 +22,7 @@ export const getNotification = () => async (dispatch, getState) => {
 
       dispatch({ type: RECEIVE_NOTIFICATION, payload: fireStoreData });
    });
+   // when app open in background
    firebase.notifications().onNotificationOpened(async notificationOpen => {
       dispatch({ type: GET_NOTIFICATION_LOADER, payload: true });
 
@@ -36,6 +37,22 @@ export const getNotification = () => async (dispatch, getState) => {
 
       dispatch({ type: RECEIVE_NOTIFICATION, payload: fireData });
    });
+   //open when app is closed
+   const openWhenClosed = await firebase
+      .notifications()
+      .getInitialNotification();
+   if (openWhenClosed) {
+      const {
+         notification: {
+            _data: { type, userId },
+         },
+      } = openWhenClosed;
+      await addNotificationToFireStore(userId, type);
+      const fireData = await getAllDataFromFireStore(userId);
+
+      dispatch({ type: RECEIVE_NOTIFICATION, payload: fireData });
+      console.log('INITIAL');
+   }
 };
 
 export const getAllNotifications = () => async (dispatch, getState) => {

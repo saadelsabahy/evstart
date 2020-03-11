@@ -9,6 +9,7 @@ import {
 import { get_request, post_request } from '../../../utils/api';
 import { showMessage, hideMessage } from 'react-native-flash-message';
 import AsyncStorage from '@react-native-community/async-storage';
+import firebase from 'react-native-firebase';
 export const onInputsChange = (inputName, inputValue) => {
    switch (inputName) {
       case 'loginName':
@@ -49,12 +50,13 @@ export const onLoginPressed = navigation => async (dispatch, getState) => {
          ]);
          dispatch({ type: LOGIN_SUCCESS, payload: loginResponse });
          console.log('fcm token', fcmToken);
-
-         const sendFcmTokenResponse = await post_request({
-            target:
-               'EV.UHF.LMS.EncodingTool.Notifications.API/api/UserNotifications',
-            body: { UserID: Id, UsrToken: fcmToken },
-         });
+         /* await firebase.iid().get() */ const sendFcmTokenResponse = await post_request(
+            {
+               target:
+                  'EV.UHF.LMS.EncodingTool.Notifications.API/api/UserNotifications',
+               body: { UserID: Id, UsrToken: fcmToken },
+            }
+         );
          console.log('sendFcmTokenResponse', sendFcmTokenResponse);
       } else {
          dispatch({ type: LOGIN_FAILED });
@@ -67,8 +69,8 @@ export const onLoginPressed = navigation => async (dispatch, getState) => {
 };
 //logout
 export const onLogoutPressed = navigation => async dispatch => {
-   console.log('logout pressed');
-
+   /*  await firebase.messaging().deleteToken(); */
+   await firebase.iid().delete();
    await AsyncStorage.clear();
    dispatch({ type: LOGOUT });
 };

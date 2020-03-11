@@ -12,6 +12,7 @@ import java.util.List;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage; 
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage; 
 import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
+import io.invertase.firebase.instanceid.RNFirebaseInstanceIdPackage;
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
@@ -30,6 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
            packages.add(new RNFirebaseMessagingPackage());
            packages.add(new RNFirebaseNotificationsPackage()); 
              packages.add(new RNFirebaseFirestorePackage());
+             packages.add(new RNFirebaseInstanceIdPackage());
           return packages;
         }
 
