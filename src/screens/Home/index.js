@@ -12,6 +12,7 @@ import {
    getNotification,
    onLogoutPressed,
    getAllNotifications,
+   deleteNotificationOnUnmount,
 } from '../../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Header } from '../../components';
@@ -31,19 +32,14 @@ const Home = ({ navigation, route }) => {
    const [modalVisible, setModalVisible] = useState(false);
    useEffect(() => {
       dispatch(getAllNotifications());
-      dispatch(getNotification());
+      dispatch(getNotification(navigation));
+      return () => {
+         dispatch(deleteNotificationOnUnmount);
+      };
    }, []);
-   const [name, setName] = useState(
-      AsyncStorage.getItem('name', (err, res) => setName(res))
-   );
-   const [phone, setPhone] = useState(
-      AsyncStorage.getItem('phone', (err, res) => setPhone(res))
-   );
-   const [email, setEmail] = useState(
-      AsyncStorage.getItem('email', (err, res) => setEmail(res))
-   );
+
    const [refreshing, setRefreshing] = useState(false);
-   console.log(notifications);
+
    const handleRefresh = async () => {
       setRefreshing(true);
       dispatch(getAllNotifications());

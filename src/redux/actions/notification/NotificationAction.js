@@ -7,37 +7,60 @@ import {
    GET_NOTIFICATION_LOADER,
 } from './NotificationTypes';
 import AsyncStorage from '@react-native-community/async-storage';
-
-export const getNotification = () => async (dispatch, getState) => {
-   const userId = await AsyncStorage.getItem('userId');
-
-   firebase.notifications().onNotification(async notification => {
-      await addNotificationToFireStore(
-         notification._data.userId,
-         notification._data.type
-      );
-
-      const fireStoreData = await getAllDataFromFireStore(userId);
-      console.log('fireStoreData', fireStoreData);
-
-      dispatch({ type: RECEIVE_NOTIFICATION, payload: fireStoreData });
-   });
-   firebase.notifications().onNotificationOpened(async notificationOpen => {
-      dispatch({ type: GET_NOTIFICATION_LOADER, payload: true });
-
-      const {
-         notification: {
-            _data: { type, userId },
-         },
-      } = notificationOpen;
-      console.log('onNotificationOpened', type, userId);
-      await addNotificationToFireStore(userId, type);
-      const fireData = await getAllDataFromFireStore(userId);
-
-      dispatch({ type: RECEIVE_NOTIFICATION, payload: fireData });
-   });
+let onRecieveNotificationListener, onOpenNotificationListener;
+export const getNotification = navigation => async (dispatch, getState) => {
+   navigation.navigate('Home');
+   //when app opend
+   onRecieveNotificationListener = firebase
+      .notifications()
+      .onNotification(async notification => {
+         const {
+            _data: { userId, type },
+         } = notification;
+         onReceiveNotification(dispatch, userId, type);
+      });
+   // when app open in background
+   onOpenNotificationListener = firebase
+      .notifications()
+      .onNotificationOpened(async notificationOpen => {
+         const {
+            notification: {
+               _data: { type, userId },
+            },
+         } = notificationOpen;
+         onReceiveNotification(dispatch, userId, type);
+      });
+   //open when app is closed
+   firebase
+      .notifications()
+      .getInitialNotification()
+      .then(async openWhenAppClosedListener => {
+         if (openWhenAppClosedListener) {
+            const {
+               notification,
+               notification: {
+                  _data: { type, userId },
+                  _notificationId,
+               },
+            } = openWhenAppClosedListener;
+            const lastOpenFromClosedId = await AsyncStorage.getItem(
+               'lastNotification'
+            );
+            if (_notificationId !== lastOpenFromClosedId) {
+               await AsyncStorage.setItem('lastNotification', _notificationId);
+               onReceiveNotification(dispatch, userId, type);
+            } else {
+               return;
+            }
+         }
+      });
 };
-
+// delete notification listeners when un mount
+export const deleteNotificationOnUnmount = () => {
+   onRecieveNotificationListener();
+   onOpenNotificationListener();
+};
+// get all notification when app opend
 export const getAllNotifications = () => async (dispatch, getState) => {
    console.log('get all');
 
@@ -54,7 +77,15 @@ export const getAllNotifications = () => async (dispatch, getState) => {
       dispatch({ type: GET_NOTIFICATION_FAILED });
    }
 };
+// handle receive notification
+const onReceiveNotification = async (dispatch, userId, type) => {
+   dispatch({ type: GET_NOTIFICATION_LOADER, payload: true });
+   await addNotificationToFireStore(userId, type);
 
+   const fireStoreData = await getAllDataFromFireStore(userId);
+   dispatch({ type: RECEIVE_NOTIFICATION, payload: fireStoreData });
+};
+// add to fire store
 const addNotificationToFireStore = async (userId, type) => {
    await firebase
       .firestore()
@@ -63,6 +94,7 @@ const addNotificationToFireStore = async (userId, type) => {
          type,
       });
 };
+// get firestore data
 const getAllDataFromFireStore = async userId => {
    let data = [];
    await firebase
