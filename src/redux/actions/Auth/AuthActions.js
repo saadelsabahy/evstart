@@ -70,7 +70,6 @@ export const onLoginPressed = navigation => async (dispatch, getState) => {
 //logout
 export const onLogoutPressed = navigation => async dispatch => {
    /*  await firebase.messaging().deleteToken(); */
-<<<<<<< HEAD
    try {
       await firebase.messaging().deleteToken();
       await AsyncStorage.clear();
@@ -78,9 +77,4 @@ export const onLogoutPressed = navigation => async dispatch => {
    } catch (error) {
       console.log(error);
    }
-=======
-   await firebase.iid().delete();
-   await AsyncStorage.clear();
-   dispatch({ type: LOGOUT });
->>>>>>> d99867db5cc569fb41d1f291677b5d275c46f1d3
 };
