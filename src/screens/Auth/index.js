@@ -3,10 +3,16 @@ import { Text, View, StyleSheet, Keyboard } from 'react-native';
 import { CustomInput, CustomButton } from '../../components';
 import { connect } from 'react-redux';
 import * as Ations from '../../redux/actions';
+import { getFcmToken } from '../../utils/firebase';
 class Login extends Component {
-   state = {
-      showPassword: false,
-   };
+   constructor(props) {
+      super(props);
+      this.state = {
+         showPassword: false,
+      };
+      getFcmToken();
+   }
+
    onLoginPressed = () => {
       const { navigation, onLoginPressed } = this.props;
       Keyboard.dismiss();
