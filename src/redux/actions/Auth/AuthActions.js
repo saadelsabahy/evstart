@@ -32,42 +32,46 @@ export const onLoginPressed = navigation => async (dispatch, getState) => {
       });
    } else {
       dispatch({ type: LOGIN_SPINNER, payload: true });
-      console.log(loginName, loginPassword);
 
       var loginResponse = await get_request({
-         target: `Components.UserManagement.WebAPI/api/User/Authenticate?userName=${loginName}&password=${loginPassword}&encrypteddata=${false}`,
+         target: `UMAPI/api/User/Authenticate?userName=${loginName}&password=${loginPassword}&encrypteddata=${false}`,
       });
 
       if (loginResponse) {
-         showMessage({
-            message: 'login success',
-            type: 'success',
-         });
          const { Id } = loginResponse;
-         await AsyncStorage.multiSet([
-            ['userToken', 'tkn'],
-            ['userId', `${Id}`],
-         ]);
-         dispatch({ type: LOGIN_SUCCESS, payload: loginResponse });
-         console.log('fcm token', fcmToken);
          const sendFcmTokenResponse = await post_request({
-            target:
-               'EV.UHF.LMS.EncodingTool.Notifications.API/api/UserNotifications',
+            target: 'NESTokens/api/UserNotifications',
             body: { UserID: Id, UsrToken: fcmToken },
          });
-         console.log('sendFcmTokenResponse', sendFcmTokenResponse);
+         if (sendFcmTokenResponse) {
+            await AsyncStorage.multiSet([
+               ['userToken', 'tkn'],
+               ['userId', `${Id}`],
+            ]);
+            const id = await AsyncStorage.getItem('userId');
+
+            dispatch({ type: LOGIN_SUCCESS, payload: loginResponse });
+            showMessage({
+               message: 'login success',
+               type: 'success',
+            });
+         } else {
+            loginFailed(dispatch);
+         }
       } else {
-         dispatch({ type: LOGIN_FAILED });
-         showMessage({
-            message: 'login failed',
-            type: 'danger',
-         });
+         loginFailed(dispatch);
       }
    }
 };
+const loginFailed = dispatch => {
+   dispatch({ type: LOGIN_FAILED });
+   showMessage({
+      message: 'login failed',
+      type: 'danger',
+   });
+};
 //logout
 export const onLogoutPressed = navigation => async dispatch => {
-   /*  await firebase.messaging().deleteToken(); */
    try {
       await firebase.messaging().deleteToken();
       await AsyncStorage.clear();

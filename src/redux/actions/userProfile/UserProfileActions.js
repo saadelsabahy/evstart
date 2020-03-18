@@ -42,8 +42,14 @@ export const getProfileData = () => async (dispatch, getState) => {
    dispatch({ type: GET_PROFILE_INFO_SPINNER, payload: true });
    const userId = await AsyncStorage.getItem('userId');
    const getProfileInfoResponse = await get_request({
-      target: `EV.UHF.LMS.EncodingTool.API/api/ParentProfile?UserID=${userId}&From=${currentWeekStart}&To=${currentWeekEnd}`,
+      target: `NESAPI/api/ParentProfile?UserID=${userId}&From=${currentWeekStart}&To=${currentWeekEnd}`,
    });
+   console.log(
+      getProfileInfoResponse,
+      userId,
+      currentWeekStart,
+      currentWeekEnd
+   );
 
    if (getProfileInfoResponse) {
       dispatch({
@@ -116,7 +122,7 @@ export const onFilterCommitmentItemPressed = (label, menu) => async (
    const userId = await AsyncStorage.getItem('userId');
 
    const getCommitmentResponse = await get_request({
-      target: `EV.UHF.LMS.EncodingTool.API/api/ParentProfile?UserID=${userId}&From=${
+      target: `ParentProfile?UserID=${userId}&From=${
          commitMentLabel === 'this week' ? currentWeekStart : lastMonthStart
       }&To=${
          commitMentLabel === 'this week' ? currentWeekEnd : endOfLastMonth

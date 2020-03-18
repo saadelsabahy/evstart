@@ -62,8 +62,6 @@ export const deleteNotificationOnUnmount = () => {
 };
 // get all notification when app opend
 export const getAllNotifications = () => async (dispatch, getState) => {
-   console.log('get all');
-
    try {
       dispatch({ type: GET_NOTIFICATION_LOADER, payload: true });
       const userId = await AsyncStorage.getItem('userId');

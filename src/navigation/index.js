@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 const AppNavigation = () => {
+   const logedIn = useSelector(state => state.Auth.logedIn);
    const [showSplash, setShowSplash] = useState(true);
    const [userToken, setUserToken] = useState(
       AsyncStorage.getItem('userToken', (err, res) => setUserToken(res))
