@@ -22,6 +22,7 @@ const initialState = {
    commitMentLabel: 'this week',
    getCommitmentSpinner: false,
    getCommitmentError: false,
+   selectedImage: {},
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -52,8 +53,9 @@ export default (state = initialState, { type, payload }) => {
       case USER_CHANGE_PHOTO_SUCCESSFULLY:
          return {
             ...state,
-            image: payload.source,
+            image: payload.response.uri,
             showSaveButton: payload.showSaveButton,
+            selectedImage: payload.response,
          };
          break;
       case UPDATE_PROFILE_SPINNER:

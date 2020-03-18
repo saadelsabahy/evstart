@@ -18,6 +18,7 @@ export const get_request = async ({ target }) => {
             Authorization: access_token ? `Bearer ${access_token}` : '',
          },
       });
+
       return await result.json();
    } catch (err) {
       console.log('------------------GET  REQUEST ERROR------------------');
@@ -27,20 +28,22 @@ export const get_request = async ({ target }) => {
 };
 
 // post request
-export const post_request = async ({ target, body = {} }) => {
-   const url = `${base_url}/${target}`;
+export const post_request = async ({ target, body = {}, headers }) => {
+   const url = `${base_url}${target}`;
    const access_token = await AsyncStorage.getItem('userToken');
 
    try {
       const result = await fetch(url, {
          method: 'POST',
          headers: {
-            Accept: 'application/json',
             'Content-Type': 'application/json',
             Authorization: access_token ? `Bearer ${access_token}` : '',
+            ...headers,
          },
-         body: JSON.stringify(body),
+         body,
       });
+      console.log('res', result);
+
       return await result.json();
    } catch (err) {
       console.log('------------------POST  REQUEST ERROR------------------');

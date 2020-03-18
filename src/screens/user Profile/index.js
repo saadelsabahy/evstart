@@ -90,9 +90,7 @@ const UserProfile = ({ navigation }) => {
                <View style={styles.profileImageContainer}>
                   <Image
                      source={
-                        userProfileImage
-                           ? { uri: userProfileImage.uri }
-                           : Profile
+                        userProfileImage ? { uri: userProfileImage } : Profile
                      }
                      style={styles.profileImage}
                   />

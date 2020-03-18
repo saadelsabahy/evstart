@@ -36,30 +36,41 @@ export const onLoginPressed = navigation => async (dispatch, getState) => {
       var loginResponse = await get_request({
          target: `UMAPI/api/User/Authenticate?userName=${loginName}&password=${loginPassword}&encrypteddata=${false}`,
       });
+      console.log('loginResponse', loginResponse);
 
-      if (loginResponse) {
-         const { Id } = loginResponse;
-         const sendFcmTokenResponse = await post_request({
-            target: 'NESTokens/api/UserNotifications',
-            body: { UserID: Id, UsrToken: fcmToken },
-         });
-         if (sendFcmTokenResponse) {
-            await AsyncStorage.multiSet([
-               ['userToken', 'tkn'],
-               ['userId', `${Id}`],
-            ]);
-            const id = await AsyncStorage.getItem('userId');
-
-            dispatch({ type: LOGIN_SUCCESS, payload: loginResponse });
-            showMessage({
-               message: 'login success',
-               type: 'success',
+      try {
+         if (loginResponse.statusCode === 200) {
+            const {
+               data: { Id },
+            } = loginResponse;
+            const body = JSON.stringify({ UserID: Id, UsrToken: fcmToken });
+            const sendFcmTokenResponse = await post_request({
+               target: 'NESTokens/api/UserNotifications',
+               body,
             });
+            console.log('sendFcmTokenResponse', sendFcmTokenResponse);
+
+            if (sendFcmTokenResponse.statusCode === 200) {
+               await AsyncStorage.multiSet([
+                  ['userToken', 'tkn'],
+                  ['userId', `${Id}`],
+               ]);
+               const id = await AsyncStorage.getItem('userId');
+
+               dispatch({ type: LOGIN_SUCCESS, payload: loginResponse });
+               showMessage({
+                  message: 'login success',
+                  type: 'success',
+               });
+            } else {
+               loginFailed(dispatch);
+            }
          } else {
             loginFailed(dispatch);
          }
-      } else {
+      } catch (error) {
          loginFailed(dispatch);
+         console.log(error);
       }
    }
 };
