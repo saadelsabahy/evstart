@@ -14,19 +14,25 @@ const NotificationList = ({ data, handleRefresh, refreshing }) => {
          contentContainerStyle={{
             flexGrow: 1,
          }}
-         renderItem={({ item, index }) => {
+         renderItem={({
+            item,
+            item: { TimeStamp, StudentName, Type },
+            index,
+         }) => {
             return (
                <NotificationCard
-                  /* notificationTimeText={moment
-                     .unix(item.date.seconds)
-                     .format('LT')}
-                  notificationDateText={moment
-                     .unix(item.date.seconds)
+                  notificationTimeText={TimeStamp}
+                  /*  notificationDateText={moment
+                     .unix(TimeStamp)
                      .format('DD-MM-YYYY')} */
                   notificationIconSize={20}
                   containerStyle={{ alignSelf: 'center' }}
-                  notificationName={'login'}
-                  notificationDetailes={`${index}`}
+                  notificationName={Type}
+                  notificationDetailes={
+                     Type === 'In'
+                        ? `your child ${StudentName} leave the school`
+                        : `your child ${StudentName} enter the school`
+                  }
                />
             );
          }}

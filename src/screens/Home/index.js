@@ -45,6 +45,8 @@ const Home = ({ navigation, route }) => {
       dispatch(getAllNotifications());
       setRefreshing(false);
    };
+   console.log('notifications', notifications);
+
    return (
       <View style={styles.container}>
          <Header

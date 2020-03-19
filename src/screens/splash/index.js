@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { BLACK_COLOR, WHITE_COLOR } from '../../constants/colors';
 
 const Splash = () => {
    return (
       <View style={styles.container}>
-         <Text style={styles.splashText}>splash...</Text>
+         <Image source={require('../../assets/splash.jpg')} />
       </View>
    );
 };
@@ -14,11 +14,7 @@ const styles = StyleSheet.create({
       flex: 1,
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: BLACK_COLOR,
-   },
-   splashText: {
-      color: WHITE_COLOR,
-      fontSize: 18,
+      backgroundColor: WHITE_COLOR,
    },
 });
 

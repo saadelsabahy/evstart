@@ -47,9 +47,6 @@ const NotificationCard = ({
                <Text style={[styles.timeText, timeTextStyle]}>
                   {notificationTimeText}
                </Text>
-               <Text style={[styles.timeText, timeTextStyle]}>
-                  {notificationDateText}
-               </Text>
             </View>
          </View>
          <View style={[styles.detailsContainer, detailesContainerStyle]}>
@@ -77,6 +74,7 @@ const styles = StyleSheet.create({
          },
       }),
       marginVertical: 10,
+      padding: 5,
    },
    headContainer: {
       width: '99%',
@@ -93,6 +91,7 @@ const styles = StyleSheet.create({
    headText: {
       fontWeight: '900',
       fontSize: 13,
+      color: '#888',
    },
    headIcon: {
       marginHorizontal: 3,
@@ -102,6 +101,7 @@ const styles = StyleSheet.create({
    },
    timeText: {
       fontSize: 15,
+      color: '#999',
    },
    detailsContainer: {
       width: '97%',
@@ -111,6 +111,8 @@ const styles = StyleSheet.create({
    detailesText: {
       textTransform: 'capitalize',
       textAlign: 'auto',
+      letterSpacing: 1.3,
+      color: '#222',
    },
 });
 

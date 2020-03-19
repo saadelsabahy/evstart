@@ -100,7 +100,7 @@ const onReceiveNotification = async (
    dispatch({ type: GET_NOTIFICATION_LOADER, payload: true });
    await addNotificationToFireStore(ParentId, StudentName, TimeStamp, Type);
 
-   const fireStoreData = await getAllDataFromFireStore(userId);
+   const fireStoreData = await getAllDataFromFireStore(ParentId);
    dispatch({ type: RECEIVE_NOTIFICATION, payload: fireStoreData });
 };
 // add to fire store
@@ -112,7 +112,7 @@ const addNotificationToFireStore = async (
 ) => {
    await firebase
       .firestore()
-      .collection(`${userId}`)
+      .collection(`${ParentId}`)
       .add({
          ParentId,
          StudentName,
@@ -121,11 +121,11 @@ const addNotificationToFireStore = async (
       });
 };
 // get firestore data
-const getAllDataFromFireStore = async userId => {
+const getAllDataFromFireStore = async ParentId => {
    let data = [];
    await firebase
       .firestore()
-      .collection(`${userId}`)
+      .collection(`${ParentId}`)
       .get()
       .then(querySnapshot => {
          querySnapshot.forEach(doc => {
