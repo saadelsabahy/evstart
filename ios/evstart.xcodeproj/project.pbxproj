@@ -18,6 +18,7 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* evstartTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* evstartTests.m */; };
 		32558E32722BF134F0721302 /* libPods-evstart-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E65DAFE0A01EF139CEA4E91 /* libPods-evstart-tvOSTests.a */; };
+		4F2C5F6A2472E6D600F9F9DC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4F2C5F692472E6D500F9F9DC /* GoogleService-Info.plist */; };
 		BF8FC40F3834B89C9EA2BC28 /* libPods-evstart.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E343849AFFF49D110E807B8 /* libPods-evstart.a */; };
 		E9E5EFE7F9A9D759DF40BFD7 /* libPods-evstartTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47392B47344116F79A757D88 /* libPods-evstartTests.a */; };
 /* End PBXBuildFile section */
@@ -57,6 +58,7 @@
 		2D02E4901E0B4A5D006451C7 /* evstart-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "evstart-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E343849AFFF49D110E807B8 /* libPods-evstart.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-evstart.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47392B47344116F79A757D88 /* libPods-evstartTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-evstartTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F2C5F692472E6D500F9F9DC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		574E94DC2F19DFE9A16A816A /* Pods-evstart-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evstart-tvOS.release.xcconfig"; path = "Target Support Files/Pods-evstart-tvOS/Pods-evstart-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		5DA0FF444A07A9DE9D342A81 /* Pods-evstart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evstart.release.xcconfig"; path = "Target Support Files/Pods-evstart/Pods-evstart.release.xcconfig"; sourceTree = "<group>"; };
 		7C850E9140B42FE82F10615C /* Pods-evstart-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evstart-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-evstart-tvOS/Pods-evstart-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 		13B07FAE1A68108700A75B9A /* evstart */ = {
 			isa = PBXGroup;
 			children = (
+				4F2C5F692472E6D500F9F9DC /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -195,7 +198,6 @@
 				C92C9DF8782D39ADA705B16B /* Pods-evstartTests.debug.xcconfig */,
 				128CC6C0FE1DA4001FCA38B0 /* Pods-evstartTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -204,7 +206,6 @@
 			children = (
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -318,6 +319,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -348,6 +350,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				4F2C5F6A2472E6D600F9F9DC /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -693,7 +696,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.nesParentApp;
 				PRODUCT_NAME = evstart;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -712,7 +715,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.nesParentApp;
 				PRODUCT_NAME = evstart;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

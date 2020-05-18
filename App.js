@@ -23,10 +23,14 @@ const App = () => {
                <StatusBar backgroundColor={'#000'} />
                <AppNavigation />
                <FlashMessage
+                  floating
                   position="bottom"
                   style={styles.flashMessage}
                   duration={3000}
-                  titleStyle={{ fontSize: responsiveFontSize(2) }}
+                  titleStyle={{
+                     fontSize: responsiveFontSize(2),
+                     textTransform: 'capitalize',
+                  }}
                />
             </SafeAreaView>
          </PersistGate>
@@ -41,9 +45,8 @@ const styles = StyleSheet.create({
    flashMessage: {
       width: '97%',
       alignSelf: 'center',
-      borderRadius: 5,
+
       justifyContent: 'center',
-      marginBottom: 5,
    },
 });
 

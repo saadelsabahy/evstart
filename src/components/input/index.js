@@ -33,6 +33,7 @@ const CustomInput = ({
             <TextInput
                placeholder={placeholder}
                style={[styles.input, inputStyle]}
+               selectionColor={BLACK_COLOR}
                {...inputProps}
             />
             {IconRightName && (
@@ -63,6 +64,7 @@ const styles = StyleSheet.create({
       borderBottomColor: BLACK_COLOR,
       borderBottomWidth: 1,
       fontSize: responsiveFontSize(2.5),
+      padding: 10,
    },
    leftIcon: {
       marginHorizontal: 5,

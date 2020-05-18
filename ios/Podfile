@@ -35,7 +35,8 @@ target 'evstart' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
-
+  pod 'Firebase/Core', '~> 6.24.0'
+  pod 'Firebase/Messaging', '~> 6.24.0'
   target 'evstartTests' do
     inherit! :search_paths
     # Pods for testing
