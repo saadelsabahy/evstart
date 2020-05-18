@@ -30,6 +30,16 @@ export const onLoginPressed = navigation => async (dispatch, getState) => {
          message: 'name and password are required',
          type: 'warning',
       });
+   } else if (loginPassword.length < 6) {
+      showMessage({
+         message: 'password must be at least 6 characters',
+         type: 'warning',
+      });
+   } else if (loginName.length < 2) {
+      showMessage({
+         message: 'name must be at least 2 characters',
+         type: 'warning',
+      });
    } else {
       dispatch({ type: LOGIN_SPINNER, payload: true });
 

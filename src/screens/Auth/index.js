@@ -37,7 +37,7 @@ class Login extends Component {
                   width: '100%',
                }}
                contentContainerStyle={{ flexGrow: 1 }}
-               enableOnAndroid>
+               enableOnAndroid={true}>
                <View
                   style={{
                      height: '40%',
