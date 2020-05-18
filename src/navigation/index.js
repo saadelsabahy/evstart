@@ -9,20 +9,19 @@ import SplashScreen from 'react-native-splash-screen';
 const AppNavigation = () => {
    const logedIn = useSelector(state => state.Auth.logedIn);
    const [showSplash, setShowSplash] = useState(true);
-   const [userToken, setUserToken] = useState(
-      AsyncStorage.getItem('userToken', (err, res) => setUserToken(res))
-   );
+   const [userToken, setUserToken] = useState(null);
 
    useEffect(() => {
       var splashTimeOut = setTimeout(async () => {
+         const tkn = await AsyncStorage.getItem('userToken');
+         setUserToken(tkn);
          SplashScreen.hide();
-         // setShowSplash(false);
-      }, 950);
+      }, 2000);
 
       return () => {
          clearInterval(splashTimeOut);
       };
-   }, [userToken]);
+   }, []);
 
    return (
       <NavigationContainer>

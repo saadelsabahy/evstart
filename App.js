@@ -15,12 +15,14 @@ import { YellowBox } from 'react-native';
 YellowBox.ignoreWarnings(['Remote debugger']);
 import moment from 'moment';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
+import { BLACK_COLOR } from './src/constants/colors';
 const App = () => {
    return (
       <Provider store={store}>
          <PersistGate persistor={persistor}>
+            <SafeAreaView style={{ flex: 0, backgroundColor: BLACK_COLOR }} />
             <SafeAreaView style={styles.container}>
-               <StatusBar backgroundColor={'#000'} />
+               <StatusBar backgroundColor={BLACK_COLOR} />
                <AppNavigation />
                <FlashMessage
                   floating
