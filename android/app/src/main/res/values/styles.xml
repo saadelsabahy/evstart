@@ -10,6 +10,6 @@
     <item name="android:statusBarColor">@color/background</item>
   </style>
      <style name="SplashStatusBarTheme" parent="SplashScreen_SplashTheme">
-       <item name="android:statusBarColor">@color/background</item>
+       <item name="android:statusBarColor">@color/primary_dark</item>
    </style>
 </resources>

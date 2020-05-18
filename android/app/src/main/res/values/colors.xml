@@ -2,7 +2,7 @@
 
 <resources>
     <color name="colorAccent">#ffffff</color>
-    <color name="primary_dark">#000</color>
+    <color name="primary_dark">#000000</color>
     <color name="background">#ffffff</color> 
     <color name="splashscreen_bg">#ffffff</color> 
 </resources>
