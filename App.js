@@ -22,7 +22,10 @@ const App = () => {
          <PersistGate persistor={persistor}>
             <SafeAreaView style={{ flex: 0, backgroundColor: BLACK_COLOR }} />
             <SafeAreaView style={styles.container}>
-               <StatusBar backgroundColor={BLACK_COLOR} />
+               <StatusBar
+                  backgroundColor={BLACK_COLOR}
+                  barStyle="light-content"
+               />
                <AppNavigation />
                <FlashMessage
                   floating
