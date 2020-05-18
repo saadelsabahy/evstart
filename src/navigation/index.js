@@ -5,6 +5,7 @@ import HomeStack from './HomeStack';
 import { NavigationContainer } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
+import SplashScreen from 'react-native-splash-screen';
 const AppNavigation = () => {
    const logedIn = useSelector(state => state.Auth.logedIn);
    const [showSplash, setShowSplash] = useState(true);
@@ -14,7 +15,8 @@ const AppNavigation = () => {
 
    useEffect(() => {
       var splashTimeOut = setTimeout(async () => {
-         setShowSplash(false);
+         SplashScreen.hide();
+         // setShowSplash(false);
       }, 950);
 
       return () => {
@@ -24,7 +26,7 @@ const AppNavigation = () => {
 
    return (
       <NavigationContainer>
-         {showSplash ? <Splash /> : userToken ? <HomeStack /> : <AuthStack />}
+         {userToken ? <HomeStack /> : <AuthStack />}
       </NavigationContainer>
    );
 };
