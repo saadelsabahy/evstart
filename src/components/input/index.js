@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { BLACK_COLOR, ERROR_RED_COLOR } from '../../constants/colors';
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
 const CustomInput = ({
    placeholder,
@@ -26,7 +27,7 @@ const CustomInput = ({
                <Icon
                   name={iconLeftName}
                   style={[styles.leftIcon, iconLeftStyle]}
-                  size={iconLeftSzie || 20}
+                  size={iconLeftSzie || responsiveFontSize(4)}
                />
             )}
             <TextInput
@@ -38,7 +39,7 @@ const CustomInput = ({
                <Icon
                   name={IconRightName}
                   style={[styles.rightIcon, iconRightStyle]}
-                  size={iconRightSize || 20}
+                  size={iconRightSize || responsiveFontSize(4)}
                   onPress={onRightIconPressed}
                />
             )}
@@ -61,6 +62,7 @@ const styles = StyleSheet.create({
       flex: 1,
       borderBottomColor: BLACK_COLOR,
       borderBottomWidth: 1,
+      fontSize: responsiveFontSize(2.5),
    },
    leftIcon: {
       marginHorizontal: 5,

@@ -7,6 +7,7 @@ import {
    ActivityIndicator,
 } from 'react-native';
 import { BLACK_COLOR, WHITE_COLOR } from '../../constants/colors';
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
 const CustomButton = ({
    buttonTitle,
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
    text: {
       color: WHITE_COLOR,
       textTransform: 'capitalize',
-      fontSize: 18,
+      fontSize: responsiveFontSize(2.5),
       letterSpacing: 0.8,
    },
 });

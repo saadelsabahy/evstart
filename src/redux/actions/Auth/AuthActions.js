@@ -1,93 +1,93 @@
 import {
-  LOGIN_NAME_CHANGE,
-  LOGIN_PASSWORD_CHANGE,
-  LOGIN_FAILED,
-  LOGIN_SUCCESS,
-  LOGIN_SPINNER,
-  LOGOUT,
+   LOGIN_NAME_CHANGE,
+   LOGIN_PASSWORD_CHANGE,
+   LOGIN_FAILED,
+   LOGIN_SUCCESS,
+   LOGIN_SPINNER,
+   LOGOUT,
 } from './AuthTypes';
-import {get_request, post_request} from '../../../utils/api';
-import {showMessage, hideMessage} from 'react-native-flash-message';
+import { get_request, post_request } from '../../../utils/api';
+import { showMessage, hideMessage } from 'react-native-flash-message';
 import AsyncStorage from '@react-native-community/async-storage';
 import firebase from 'react-native-firebase';
 export const onInputsChange = (inputName, inputValue) => {
-  switch (inputName) {
-    case 'loginName':
-      return {type: LOGIN_NAME_CHANGE, payload: inputValue};
-      break;
-    case 'loginPassword':
-      return {type: LOGIN_PASSWORD_CHANGE, payload: inputValue};
-      break;
-  }
+   switch (inputName) {
+      case 'loginName':
+         return { type: LOGIN_NAME_CHANGE, payload: inputValue };
+         break;
+      case 'loginPassword':
+         return { type: LOGIN_PASSWORD_CHANGE, payload: inputValue };
+         break;
+   }
 };
 
 export const onLoginPressed = navigation => async (dispatch, getState) => {
-  const {loginName, loginPassword} = getState().Auth;
-  const fcmToken = await AsyncStorage.getItem('fcmToken');
+   const { loginName, loginPassword } = getState().Auth;
+   const fcmToken = await AsyncStorage.getItem('fcmToken');
 
-  if (!(loginName.length && loginPassword.length)) {
-    showMessage({
-      message: 'name and password are required',
-      type: 'warning',
-    });
-  } else {
-    dispatch({type: LOGIN_SPINNER, payload: true});
+   if (!(loginName.length && loginPassword.length)) {
+      showMessage({
+         message: 'name and password are required',
+         type: 'warning',
+      });
+   } else {
+      dispatch({ type: LOGIN_SPINNER, payload: true });
 
-    var loginResponse = await get_request({
-      target: `UMAPI/api/User/Authenticate?userName=${loginName}&password=${loginPassword}&encrypteddata=${false}`,
-    });
-    console.log('loginResponse', loginResponse);
+      try {
+         var loginResponse = await get_request({
+            target: `UMAPI/api/User/Authenticate?userName=${loginName}&password=${loginPassword}&encrypteddata=${false}`,
+         });
+         console.log('loginResponse', loginResponse);
 
-    try {
-      if (loginResponse.statusCode === 200) {
-        const {
-          data: {Id},
-        } = loginResponse;
-        const body = JSON.stringify({UserID: Id, UsrToken: fcmToken});
-        const sendFcmTokenResponse = await post_request({
-          target: 'NESTokens/api/UserNotifications',
-          body,
-        });
-        console.log('sendFcmTokenResponse', sendFcmTokenResponse);
+         if (loginResponse.statusCode === 200) {
+            const {
+               data: { Id },
+            } = loginResponse;
+            const body = JSON.stringify({ UserID: Id, UsrToken: fcmToken });
+            const sendFcmTokenResponse = await post_request({
+               target: 'NESTokens/api/UserNotifications',
+               body,
+            });
+            console.log('sendFcmTokenResponse', sendFcmTokenResponse);
 
-        if (sendFcmTokenResponse.statusCode === 200) {
-          await AsyncStorage.multiSet([
-            ['userToken', 'tkn'],
-            ['userId', `${Id}`],
-          ]);
-          const id = await AsyncStorage.getItem('userId');
+            if (sendFcmTokenResponse.statusCode === 200) {
+               await AsyncStorage.multiSet([
+                  ['userToken', 'tkn'],
+                  ['userId', `${Id}`],
+               ]);
+               const id = await AsyncStorage.getItem('userId');
 
-          dispatch({type: LOGIN_SUCCESS, payload: loginResponse});
-          showMessage({
-            message: 'login success',
-            type: 'success',
-          });
-        } else {
-          loginFailed(dispatch);
-        }
-      } else {
-        loginFailed(dispatch);
+               dispatch({ type: LOGIN_SUCCESS, payload: loginResponse });
+               showMessage({
+                  message: 'login success',
+                  type: 'success',
+               });
+            } else {
+               loginFailed(dispatch);
+            }
+         } else {
+            loginFailed(dispatch);
+         }
+      } catch (error) {
+         loginFailed(dispatch);
+         console.log(error);
       }
-    } catch (error) {
-      loginFailed(dispatch);
-      console.log(error);
-    }
-  }
+   }
 };
 const loginFailed = dispatch => {
-  dispatch({type: LOGIN_FAILED});
-  showMessage({
-    message: 'login failed',
-    type: 'danger',
-  });
+   dispatch({ type: LOGIN_FAILED });
+   showMessage({
+      message: 'login failed',
+      type: 'danger',
+   });
 };
 //logout
 export const onLogoutPressed = navigation => async dispatch => {
-  try {
-    await firebase.messaging().deleteToken();
-    await AsyncStorage.clear();
-    dispatch({type: LOGOUT});
-  } catch (error) {
-    console.log(error);
-  }
+   try {
+      await firebase.messaging().deleteToken();
+      await AsyncStorage.clear();
+      dispatch({ type: LOGOUT });
+   } catch (error) {
+      console.log(error);
+   }
 };
