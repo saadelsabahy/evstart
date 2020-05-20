@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Image, FlatList } from 'react-native';
 import {
    IconButton,
@@ -6,6 +6,7 @@ import {
    CustomButton,
    EmptyList,
    LoaderAndRetry,
+   AbsenseRequestModal,
 } from '../../components';
 import Profile from '../../assets/profile.png';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,6 +15,8 @@ import {
    updateProfilePhoto,
    getProfileData,
    onFilterCommitmentItemPressed,
+   handleAbsenseModalUnmount,
+   onRequestAbsense,
 } from '../../redux/actions';
 import styles from './style';
 import { CustomDropDown } from '../../components/dropDown';
@@ -21,9 +24,24 @@ import { WHITE_COLOR } from '../../constants/colors';
 
 const UserProfile = ({ navigation }) => {
    const dispatch = useDispatch();
+   const [showAbsenseRequestModal, setshowAbsenseRequestModal] = useState(
+      false
+   );
+   const [selectedStudent, setselectedStudent] = useState({});
    useEffect(() => {
       dispatch(getProfileData());
    }, []);
+   const onItemPressed = (studentName, schoolId, studentId) => {
+      setselectedStudent({ studentName, schoolId, studentId });
+      setshowAbsenseRequestModal(true);
+   };
+   const hideAbsenseRequestModal = () => {
+      setshowAbsenseRequestModal(false);
+      dispatch(handleAbsenseModalUnmount());
+   };
+   const onConfirmAbsenceRequest = () => {
+      dispatch(onRequestAbsense(selectedStudent));
+   };
    const {
       updateProfileLoader,
       showSaveButton,
@@ -70,13 +88,6 @@ const UserProfile = ({ navigation }) => {
          <View style={styles.container}>
             {/* header..... */}
             <View style={styles.headerImageContainer}>
-               <Image
-                  source={{
-                     uri:
-                        'https://cdn.pixabay.com/photo/2016/08/05/09/31/banner-1571858__340.jpg',
-                  }}
-                  style={styles.headerImage}
-               />
                <IconButton
                   iconName={'keyboard-backspace'}
                   iconColor="#fff"
@@ -155,13 +166,25 @@ const UserProfile = ({ navigation }) => {
                         data={Students}
                         keyExtractor={(item, index) => `${index}`}
                         renderItem={({
-                           item: { StudentName, CommitmentPercentage },
+                           item: {
+                              StudentName,
+                              CommitmentPercentage,
+                              SchoolId,
+                              StudentId,
+                           },
                            index,
                         }) => {
                            return (
                               <StudentInfoCard
                                  childName={StudentName}
                                  commitmentPercentage={CommitmentPercentage}
+                                 onPress={() =>
+                                    onItemPressed(
+                                       StudentName,
+                                       SchoolId,
+                                       StudentId
+                                    )
+                                 }
                               />
                            );
                         }}
@@ -179,6 +202,12 @@ const UserProfile = ({ navigation }) => {
                   spinnerColor={WHITE_COLOR}
                />
             )}
+            <AbsenseRequestModal
+               isVisible={showAbsenseRequestModal}
+               studentName={selectedStudent.studentName}
+               hideModal={hideAbsenseRequestModal}
+               onConfirmAbsenceRequest={onConfirmAbsenceRequest}
+            />
          </View>
       );
    }

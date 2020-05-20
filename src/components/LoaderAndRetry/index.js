@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { IconButton } from '../IconButton';
+import { MAIN_COLOR } from '../../constants/colors';
 
 const LoaderAndRetry = ({ loading, error, onRetryPressed }) => {
    return (
       <View style={styles.container}>
          {loading && (
             <View style={styles.contentContainer}>
-               <ActivityIndicator size="large" color="#000" />
+               <ActivityIndicator size="large" color={MAIN_COLOR} />
                <Text>Getting your data....</Text>
             </View>
          )}

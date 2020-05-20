@@ -5,7 +5,14 @@ if (__DEV__) {
 }
 
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, StatusBar, SafeAreaView } from 'react-native';
+import {
+   View,
+   Text,
+   StyleSheet,
+   StatusBar,
+   SafeAreaView,
+   I18nManager,
+} from 'react-native';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { store, persistor } from './src/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -15,15 +22,16 @@ import { YellowBox } from 'react-native';
 YellowBox.ignoreWarnings(['Remote debugger']);
 import moment from 'moment';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
-import { BLACK_COLOR } from './src/constants/colors';
+import { MAIN_COLOR } from './src/constants/colors';
 const App = () => {
+   I18nManager.forceRTL(false);
    return (
       <Provider store={store}>
          <PersistGate persistor={persistor}>
-            <SafeAreaView style={{ flex: 0, backgroundColor: BLACK_COLOR }} />
+            <SafeAreaView style={{ flex: 0, backgroundColor: MAIN_COLOR }} />
             <SafeAreaView style={styles.container}>
                <StatusBar
-                  backgroundColor={BLACK_COLOR}
+                  backgroundColor={MAIN_COLOR}
                   barStyle="light-content"
                />
                <AppNavigation />

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { BLACK_COLOR } from '../../constants/colors';
+import { MAIN_COLOR, WHITE_COLOR } from '../../constants/colors';
 
 const styles = StyleSheet.create({
    container: {
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
    headerImageContainer: {
       width: '100%',
       height: '17%',
-      backgroundColor: '#eee',
+      backgroundColor: MAIN_COLOR,
    },
    headerImage: {
       width: '100%',
@@ -38,7 +38,9 @@ const styles = StyleSheet.create({
       height: 100,
       borderRadius: 50,
       overflow: 'visible',
-      backgroundColor: BLACK_COLOR,
+      backgroundColor: MAIN_COLOR,
+      borderWidth: 1,
+      borderColor: WHITE_COLOR,
    },
    profileImage: {
       width: '100%',

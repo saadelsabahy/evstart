@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, Keyboard, Image } from 'react-native';
-import { CustomInput, CustomButton } from '../../components';
+import {
+   CustomInput,
+   CustomButton,
+   AbsenseRequestModal,
+} from '../../components';
 import { connect } from 'react-redux';
 import * as Ations from '../../redux/actions';
 import { getFcmToken } from '../../utils/firebase';
-import { WHITE_COLOR } from '../../constants/colors';
+import { WHITE_COLOR, SCREEN_HEIGHT } from '../../constants/colors';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 class Login extends Component {
    constructor(props) {
       super(props);
       this.state = {
          showPassword: false,
+         enableScroll: false,
       };
       getFcmToken();
    }
@@ -20,6 +25,15 @@ class Login extends Component {
       Keyboard.dismiss();
       onLoginPressed(navigation);
    };
+   onKeyboardDidShow = () => {
+      this.setState({ enableScroll: true });
+   };
+   onKeyboardDidHide = () => {
+      this.setState({ enableScroll: false });
+   };
+   componentWillUnmount() {
+      this.onKeyboardDidHide();
+   }
    render() {
       const {
          name,
@@ -28,7 +42,7 @@ class Login extends Component {
          loginLoading,
          onLoginPressed,
       } = this.props;
-
+      const { enableScroll } = this.state;
       return (
          <View style={styles.container}>
             <KeyboardAwareScrollView
@@ -37,10 +51,14 @@ class Login extends Component {
                   width: '100%',
                }}
                contentContainerStyle={{ flexGrow: 1 }}
-               enableOnAndroid={true}>
+               enableOnAndroid={true}
+               onKeyboardDidShow={this.onKeyboardDidShow}
+               onKeyboardDidHide={this.onKeyboardDidHide}
+               scrollEnabled={enableScroll}
+               keyboardShouldPersistTaps="always">
                <View
                   style={{
-                     height: '40%',
+                     height: SCREEN_HEIGHT * 0.4,
                      width: '100%',
                      justifyContent: 'center',
                      alignItems: 'center',
@@ -111,7 +129,7 @@ const styles = StyleSheet.create({
       width: '100%',
       alignItems: 'center',
       marginBottom: 10,
-      height: '60%',
+      height: SCREEN_HEIGHT * 0.6,
    },
    button: {
       width: '75%',

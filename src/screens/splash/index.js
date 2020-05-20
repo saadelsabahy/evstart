@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
-import { BLACK_COLOR, WHITE_COLOR } from '../../constants/colors';
+import { MAIN_COLOR, WHITE_COLOR } from '../../constants/colors';
 
 const Splash = () => {
    return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { IconButton } from '../IconButton';
-import { BLACK_COLOR, WHITE_COLOR } from '../../constants/colors';
+import { MAIN_COLOR, WHITE_COLOR } from '../../constants/colors';
 const Header = ({
    headerText,
    onIconStartPressed,
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
    container: {
       width: '100%',
       height: '10%',
-      backgroundColor: BLACK_COLOR,
+      backgroundColor: MAIN_COLOR,
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',

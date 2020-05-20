@@ -6,7 +6,7 @@ import {
    StyleSheet,
    ActivityIndicator,
 } from 'react-native';
-import { BLACK_COLOR, WHITE_COLOR } from '../../constants/colors';
+import { MAIN_COLOR, WHITE_COLOR } from '../../constants/colors';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
 const CustomButton = ({
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
       height: 50,
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: BLACK_COLOR,
+      backgroundColor: MAIN_COLOR,
       borderRadius: 7,
    },
    text: {

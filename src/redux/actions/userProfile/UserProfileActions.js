@@ -10,6 +10,12 @@ import {
    CHANGE_COMMITMENT_SPINNER,
    CHANGE_COMMITMENT_SUCCESS,
    CHANGE_COMMITMENT_FAILED,
+   SELECT_ABSENSE_START_DATE,
+   SELECT_ABSENSE_END_DATE,
+   ABSENSE_REASON_CHANGE,
+   ABSENSE_REQUEST_FAILED,
+   ABSENSE_REQUEST_SPINNER,
+   ABSENSE_REQUEST_SUCCESS,
 } from './UserProfileTypes';
 import AsyncStorage from '@react-native-community/async-storage';
 import { get_request, post_request } from '../../../utils/api';
@@ -40,14 +46,11 @@ const options = {
    },
 };
 export const getProfileData = () => async (dispatch, getState) => {
-   console.log('called.....');
-
    dispatch({ type: GET_PROFILE_INFO_SPINNER, payload: true });
    const userId = await AsyncStorage.getItem('userId');
    const getProfileInfoResponse = await get_request({
       target: `NESAPI/api/ParentProfile?UserID=${userId}&From=${currentWeekStart}&To=${currentWeekEnd}`,
    });
-   console.log(getProfileInfoResponse);
 
    if (getProfileInfoResponse.statusCode === 200) {
       dispatch({
@@ -149,4 +152,95 @@ const updateProfileFailed = dispatch => {
       type: 'danger',
       position: 'top',
    });
+};
+
+///absense request
+export const onConfirmSelectDate = (date, currentActive, hideDatePicker) => (
+   dispatch,
+   getState
+) => {
+   console.log('currentActive', currentActive);
+
+   switch (currentActive) {
+      case 'startDate':
+         /*  moment(date)
+               .format('DD-MM-YYYY')
+               .toString() */
+         dispatch({
+            type: SELECT_ABSENSE_START_DATE,
+            payload: moment(date)
+               .format('DD-MM-YYYY')
+               .toString(),
+         });
+         break;
+
+      case 'endDate':
+         const { absenseStartDate } = getState().UserProfile;
+         const isEndDateValid = moment(date).isSameOrAfter(
+            moment(absenseStartDate, 'DD-MM-YYYY')
+         );
+         if (isEndDateValid) {
+            dispatch({
+               type: SELECT_ABSENSE_END_DATE,
+               payload: moment(date)
+                  .format('DD-MM-YYYY')
+                  .toString(),
+            });
+         } else {
+            /* modalMessage.current.showMessage({
+               type: 'danger',
+               message: 'تاريخ الانتهاء يجب ان يكون بعد تاريخ البدايه',
+            }); */
+            dispatch({
+               type: SELECT_ABSENSE_END_DATE,
+               payload: '',
+            });
+         }
+         break;
+   }
+   // hideDatePicker;
+};
+export const onAbsenseReasonChange = text => dispatch => {
+   dispatch({ type: ABSENSE_REASON_CHANGE, payload: text });
+};
+export const handleAbsenseModalUnmount = () => dispatch => {
+   dispatch({
+      type: SELECT_ABSENSE_START_DATE,
+      payload: '',
+   });
+
+   dispatch({
+      type: SELECT_ABSENSE_END_DATE,
+      payload: '',
+   });
+};
+/////
+export const onRequestAbsense = (
+   { studentName, schoolId, studentId },
+   hideModal
+) => async (dispatch, getState) => {
+   const {
+      absenseStartDate,
+      absenseEndDate,
+      absenseReason,
+   } = getState().UserProfile;
+   try {
+      dispatch({ type: ABSENSE_REQUEST_SPINNER });
+      const parentId = await AsyncStorage.getItem('userId');
+      const requestBody = JSON.stringify({
+         SchoolId: schoolId,
+         StudentCode: studentId,
+         ParentId: parentId,
+         AbsanceReason: absenseReason,
+         DateFrom: absenseStartDate,
+         DateTo: absenseEndDate,
+      });
+      const AbsenseRequestResponse = await post_request({
+         target: 'NESAPI/api/AbsanceRequests',
+         body: requestBody,
+      });
+      console.log('AbsenseRequestResponse', AbsenseRequestResponse);
+   } catch (error) {
+      console.log('absense Request Error', error);
+   }
 };

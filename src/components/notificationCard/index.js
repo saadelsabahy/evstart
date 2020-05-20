@@ -7,7 +7,7 @@ import {
    TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { WHITE_COLOR } from '../../constants/colors';
+import { WHITE_COLOR, BLACK_COLOR } from '../../constants/colors';
 
 const NotificationCard = ({
    notificationTimeText,
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
             elevation: 2,
          },
          ios: {
-            shadowColor: '#000',
+            shadowColor: BLACK_COLOR,
             shadowOffset: { height: 3 },
             shadowOpacity: 0.1,
             shadowRadius: 3,

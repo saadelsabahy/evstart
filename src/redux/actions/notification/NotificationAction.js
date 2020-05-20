@@ -14,7 +14,7 @@ export const getNotification = navigation => async (dispatch, getState) => {
    onRecieveNotificationListener = firebase
       .notifications()
       .onNotification(async notification => {
-         console.log(notification);
+         console.log('open');
 
          const {
             _data: { ParentId, StudentName, TimeStamp, Type },
@@ -30,6 +30,7 @@ export const getNotification = navigation => async (dispatch, getState) => {
    onOpenNotificationListener = firebase
       .notifications()
       .onNotificationOpened(async notificationOpen => {
+         console.log('background', notificationOpen);
          const {
             notification: {
                _data: { ParentId, StudentName, TimeStamp, Type },
@@ -47,6 +48,7 @@ export const getNotification = navigation => async (dispatch, getState) => {
       .notifications()
       .getInitialNotification()
       .then(async openWhenAppClosedListener => {
+         console.log('closed', openWhenAppClosedListener);
          if (openWhenAppClosedListener) {
             const {
                notification,
@@ -67,10 +69,13 @@ export const getNotification = navigation => async (dispatch, getState) => {
                   Type,
                });
             } else {
+               console.log('returned');
+
                return;
             }
          }
-      });
+      })
+      .catch(e => console.log('recieve close app notification error', e));
 };
 // delete notification listeners when un mount
 export const deleteNotificationOnUnmount = () => {
@@ -110,15 +115,19 @@ const addNotificationToFireStore = async (
    TimeStamp,
    Type
 ) => {
-   await firebase
-      .firestore()
-      .collection(`${ParentId}`)
-      .add({
-         ParentId,
-         StudentName,
-         TimeStamp,
-         Type,
-      });
+   try {
+      await firebase
+         .firestore()
+         .collection(`${ParentId}`)
+         .add({
+            ParentId,
+            StudentName,
+            TimeStamp,
+            Type,
+         });
+   } catch (error) {
+      console.log('add to fire store error', error);
+   }
 };
 // get firestore data
 const getAllDataFromFireStore = async ParentId => {
@@ -132,6 +141,6 @@ const getAllDataFromFireStore = async ParentId => {
             data.push(doc._data);
          });
       })
-      .catch(e => console.log('get firedata error'));
+      .catch(e => console.log('get firedata error', e));
    return data;
 };

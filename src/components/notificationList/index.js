@@ -3,7 +3,7 @@ import { View, Text, FlatList, RefreshControl } from 'react-native';
 import { NotificationCard } from '../notificationCard';
 import moment from 'moment';
 import { EmptyList } from '../noData';
-import { BLACK_COLOR } from '../../constants/colors';
+import { MAIN_COLOR } from '../../constants/colors';
 
 const NotificationList = ({ data, handleRefresh, refreshing }) => {
    return (
@@ -43,7 +43,7 @@ const NotificationList = ({ data, handleRefresh, refreshing }) => {
             <RefreshControl
                refreshing={refreshing}
                onRefresh={handleRefresh}
-               colors={[BLACK_COLOR]}
+               colors={[MAIN_COLOR]}
             />
          }
       />

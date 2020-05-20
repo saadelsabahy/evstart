@@ -42,14 +42,12 @@ export const onLoginPressed = navigation => async (dispatch, getState) => {
       });
    } else {
       dispatch({ type: LOGIN_SPINNER, payload: true });
-
+      var loginResponse = await get_request({
+         target: `UMAPI/api/User/Authenticate?userName=${loginName}&password=${loginPassword}&encrypteddata=${false}`,
+      });
+      console.log('loginResponse', loginResponse);
       try {
-         var loginResponse = await get_request({
-            target: `UMAPI/api/User/Authenticate?userName=${loginName}&password=${loginPassword}&encrypteddata=${false}`,
-         });
-         console.log('loginResponse', loginResponse);
-
-         if (loginResponse.statusCode === 200) {
+         if (loginResponse.statusCode == 200) {
             const {
                data: { Id },
             } = loginResponse;
@@ -60,27 +58,19 @@ export const onLoginPressed = navigation => async (dispatch, getState) => {
             });
             console.log('sendFcmTokenResponse', sendFcmTokenResponse);
 
-            if (sendFcmTokenResponse.statusCode === 200) {
-               await AsyncStorage.multiSet([
-                  ['userToken', 'tkn'],
-                  ['userId', `${Id}`],
-               ]);
-               const id = await AsyncStorage.getItem('userId');
+            if (sendFcmTokenResponse.statusCode == 200) {
+               dispatch({ type: LOGIN_SUCCESS });
+               await AsyncStorage.setItem('userId', `${Id}`);
 
-               dispatch({ type: LOGIN_SUCCESS, payload: loginResponse });
                showMessage({
                   message: 'login success',
                   type: 'success',
                });
-            } else {
-               loginFailed(dispatch);
             }
-         } else {
-            loginFailed(dispatch);
          }
       } catch (error) {
          loginFailed(dispatch);
-         console.log(error);
+         console.log('loginError', error);
       }
    }
 };
@@ -95,8 +85,8 @@ const loginFailed = dispatch => {
 export const onLogoutPressed = navigation => async dispatch => {
    try {
       await firebase.messaging().deleteToken();
-      await AsyncStorage.clear();
       dispatch({ type: LOGOUT });
+      await AsyncStorage.clear();
    } catch (error) {
       console.log(error);
    }

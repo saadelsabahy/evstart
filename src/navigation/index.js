@@ -13,15 +13,15 @@ const AppNavigation = () => {
 
    useEffect(() => {
       var splashTimeOut = setTimeout(async () => {
-         const tkn = await AsyncStorage.getItem('userToken');
+         const tkn = await AsyncStorage.getItem('userId');
          setUserToken(tkn);
          SplashScreen.hide();
-      }, 2000);
+      }, 1000);
 
       return () => {
          clearInterval(splashTimeOut);
       };
-   }, []);
+   }, [logedIn]);
 
    return (
       <NavigationContainer>

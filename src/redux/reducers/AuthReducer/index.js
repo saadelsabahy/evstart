@@ -30,13 +30,13 @@ export default (state = initialState, { type, payload }) => {
          return { ...state, loginLoading: payload, loginError: false };
          break;
       case LOGIN_SUCCESS:
-         return { ...initialState, logedIn: true };
+         return { ...initialState, logedIn: !state.logedIn };
          break;
       case LOGIN_FAILED:
          return { ...state, loginLoading: false, loginError: true };
          break;
       case LOGOUT:
-         return { ...initialState, logedIn: false };
+         return { ...initialState, logedIn: !state.logedIn };
          break;
 
       default:

@@ -1,22 +1,42 @@
 import React from 'react';
-import { View, Text, StyleSheet, Platform } from 'react-native';
+import {
+   View,
+   Text,
+   StyleSheet,
+   Platform,
+   TouchableOpacity,
+} from 'react-native';
+import { BLACK_COLOR } from '../../constants/colors';
+import { CustomText } from '../customText';
 
 const StudentInfoCard = ({
    containerStyle,
    childName,
    commitmentPercentage,
+   onPress,
 }) => {
    return (
-      <View style={[styles.container, containerStyle]}>
-         <Text style={styles.childName}>{childName}</Text>
+      <TouchableOpacity
+         style={[styles.container, containerStyle]}
+         onPress={onPress}
+         activeOpacity={0.85}>
+         <View
+            style={{
+               width: '60%',
+               height: '100%',
+               justifyContent: 'center',
+               paddingStart: 10,
+            }}>
+            <CustomText text={childName} />
+         </View>
 
          <View style={[styles.infoContainer]}>
             <View style={[styles.infoDataContainer]}>
-               <Text style={[styles.infoTitle]}>commitment</Text>
-               <Text style={[styles.infoVaue]}>{commitmentPercentage}</Text>
+               <CustomText text={'commitment'} />
+               <CustomText text={commitmentPercentage} />
             </View>
          </View>
-      </View>
+      </TouchableOpacity>
    );
 };
 const styles = StyleSheet.create({
@@ -33,7 +53,7 @@ const styles = StyleSheet.create({
             elevation: 2,
          },
          ios: {
-            shadowColor: '#000',
+            shadowColor: BLACK_COLOR,
             shadowOffset: { height: 3 },
             shadowOpacity: 0.1,
             shadowRadius: 3,

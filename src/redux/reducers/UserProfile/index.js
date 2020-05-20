@@ -9,6 +9,9 @@ import {
    CHANGE_COMMITMENT_SPINNER,
    CHANGE_COMMITMENT_SUCCESS,
    CHANGE_COMMITMENT_FAILED,
+   SELECT_ABSENSE_START_DATE,
+   SELECT_ABSENSE_END_DATE,
+   ABSENSE_REASON_CHANGE,
 } from '../../actions/userProfile/UserProfileTypes';
 
 const initialState = {
@@ -23,6 +26,9 @@ const initialState = {
    getCommitmentSpinner: false,
    getCommitmentError: false,
    selectedImage: {},
+   absenseStartDate: '',
+   absenseEndDate: '',
+   absenseReason: '',
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -101,6 +107,24 @@ export default (state = initialState, { type, payload }) => {
             commitMentLabel: payload,
             getCommitmentSpinner: false,
             getCommitmentError: true,
+         };
+         break;
+      case SELECT_ABSENSE_START_DATE:
+         return {
+            ...state,
+            absenseStartDate: payload,
+         };
+         break;
+      case SELECT_ABSENSE_END_DATE:
+         return {
+            ...state,
+            absenseEndDate: payload,
+         };
+         break;
+      case ABSENSE_REASON_CHANGE:
+         return {
+            ...state,
+            absenseReason: payload,
          };
          break;
       default:

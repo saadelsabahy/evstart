@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { BLACK_COLOR, ERROR_RED_COLOR } from '../../constants/colors';
+import { MAIN_COLOR, ERROR_RED_COLOR } from '../../constants/colors';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
 const CustomInput = ({
@@ -19,6 +19,8 @@ const CustomInput = ({
    errorText,
    errorTextStyle,
    onRightIconPressed,
+   iconRightColor,
+   iconLeftColor,
 }) => {
    return (
       <View style={{ marginVertical: 10 }}>
@@ -28,12 +30,13 @@ const CustomInput = ({
                   name={iconLeftName}
                   style={[styles.leftIcon, iconLeftStyle]}
                   size={iconLeftSzie || responsiveFontSize(4)}
+                  color={iconLeftColor || MAIN_COLOR}
                />
             )}
             <TextInput
                placeholder={placeholder}
                style={[styles.input, inputStyle]}
-               selectionColor={BLACK_COLOR}
+               selectionColor={MAIN_COLOR}
                {...inputProps}
             />
             {IconRightName && (
@@ -42,6 +45,7 @@ const CustomInput = ({
                   style={[styles.rightIcon, iconRightStyle]}
                   size={iconRightSize || responsiveFontSize(4)}
                   onPress={onRightIconPressed}
+                  color={iconRightColor || MAIN_COLOR}
                />
             )}
          </View>
@@ -61,7 +65,7 @@ const styles = StyleSheet.create({
    },
    input: {
       flex: 1,
-      borderBottomColor: BLACK_COLOR,
+      borderBottomColor: MAIN_COLOR,
       borderBottomWidth: 1,
       fontSize: responsiveFontSize(2.5),
       padding: 10,

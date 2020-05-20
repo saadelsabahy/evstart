@@ -18,10 +18,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Header } from '../../components';
 import NotificationList from '../../components/notificationList';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import { useIsFocused } from '@react-navigation/native';
 const Home = ({ navigation, route }) => {
    const dispatch = useDispatch();
-
+   const isFocused = useIsFocused();
    const getNotificationLoader = useSelector(
       state => state.Notification.getNotificationLoader
    );
@@ -31,12 +31,16 @@ const Home = ({ navigation, route }) => {
    const notifications = useSelector(state => state.Notification.notifications);
    const [modalVisible, setModalVisible] = useState(false);
    useEffect(() => {
-      dispatch(getAllNotifications());
-      dispatch(getNotification(navigation));
+      if (isFocused) {
+         dispatch(getAllNotifications());
+         dispatch(getNotification(navigation));
+      } else {
+         return;
+      }
       return () => {
-         dispatch(deleteNotificationOnUnmount);
+         deleteNotificationOnUnmount();
       };
-   }, []);
+   }, [isFocused]);
 
    const [refreshing, setRefreshing] = useState(false);
 
@@ -45,7 +49,6 @@ const Home = ({ navigation, route }) => {
       dispatch(getAllNotifications());
       setRefreshing(false);
    };
-   console.log('notifications', notifications);
 
    return (
       <View style={styles.container}>
