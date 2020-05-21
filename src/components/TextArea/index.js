@@ -2,7 +2,14 @@ import React from 'react';
 import { View, Text, StyleSheet, I18nManager, TextInput } from 'react-native';
 import { INPUT_COLOR, TEXT_COLOR, SCREEN_HEIGHT } from '../../constants/colors';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
-const TextArea = ({ placeholder, placeholderTextColor, ...res }) => {
+import { CustomText } from '../customText';
+const TextArea = ({
+   placeholder,
+   placeholderTextColor,
+   error,
+   errorText,
+   ...res
+}) => {
    return (
       <View style={styles.textareaContainer}>
          <TextInput
@@ -13,6 +20,12 @@ const TextArea = ({ placeholder, placeholderTextColor, ...res }) => {
             underlineColorAndroid={'transparent'}
             {...res}
          />
+         {error && (
+            <CustomText
+               textStyle={{ alignSelf: 'center', color: 'red' }}
+               text={errorText}
+            />
+         )}
       </View>
    );
 };
@@ -26,6 +39,7 @@ const styles = StyleSheet.create({
       borderWidth: 0.4,
       borderRadius: 10,
       borderColor: TEXT_COLOR,
+      marginVertical: 10,
    },
    textarea: {
       textAlignVertical: 'top',

@@ -19,6 +19,7 @@ import { Header } from '../../components';
 import NotificationList from '../../components/notificationList';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useIsFocused } from '@react-navigation/native';
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
 const Home = ({ navigation, route }) => {
    const dispatch = useDispatch();
    const isFocused = useIsFocused();
@@ -58,8 +59,8 @@ const Home = ({ navigation, route }) => {
             iconStart={'account'}
             iconEnd={'logout'}
             onIconEndPressed={() => dispatch(onLogoutPressed(navigation))}
-            iconEndSize={25}
-            iconStartSize={25}
+            iconEndSize={responsiveFontSize(4)}
+            iconStartSize={responsiveFontSize(4)}
             iconEndText={'logout'}
          />
          {getNotificationLoader || getNotificationError ? (

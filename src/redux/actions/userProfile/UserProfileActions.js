@@ -90,22 +90,29 @@ export const onFilterCommitmentItemPressed = (label, menu) => async (
 };
 
 export const changeProfilePicture = () => async (dispatch, getState) => {
-   ImagePicker.showImagePicker(options, response => {
-      if (response.didCancel) {
-         console.log('User cancelled image picker');
-      } else if (response.error) {
-         console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-         console.log('User tapped custom button: ', response.customButton);
-      } else {
-         const source = { uri: response.uri };
+   ImagePicker.showImagePicker(
+      {
+         ...options,
+         maxWidth: 200,
+         maxHeight: 200,
+         quality: 0.7,
+         mediaType: 'photo',
+      },
+      response => {
+         if (response.didCancel) {
+            console.log('User cancelled image picker');
+         } else if (response.error) {
+            console.log('ImagePicker Error: ', response.error);
+         } else {
+            const source = { uri: response.uri };
 
-         dispatch({
-            type: USER_CHANGE_PHOTO_SUCCESSFULLY,
-            payload: { response, showSaveButton: true },
-         });
+            dispatch({
+               type: USER_CHANGE_PHOTO_SUCCESSFULLY,
+               payload: { response, showSaveButton: true },
+            });
+         }
       }
-   });
+   );
 };
 
 export const updateProfilePhoto = () => async (dispatch, getState) => {
@@ -136,6 +143,7 @@ export const updateProfilePhoto = () => async (dispatch, getState) => {
          showMessage({
             message: 'update profile success',
             type: 'success',
+            duration: 2000,
          });
       } else {
          updateProfileFailed(dispatch);
@@ -232,15 +240,24 @@ export const onRequestAbsense = (
          StudentCode: studentId,
          ParentId: parentId,
          AbsanceReason: absenseReason,
-         DateFrom: absenseStartDate,
-         DateTo: absenseEndDate,
+         DateFrom: moment(absenseStartDate, 'DD-MM-YYYY').format('YYYY-MM-DD'),
+         DateTo: moment(absenseEndDate, 'DD-MM-YYYY').format('YYYY-MM-DD'),
       });
       const AbsenseRequestResponse = await post_request({
          target: 'NESAPI/api/AbsanceRequests',
          body: requestBody,
       });
-      console.log('AbsenseRequestResponse', AbsenseRequestResponse);
+      if (AbsenseRequestResponse.statusCode) {
+         await dispatch({ type: ABSENSE_REQUEST_SUCCESS });
+         hideModal();
+         showMessage({
+            type: 'success',
+            message: 'your request sent..',
+            duration: 2000,
+         });
+      }
    } catch (error) {
       console.log('absense Request Error', error);
+      dispatch({ type: ABSENSE_REQUEST_FAILED });
    }
 };

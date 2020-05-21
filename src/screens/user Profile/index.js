@@ -7,6 +7,7 @@ import {
    EmptyList,
    LoaderAndRetry,
    AbsenseRequestModal,
+   CustomText,
 } from '../../components';
 import Profile from '../../assets/profile.png';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,6 +22,7 @@ import {
 import styles from './style';
 import { CustomDropDown } from '../../components/dropDown';
 import { WHITE_COLOR } from '../../constants/colors';
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
 const UserProfile = ({ navigation }) => {
    const dispatch = useDispatch();
@@ -40,7 +42,7 @@ const UserProfile = ({ navigation }) => {
       dispatch(handleAbsenseModalUnmount());
    };
    const onConfirmAbsenceRequest = () => {
-      dispatch(onRequestAbsense(selectedStudent));
+      dispatch(onRequestAbsense(selectedStudent, hideAbsenseRequestModal));
    };
    const {
       updateProfileLoader,
@@ -52,6 +54,7 @@ const UserProfile = ({ navigation }) => {
       userProfileImage,
       getUserInfoError,
       commitMentLabel,
+      absenseRequestSpinner,
    } = useSelector(state => ({
       commitMentLabel: state.UserProfile.commitMentLabel,
       getUserInfoError: state.UserProfile.getUserInfoError,
@@ -62,6 +65,7 @@ const UserProfile = ({ navigation }) => {
       userInfo: state.UserProfile.userInfo,
       showSaveButton: state.UserProfile.showSaveButton,
       updateProfileLoader: state.UserProfile.updateProfileLoader,
+      absenseRequestSpinner: state.UserProfile.absenseRequestSpinner,
    }));
 
    if (getInfoLoader || getUserInfoError) {
@@ -90,8 +94,8 @@ const UserProfile = ({ navigation }) => {
             <View style={styles.headerImageContainer}>
                <IconButton
                   iconName={'keyboard-backspace'}
-                  iconColor="#fff"
-                  iconSize={25}
+                  iconColor={WHITE_COLOR}
+                  iconSize={responsiveFontSize(4)}
                   onIconPressed={() => navigation.goBack()}
                   touchableStyle={styles.backContainer}
                />
@@ -115,15 +119,17 @@ const UserProfile = ({ navigation }) => {
                </View>
 
                <View style={styles.userInfoContainer}>
-                  <Text style={styles.nameTextStyle}>
-                     {ParentName || 'example'}
-                  </Text>
-                  <Text style={[styles.emailAndPhoneTextStyle]}>
-                     {Email || 'example@mail.com'}
-                  </Text>
-                  <Text style={[styles.emailAndPhoneTextStyle]}>
-                     {Phone || '010055555555'}
-                  </Text>
+                  <CustomText text={ParentName || 'example'} />
+
+                  <CustomText
+                     text={Email || 'example@mail.com'}
+                     textStyle={{ textTransform: 'none' }}
+                  />
+
+                  <CustomText
+                     style={[styles.emailAndPhoneTextStyle]}
+                     text={Phone || '010055555555'}
+                  />
                </View>
             </View>
             {/* children info */}
@@ -135,7 +141,10 @@ const UserProfile = ({ navigation }) => {
                         alignItems: 'center',
                         justifyContent: 'space-between',
                      }}>
-                     <Text style={styles.studentListTitle}>children</Text>
+                     <CustomText
+                        textStyle={styles.studentListTitle}
+                        text={'children'}
+                     />
                      <View
                         style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <CustomDropDown
@@ -147,7 +156,7 @@ const UserProfile = ({ navigation }) => {
                            }
                            selectedItem={commitMentLabel}
                         />
-                        <Text>{commitMentLabel}</Text>
+                        <CustomText text={commitMentLabel} />
                      </View>
                   </View>
 
@@ -204,9 +213,14 @@ const UserProfile = ({ navigation }) => {
             )}
             <AbsenseRequestModal
                isVisible={showAbsenseRequestModal}
-               studentName={selectedStudent.studentName}
+               studentName={
+                  selectedStudent.studentName
+                     ? selectedStudent.studentName.split(' ')[0]
+                     : ''
+               }
                hideModal={hideAbsenseRequestModal}
                onConfirmAbsenceRequest={onConfirmAbsenceRequest}
+               loading={absenseRequestSpinner}
             />
          </View>
       );

@@ -25,30 +25,40 @@ const DateTimeButton = ({
    iconEndSize,
    iconEndStyle,
    iconContainerStyle,
+   error,
+   errorText,
 }) => {
    return (
-      <TouchableWithoutFeedback onPress={onPress}>
-         <View style={styles.container}>
-            <View style={[styles.iconContainer, iconContainerStyle]}>
-               <Icon
-                  name={iconEnd}
-                  type={iconEndType}
-                  color={iconEndColor}
-                  size={iconEndSize}
-                  style={iconEndStyle}
-               />
-            </View>
+      <View style={{ flex: 1 }}>
+         <TouchableWithoutFeedback onPress={onPress}>
+            <View style={styles.container}>
+               <View style={[styles.iconContainer, iconContainerStyle]}>
+                  <Icon
+                     name={iconEnd}
+                     type={iconEndType}
+                     color={iconEndColor}
+                     size={iconEndSize}
+                     style={iconEndStyle}
+                  />
+               </View>
 
-            <View style={[styles.textContainer]}>
-               <CustomText text={text} />
+               <View style={[styles.textContainer]}>
+                  <CustomText text={text} />
+               </View>
             </View>
-         </View>
-      </TouchableWithoutFeedback>
+         </TouchableWithoutFeedback>
+         {error && (
+            <CustomText
+               text={errorText}
+               textStyle={{ color: 'red', alignSelf: 'center' }}
+            />
+         )}
+      </View>
    );
 };
 const styles = StyleSheet.create({
    container: {
-      width: '47%',
+      width: '90%',
       height: SCREEN_HEIGHT / 16,
       flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
       justifyContent: 'space-between',

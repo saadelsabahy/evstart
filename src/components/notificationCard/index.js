@@ -7,7 +7,9 @@ import {
    TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { WHITE_COLOR, BLACK_COLOR } from '../../constants/colors';
+import { WHITE_COLOR, BLACK_COLOR, MAIN_COLOR } from '../../constants/colors';
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
+import { CustomText } from '../customText';
 
 const NotificationCard = ({
    notificationTimeText,
@@ -37,22 +39,26 @@ const NotificationCard = ({
                <Icon
                   name={notificationIconName || 'bell-outline'}
                   style={[styles.headIcon, notificationIconStyle]}
-                  size={notificationIconSize || 16}
+                  size={notificationIconSize || responsiveFontSize(4)}
+                  color={MAIN_COLOR}
                />
-               <Text style={[styles.headText, notificationNameStyle]}>
-                  {notificationName}
-               </Text>
+               <CustomText
+                  textStyle={[styles.headText, notificationNameStyle]}
+                  text={notificationName}
+               />
             </View>
             <View style={[styles.timeContainer, timeContainerStyle]}>
-               <Text style={[styles.timeText, timeTextStyle]}>
-                  {notificationTimeText}
-               </Text>
+               <CustomText
+                  style={[styles.timeText, timeTextStyle]}
+                  text={notificationTimeText}
+               />
             </View>
          </View>
          <View style={[styles.detailsContainer, detailesContainerStyle]}>
-            <Text style={[styles.detailesText, detailesTextStyle]}>
-               {notificationDetailes}
-            </Text>
+            <CustomText
+               textStyle={[styles.detailesText, detailesTextStyle]}
+               text={notificationDetailes}
+            />
          </View>
       </TouchableOpacity>
    );
@@ -90,7 +96,7 @@ const styles = StyleSheet.create({
    },
    headText: {
       fontWeight: '900',
-      fontSize: 13,
+      fontSize: responsiveFontSize(2.1),
       color: '#888',
    },
    headIcon: {
@@ -100,7 +106,7 @@ const styles = StyleSheet.create({
       marginEnd: 3,
    },
    timeText: {
-      fontSize: 15,
+      fontSize: responsiveFontSize(2.1),
       color: '#999',
    },
    detailsContainer: {

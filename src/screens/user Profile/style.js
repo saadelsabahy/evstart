@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
    userInfoContainer: {
       alignItems: 'center',
       justifyContent: 'space-around',
+      paddingVertical: 5,
    },
    nameTextStyle: {
       marginVertical: 3,
@@ -85,8 +86,6 @@ const styles = StyleSheet.create({
       top: '-5%',
    },
    studentListTitle: {
-      textTransform: 'capitalize',
-      fontSize: 15,
       color: '#999',
       letterSpacing: 0.8,
    },

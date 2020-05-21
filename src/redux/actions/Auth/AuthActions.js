@@ -66,7 +66,11 @@ export const onLoginPressed = navigation => async (dispatch, getState) => {
                   message: 'login success',
                   type: 'success',
                });
+            } else {
+               loginFailed(dispatch);
             }
+         } else {
+            loginFailed(dispatch);
          }
       } catch (error) {
          loginFailed(dispatch);

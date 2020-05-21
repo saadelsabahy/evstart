@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { IconButton } from '../IconButton';
 import { MAIN_COLOR } from '../../constants/colors';
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
+import { CustomText } from '../customText';
 
 const LoaderAndRetry = ({ loading, error, onRetryPressed }) => {
    return (
@@ -9,7 +11,7 @@ const LoaderAndRetry = ({ loading, error, onRetryPressed }) => {
          {loading && (
             <View style={styles.contentContainer}>
                <ActivityIndicator size="large" color={MAIN_COLOR} />
-               <Text>Getting your data....</Text>
+               <CustomText text={'Getting your data....'} />
             </View>
          )}
          {error && (
@@ -17,9 +19,10 @@ const LoaderAndRetry = ({ loading, error, onRetryPressed }) => {
                <IconButton
                   iconName="reload"
                   onIconPressed={onRetryPressed}
-                  iconSize={50}
+                  iconSize={responsiveFontSize(4)}
+                  iconColor={MAIN_COLOR}
                />
-               <Text>Something wrong please try again</Text>
+               <CustomText text="Something wrong please try again" />
             </View>
          )}
       </View>

@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { IconButton } from '../IconButton';
 import { MAIN_COLOR, WHITE_COLOR } from '../../constants/colors';
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
+import { CustomText } from '../customText';
 const Header = ({
    headerText,
    onIconStartPressed,
@@ -20,18 +22,18 @@ const Header = ({
             {iconStart && (
                <IconButton
                   iconName={iconStart}
-                  iconColor={iconStartColor || '#fff'}
+                  iconColor={iconStartColor || WHITE_COLOR}
                   onIconPressed={onIconStartPressed}
-                  iconSize={iconStartSize}
+                  iconSize={iconStartSize || responsiveFontSize(4)}
                />
             )}
-            <Text style={styles.headerText}>{headerText}</Text>
+            <CustomText textStyle={styles.headerText} text={headerText} />
             {iconEnd && (
                <IconButton
                   iconName={iconEnd}
-                  iconColor={iconEndColor || '#fff'}
+                  iconColor={iconEndColor || WHITE_COLOR}
                   onIconPressed={onIconEndPressed}
-                  iconSize={iconEndSize}
+                  iconSize={iconEndSize || responsiveFontSize(4)}
                />
             )}
          </View>
@@ -55,9 +57,7 @@ const styles = StyleSheet.create({
    },
    headerText: {
       color: WHITE_COLOR,
-      fontSize: 20,
-      textTransform: 'capitalize',
-      letterSpacing: 1,
+      fontSize: responsiveFontSize(3),
    },
 });
 

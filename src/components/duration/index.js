@@ -8,14 +8,24 @@ import { onSearchInputsChange } from '../../redux/actions';
 import moment from 'moment';
 
 import Reactotron from 'reactotron-react-native';
-const now = new Date();
+const now = new Date().setDate(new Date().getDate() + 1);
 
-const Duration = ({ modalMessage, startDate, endDate, handleConfirm }) => {
+const Duration = ({
+   modalMessage,
+   startDate,
+   endDate,
+   handleConfirm,
+   startDateError,
+   startDateErrorText,
+   endDateError,
+   endDateErrorText,
+}) => {
    const dispatch = useDispatch();
    const colorScheme = useColorScheme();
    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
    const [currentActive, setCurrentActive] = useState('');
    const [mode, setMode] = useState('date');
+   const [minimumDate, setMinimumDate] = useState(now);
 
    const showDatePicker = duration => {
       setDatePickerVisibility(true);
@@ -36,6 +46,8 @@ const Duration = ({ modalMessage, startDate, endDate, handleConfirm }) => {
             iconEndType={'material-community'}
             iconEndColor={WHITE_COLOR}
             onPress={() => showDatePicker('startDate')}
+            error={startDateError}
+            errorText={startDateErrorText}
          />
          <DateTimeButton
             text={endDate == '' ? 'to' : endDate}
@@ -43,6 +55,8 @@ const Duration = ({ modalMessage, startDate, endDate, handleConfirm }) => {
             iconEndType={'material-community'}
             iconEndColor={WHITE_COLOR}
             onPress={() => showDatePicker('endDate')}
+            error={endDateError}
+            errorText={endDateErrorText}
          />
          <CustomDateTimePicker
             isDatePickerVisible={isDatePickerVisible}
@@ -55,6 +69,11 @@ const Duration = ({ modalMessage, startDate, endDate, handleConfirm }) => {
             date={now}
             cancelTextIOS={'الغاء'}
             confirmTextIOS={'تأكيد'}
+            minimumDate={
+               currentActive == 'startDate'
+                  ? minimumDate
+                  : new Date().setDate(new Date().getDate() + 2)
+            }
          />
       </View>
    );

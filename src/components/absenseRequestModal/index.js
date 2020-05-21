@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
 import {
@@ -25,8 +25,12 @@ const AbsenseRequestModal = ({
    onConfirmAbsenceRequest,
    hideModal,
    studentName,
+   loading,
 }) => {
    const dispatch = useDispatch();
+   const [startDateErrorText, setstartDateErrorText] = useState('');
+   const [endDateErrorText, setendDateErrorText] = useState('');
+   const [absenseReasonError, setabsenseReasonError] = useState('');
    const { absenseStartDate, absenseEndDate, absenseReason } = useSelector(
       state => ({
          absenseStartDate: state.UserProfile.absenseStartDate,
@@ -34,7 +38,28 @@ const AbsenseRequestModal = ({
          absenseReason: state.UserProfile.absenseReason,
       })
    );
-
+   const handleConfirmAbsenseRequest = () => {
+      if (!absenseReason && !absenseStartDate && !absenseEndDate) {
+         setstartDateErrorText('required');
+         setendDateErrorText('required');
+         setabsenseReasonError('required');
+         return;
+      } else if (!absenseStartDate) {
+         setstartDateErrorText('required');
+         return;
+      } else if (!absenseEndDate) {
+         setendDateErrorText('required');
+         return;
+      } else if (!absenseReason || absenseReason.length < 3) {
+         setabsenseReasonError('must be more than 2 characters');
+         return;
+      } else {
+         setabsenseReasonError('');
+         setstartDateErrorText('');
+         setendDateErrorText('');
+         onConfirmAbsenceRequest();
+      }
+   };
    return (
       <Modal isVisible={isVisible} style={styles.modal}>
          <View style={styles.contentContainer}>
@@ -78,6 +103,10 @@ const AbsenseRequestModal = ({
                handleConfirm={(date, active, hide) =>
                   dispatch(onConfirmSelectDate(date, active, hide))
                }
+               startDateError={startDateErrorText.length > 0}
+               startDateErrorText={startDateErrorText}
+               endDateError={endDateErrorText.length > 0}
+               endDateErrorText={endDateErrorText}
             />
 
             <TextArea
@@ -85,11 +114,15 @@ const AbsenseRequestModal = ({
                value={absenseReason}
                placeholderTextColor={BLACK_COLOR}
                onChangeText={text => dispatch(onAbsenseReasonChange(text))}
+               error={absenseReasonError.length > 0}
+               errorText={absenseReasonError}
             />
             <CustomButton
                buttonContainerStyle={{ marginVertical: 10 }}
                buttonTitle={'confirm'}
-               onButtonPressed={onConfirmAbsenceRequest}
+               onButtonPressed={handleConfirmAbsenseRequest}
+               loading={loading}
+               spinnerColor={WHITE_COLOR}
             />
          </View>
       </Modal>

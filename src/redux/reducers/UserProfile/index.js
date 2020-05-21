@@ -12,6 +12,9 @@ import {
    SELECT_ABSENSE_START_DATE,
    SELECT_ABSENSE_END_DATE,
    ABSENSE_REASON_CHANGE,
+   ABSENSE_REQUEST_SPINNER,
+   ABSENSE_REQUEST_SUCCESS,
+   ABSENSE_REQUEST_FAILED,
 } from '../../actions/userProfile/UserProfileTypes';
 
 const initialState = {
@@ -29,6 +32,7 @@ const initialState = {
    absenseStartDate: '',
    absenseEndDate: '',
    absenseReason: '',
+   absenseRequestSpinner: false,
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -125,6 +129,27 @@ export default (state = initialState, { type, payload }) => {
          return {
             ...state,
             absenseReason: payload,
+         };
+         break;
+      case ABSENSE_REQUEST_SPINNER:
+         return {
+            ...state,
+            absenseRequestSpinner: true,
+         };
+         break;
+      case ABSENSE_REQUEST_FAILED:
+         return {
+            ...state,
+            absenseRequestSpinner: false,
+         };
+         break;
+      case ABSENSE_REQUEST_SUCCESS:
+         return {
+            ...state,
+            absenseRequestSpinner: false,
+            absenseStartDate: '',
+            absenseEndDate: '',
+            absenseReason: '',
          };
          break;
       default:

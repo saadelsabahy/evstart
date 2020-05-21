@@ -6,10 +6,15 @@ import { EmptyList } from '../noData';
 import { MAIN_COLOR } from '../../constants/colors';
 
 const NotificationList = ({ data, handleRefresh, refreshing }) => {
+   const Ids = [...new Set(data.map(item => item.notificationId))];
+   const notRedundency = Ids.map(id =>
+      data.find(notification => notification.notificationId === id)
+   );
+   console.log('notRedundency', notRedundency);
    return (
       <FlatList
-         data={data}
-         keyExtractor={(item, index) => `${index}`}
+         data={notRedundency}
+         keyExtractor={(item, index) => `${item.notificationId}`}
          style={{ flexGrow: 1 }}
          contentContainerStyle={{
             flexGrow: 1,
@@ -22,9 +27,9 @@ const NotificationList = ({ data, handleRefresh, refreshing }) => {
             return (
                <NotificationCard
                   notificationTimeText={TimeStamp}
-                  /*  notificationDateText={moment
-                     .unix(TimeStamp)
-                     .format('DD-MM-YYYY')} */
+                  /*  {moment(TimeStamp, 'LLLL').format(
+                     'DD/MM/YYYY'
+                  ) */
                   notificationIconSize={20}
                   containerStyle={{ alignSelf: 'center' }}
                   notificationName={Type}
@@ -37,7 +42,7 @@ const NotificationList = ({ data, handleRefresh, refreshing }) => {
             );
          }}
          ListEmptyComponent={() => (
-            <EmptyList iconSize={40} emptyText="No notifications yet" />
+            <EmptyList emptyText="No notifications yet" />
          )}
          refreshControl={
             <RefreshControl
