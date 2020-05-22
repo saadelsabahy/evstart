@@ -21,10 +21,18 @@ const TextArea = ({
             {...res}
          />
          {error && (
-            <CustomText
-               textStyle={{ alignSelf: 'center', color: 'red' }}
-               text={errorText}
-            />
+            <View
+               style={{
+                  alignSelf: 'center',
+               }}>
+               <CustomText
+                  textStyle={{
+                     alignSelf: 'flex-start',
+                     color: 'red',
+                  }}
+                  text={errorText}
+               />
+            </View>
          )}
       </View>
    );
@@ -36,6 +44,7 @@ const styles = StyleSheet.create({
       backgroundColor: INPUT_COLOR,
       alignSelf: 'center',
       alignItems: 'flex-start',
+      justifyContent: 'space-between',
       borderWidth: 0.4,
       borderRadius: 10,
       borderColor: TEXT_COLOR,
@@ -44,7 +53,7 @@ const styles = StyleSheet.create({
    textarea: {
       textAlignVertical: 'top',
       width: '100%',
-      height: '100%',
+      height: '95%',
       fontSize: responsiveFontSize(2),
       textAlign: I18nManager.isRTL ? 'right' : 'left',
       borderRadius: 3,

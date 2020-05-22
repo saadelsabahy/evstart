@@ -14,6 +14,7 @@ import {
    onConfirmSelectDate,
    handleAbsenseModalUnmount,
    onAbsenseReasonChange,
+   clearApsenseRequestDates,
 } from '../../redux/actions';
 import TextArea from '../TextArea';
 import { CustomButton } from '../button';
@@ -70,17 +71,26 @@ const AbsenseRequestModal = ({
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  padding: 10,
+                  height: '15%',
                }}>
                <Icon
                   name={'close'}
                   type={'material-community'}
-                  onPress={hideModal}
+                  onPress={() => {
+                     setabsenseReasonError('');
+                     setstartDateErrorText('');
+                     setendDateErrorText('');
+                     dispatch(onAbsenseReasonChange(''));
+                     dispatch(clearApsenseRequestDates());
+                     hideModal();
+                  }}
                   iconContainerStyle={{
-                     flex: 0.2,
+                     flex: 0.3,
                      alignItems: 'flex-start',
+                     justifyContent: 'center',
                   }}
                   color={TEXT_COLOR}
+                  size={responsiveFontSize(4)}
                />
 
                <View
@@ -112,7 +122,7 @@ const AbsenseRequestModal = ({
             <TextArea
                placeholder={'Absense reason'}
                value={absenseReason}
-               placeholderTextColor={BLACK_COLOR}
+               placeholderTextColor={'#999'}
                onChangeText={text => dispatch(onAbsenseReasonChange(text))}
                error={absenseReasonError.length > 0}
                errorText={absenseReasonError}

@@ -15,6 +15,7 @@ import {
    ABSENSE_REQUEST_SPINNER,
    ABSENSE_REQUEST_SUCCESS,
    ABSENSE_REQUEST_FAILED,
+   DISCARD_UPDATE_PROFILE,
 } from '../../actions/userProfile/UserProfileTypes';
 
 const initialState = {
@@ -90,6 +91,12 @@ export default (state = initialState, { type, payload }) => {
             updateProfileError: true,
          };
          break;
+      case DISCARD_UPDATE_PROFILE:
+         return {
+            ...state,
+            showSaveButton: false,
+         };
+         break;
       case CHANGE_COMMITMENT_SPINNER:
          return {
             ...state,
@@ -152,6 +159,7 @@ export default (state = initialState, { type, payload }) => {
             absenseReason: '',
          };
          break;
+
       default:
          return state;
    }

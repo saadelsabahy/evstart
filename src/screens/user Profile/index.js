@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, Image, FlatList } from 'react-native';
+import { View, Text, Image, FlatList, Alert, BackHandler } from 'react-native';
 import {
    IconButton,
    StudentInfoCard,
@@ -18,6 +18,7 @@ import {
    onFilterCommitmentItemPressed,
    handleAbsenseModalUnmount,
    onRequestAbsense,
+   discardUpdateProfile,
 } from '../../redux/actions';
 import styles from './style';
 import { CustomDropDown } from '../../components/dropDown';
@@ -32,7 +33,18 @@ const UserProfile = ({ navigation }) => {
    const [selectedStudent, setselectedStudent] = useState({});
    useEffect(() => {
       dispatch(getProfileData());
+      BackHandler.addEventListener('hardwareBackPress', () => {
+         return true;
+      });
    }, []);
+   /*    const handleHardwareBack = () => {
+      if (!showSaveButton) {
+         return true;
+      } else {
+         shoWingAlert();
+         return false;
+      }
+   }; */
    const onItemPressed = (studentName, schoolId, studentId) => {
       setselectedStudent({ studentName, schoolId, studentId });
       setshowAbsenseRequestModal(true);
@@ -67,7 +79,36 @@ const UserProfile = ({ navigation }) => {
       updateProfileLoader: state.UserProfile.updateProfileLoader,
       absenseRequestSpinner: state.UserProfile.absenseRequestSpinner,
    }));
-
+   const handleGoback = () => {
+      if (!showSaveButton) {
+         navigation.goBack();
+         return true;
+      } else {
+         shoWingAlert();
+      }
+   };
+   const shoWingAlert = () => {
+      Alert.alert(
+         'save changes',
+         'are you sure to save changes ?',
+         [
+            {
+               text: 'discard',
+               onPress: () => {
+                  dispatch(discardUpdateProfile(navigation));
+               },
+               style: 'cancel',
+            },
+            {
+               text: 'OK',
+               onPress: async () => {
+                  dispatch(updateProfilePhoto('back', navigation));
+               },
+            },
+         ],
+         { cancelable: false }
+      );
+   };
    if (getInfoLoader || getUserInfoError) {
       return (
          <React.Fragment>
@@ -96,7 +137,7 @@ const UserProfile = ({ navigation }) => {
                   iconName={'keyboard-backspace'}
                   iconColor={WHITE_COLOR}
                   iconSize={responsiveFontSize(4)}
-                  onIconPressed={() => navigation.goBack()}
+                  onIconPressed={handleGoback}
                   touchableStyle={styles.backContainer}
                />
             </View>

@@ -25,7 +25,6 @@ const Duration = ({
    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
    const [currentActive, setCurrentActive] = useState('');
    const [mode, setMode] = useState('date');
-   const [minimumDate, setMinimumDate] = useState(now);
 
    const showDatePicker = duration => {
       setDatePickerVisibility(true);
@@ -67,11 +66,9 @@ const Duration = ({
             }
             isDarkModeEnabled={colorScheme === 'dark'}
             date={now}
-            cancelTextIOS={'الغاء'}
-            confirmTextIOS={'تأكيد'}
             minimumDate={
                currentActive == 'startDate'
-                  ? minimumDate
+                  ? new Date().setDate(new Date().getDate() + 1)
                   : new Date().setDate(new Date().getDate() + 2)
             }
          />

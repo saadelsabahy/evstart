@@ -16,6 +16,7 @@ import {
    ABSENSE_REQUEST_FAILED,
    ABSENSE_REQUEST_SPINNER,
    ABSENSE_REQUEST_SUCCESS,
+   DISCARD_UPDATE_PROFILE,
 } from './UserProfileTypes';
 import AsyncStorage from '@react-native-community/async-storage';
 import { get_request, post_request } from '../../../utils/api';
@@ -115,7 +116,10 @@ export const changeProfilePicture = () => async (dispatch, getState) => {
    );
 };
 
-export const updateProfilePhoto = () => async (dispatch, getState) => {
+export const updateProfilePhoto = (goBack, navigation) => async (
+   dispatch,
+   getState
+) => {
    dispatch({ type: UPDATE_PROFILE_SPINNER, payload: true });
    const {
       selectedImage: { uri, type, fileName },
@@ -139,12 +143,18 @@ export const updateProfilePhoto = () => async (dispatch, getState) => {
       });
 
       if (UpdateProfilePicture.statusCode === 200) {
-         dispatch({ type: UPDATE_PROFILE_SUCCESS });
+         await dispatch({ type: UPDATE_PROFILE_SUCCESS });
          showMessage({
             message: 'update profile success',
             type: 'success',
             duration: 2000,
          });
+         if (goBack) {
+            navigation.goBack();
+            return true;
+         } else {
+            return;
+         }
       } else {
          updateProfileFailed(dispatch);
       }
@@ -152,6 +162,7 @@ export const updateProfilePhoto = () => async (dispatch, getState) => {
       updateProfileFailed(dispatch);
    }
 };
+
 const updateProfileFailed = dispatch => {
    dispatch({ type: UPDATE_PROFILE_FAILED });
 
@@ -162,6 +173,11 @@ const updateProfileFailed = dispatch => {
    });
 };
 
+export const discardUpdateProfile = navigation => async dispatch => {
+   dispatch({ type: DISCARD_UPDATE_PROFILE });
+   navigation.goBack();
+   return true;
+};
 ///absense request
 export const onConfirmSelectDate = (date, currentActive, hideDatePicker) => (
    dispatch,
@@ -207,6 +223,17 @@ export const onConfirmSelectDate = (date, currentActive, hideDatePicker) => (
          break;
    }
    // hideDatePicker;
+};
+export const clearApsenseRequestDates = () => dispatch => {
+   dispatch({
+      type: SELECT_ABSENSE_END_DATE,
+      payload: '',
+   });
+
+   dispatch({
+      type: SELECT_ABSENSE_START_DATE,
+      payload: '',
+   });
 };
 export const onAbsenseReasonChange = text => dispatch => {
    dispatch({ type: ABSENSE_REASON_CHANGE, payload: text });
