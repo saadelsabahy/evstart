@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
       textAlign: I18nManager.isRTL ? 'right' : 'left',
       borderRadius: 3,
       color: TEXT_COLOR,
-      fontFamily: 'DroidArabicKufi',
+      fontFamily: 'NunitoSans-Light',
       alignItems: 'center',
       justifyContent: 'center',
       padding: 5,

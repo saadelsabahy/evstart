@@ -8,7 +8,6 @@ import { onSearchInputsChange } from '../../redux/actions';
 import moment from 'moment';
 
 import Reactotron from 'reactotron-react-native';
-const now = new Date().setDate(new Date().getDate() + 1);
 
 const Duration = ({
    modalMessage,
@@ -36,7 +35,10 @@ const Duration = ({
       setDatePickerVisibility(false);
       setCurrentActive('');
    };
-
+   const tommorowOrAfterTommorow =
+      currentActive == 'startDate'
+         ? new Date(new Date().setDate(new Date().getDate() + 1))
+         : new Date(moment(startDate, 'DD-MM-YYYY').add(1, 'day'));
    return (
       <View style={[styles.container]}>
          <DateTimeButton
@@ -65,12 +67,8 @@ const Duration = ({
                handleConfirm(selectedDate, currentActive, hideDatePicker())
             }
             isDarkModeEnabled={colorScheme === 'dark'}
-            date={now}
-            minimumDate={
-               currentActive == 'startDate'
-                  ? new Date().setDate(new Date().getDate() + 1)
-                  : new Date().setDate(new Date().getDate() + 2)
-            }
+            date={tommorowOrAfterTommorow}
+            minimumDate={tommorowOrAfterTommorow}
          />
       </View>
    );

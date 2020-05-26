@@ -183,13 +183,8 @@ export const onConfirmSelectDate = (date, currentActive, hideDatePicker) => (
    dispatch,
    getState
 ) => {
-   console.log('currentActive', currentActive);
-
    switch (currentActive) {
       case 'startDate':
-         /*  moment(date)
-               .format('DD-MM-YYYY')
-               .toString() */
          dispatch({
             type: SELECT_ABSENSE_START_DATE,
             payload: moment(date)
@@ -200,26 +195,25 @@ export const onConfirmSelectDate = (date, currentActive, hideDatePicker) => (
 
       case 'endDate':
          const { absenseStartDate } = getState().UserProfile;
-         const isEndDateValid = moment(date).isSameOrAfter(
+         dispatch({
+            type: SELECT_ABSENSE_END_DATE,
+            payload: moment(date)
+               .format('DD-MM-YYYY')
+               .toString(),
+         });
+         /* const isEndDateValid = moment(date).isSameOrAfter(
             moment(absenseStartDate, 'DD-MM-YYYY')
          );
+         console.log(date);
+
          if (isEndDateValid) {
-            dispatch({
-               type: SELECT_ABSENSE_END_DATE,
-               payload: moment(date)
-                  .format('DD-MM-YYYY')
-                  .toString(),
-            });
+            
          } else {
-            /* modalMessage.current.showMessage({
-               type: 'danger',
-               message: 'تاريخ الانتهاء يجب ان يكون بعد تاريخ البدايه',
-            }); */
             dispatch({
                type: SELECT_ABSENSE_END_DATE,
                payload: '',
             });
-         }
+         } */
          break;
    }
    // hideDatePicker;

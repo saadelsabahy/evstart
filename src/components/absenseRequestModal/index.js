@@ -62,7 +62,7 @@ const AbsenseRequestModal = ({
       }
    };
    return (
-      <Modal isVisible={isVisible} style={styles.modal}>
+      <Modal isVisible={isVisible} style={styles.modal} avoidKeyboard>
          <View style={styles.contentContainer}>
             <View
                style={{
