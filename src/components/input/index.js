@@ -37,6 +37,8 @@ const CustomInput = ({
                placeholder={placeholder}
                style={[styles.input, inputStyle]}
                selectionColor={MAIN_COLOR}
+               autoCapitalize="none"
+               placeholderTextColor="#989"
                {...inputProps}
             />
             {IconRightName && (
@@ -69,6 +71,7 @@ const styles = StyleSheet.create({
       borderBottomWidth: 1,
       fontSize: responsiveFontSize(2.5),
       padding: 10,
+      color: MAIN_COLOR,
    },
    leftIcon: {
       marginHorizontal: 5,
