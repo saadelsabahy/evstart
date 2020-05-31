@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import { MAIN_COLOR } from '../../constants/colors';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
+import { CustomText } from '../customText';
 
 const EmptyList = ({ iconSize, emptyText }) => {
    return (
@@ -12,7 +13,10 @@ const EmptyList = ({ iconSize, emptyText }) => {
             size={iconSize || responsiveFontSize(4)}
             color={MAIN_COLOR}
          />
-         <Text style={styles.text}>{emptyText || 'No data found'}</Text>
+         <CustomText
+            textStyle={styles.text}
+            text={emptyText || 'No data found'}
+         />
       </View>
    );
 };

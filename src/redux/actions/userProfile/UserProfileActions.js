@@ -147,7 +147,7 @@ export const updateProfilePhoto = (goBack, navigation) => async (
          showMessage({
             message: 'update profile success',
             type: 'success',
-            duration: 2000,
+            duration: 1000,
          });
          if (goBack) {
             navigation.goBack();
@@ -274,7 +274,7 @@ export const onRequestAbsense = (
          showMessage({
             type: 'success',
             message: 'your request sent..',
-            duration: 2000,
+            duration: 1500,
          });
       }
    } catch (error) {

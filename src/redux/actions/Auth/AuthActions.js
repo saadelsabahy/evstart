@@ -90,7 +90,7 @@ export const onLogoutPressed = navigation => async dispatch => {
    try {
       await firebase.messaging().deleteToken();
       dispatch({ type: LOGOUT });
-      await AsyncStorage.clear();
+      await AsyncStorage.multiRemove(['fcmToken', 'userId']);
    } catch (error) {
       console.log('logout error', error);
       firebase.crashlytics('SIGN_OUT', error.message);
