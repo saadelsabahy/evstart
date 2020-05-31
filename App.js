@@ -23,8 +23,13 @@ YellowBox.ignoreWarnings(['Remote debugger']);
 import moment from 'moment';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 import { MAIN_COLOR } from './src/constants/colors';
+import { getFcmToken } from './src/utils/firebase';
 const App = () => {
    I18nManager.forceRTL(false);
+   useEffect(() => {
+      // getFcmToken();
+      return () => {};
+   }, []);
    return (
       <Provider store={store}>
          <PersistGate persistor={persistor}>

@@ -9,9 +9,19 @@ export const getFcmToken = async () => {
       console.log(fcmToken);
    } else {
       try {
-         firebase.messaging().requestPermission();
+         firebase
+            .messaging()
+            .requestPermission()
+            .then(async () => {
+               const fcmToken = await firebase.messaging().getToken();
+               await AsyncStorage.setItem('fcmToken', fcmToken);
+               console.log(fcmToken);
+            })
+            .catch(e => {
+               console.log('permission error', e);
+            });
       } catch (e) {
-         alert('user rejected the permissions');
+         console.log('user refuse permission');
       }
    }
 };
