@@ -39,7 +39,7 @@ const App = () => {
                   floating
                   position="bottom"
                   style={styles.flashMessage}
-                  duration={3000}
+                  duration={1500}
                   titleStyle={{
                      fontSize: responsiveFontSize(2),
                      textTransform: 'capitalize',

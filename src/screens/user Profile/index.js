@@ -24,38 +24,13 @@ import styles from './style';
 import { CustomDropDown } from '../../components/dropDown';
 import { WHITE_COLOR } from '../../constants/colors';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
-
+import { useFocusEffect } from '@react-navigation/native';
 const UserProfile = ({ navigation }) => {
    const dispatch = useDispatch();
    const [showAbsenseRequestModal, setshowAbsenseRequestModal] = useState(
       false
    );
    const [selectedStudent, setselectedStudent] = useState({});
-   useEffect(() => {
-      dispatch(getProfileData());
-      BackHandler.addEventListener('hardwareBackPress', () => {
-         return true;
-      });
-   }, []);
-   /*    const handleHardwareBack = () => {
-      if (!showSaveButton) {
-         return true;
-      } else {
-         shoWingAlert();
-         return false;
-      }
-   }; */
-   const onItemPressed = (studentName, schoolId, studentId) => {
-      setselectedStudent({ studentName, schoolId, studentId });
-      setshowAbsenseRequestModal(true);
-   };
-   const hideAbsenseRequestModal = () => {
-      setshowAbsenseRequestModal(false);
-      dispatch(handleAbsenseModalUnmount());
-   };
-   const onConfirmAbsenceRequest = () => {
-      dispatch(onRequestAbsense(selectedStudent, hideAbsenseRequestModal));
-   };
    const {
       updateProfileLoader,
       showSaveButton,
@@ -79,10 +54,42 @@ const UserProfile = ({ navigation }) => {
       updateProfileLoader: state.UserProfile.updateProfileLoader,
       absenseRequestSpinner: state.UserProfile.absenseRequestSpinner,
    }));
+   useEffect(() => {
+      dispatch(getProfileData());
+   }, []);
+
+   useFocusEffect(
+      React.useCallback(() => {
+         const onBackPress = () => {
+            if (showSaveButton) {
+               shoWingAlert();
+               return true;
+            } else {
+               return false;
+            }
+         };
+
+         BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+         return () =>
+            BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+      }, [showSaveButton, !showSaveButton])
+   );
+   const onItemPressed = (studentName, schoolId, studentId) => {
+      setselectedStudent({ studentName, schoolId, studentId });
+      setshowAbsenseRequestModal(true);
+   };
+   const hideAbsenseRequestModal = () => {
+      setshowAbsenseRequestModal(false);
+      dispatch(handleAbsenseModalUnmount());
+   };
+   const onConfirmAbsenceRequest = () => {
+      dispatch(onRequestAbsense(selectedStudent, hideAbsenseRequestModal));
+   };
+
    const handleGoback = () => {
       if (!showSaveButton) {
          navigation.goBack();
-         return true;
       } else {
          shoWingAlert();
       }
