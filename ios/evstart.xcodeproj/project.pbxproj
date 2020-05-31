@@ -63,6 +63,7 @@
 		40215DE12539488AB283A282 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		47392B47344116F79A757D88 /* libPods-evstartTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-evstartTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F2C5F692472E6D500F9F9DC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4FA6C08F2483C3D9006AC842 /* evstart.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = evstart.entitlements; path = evstart/evstart.entitlements; sourceTree = "<group>"; };
 		50FB4A8F0C0B4F72B4B7D2D7 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		574E94DC2F19DFE9A16A816A /* Pods-evstart-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evstart-tvOS.release.xcconfig"; path = "Target Support Files/Pods-evstart-tvOS/Pods-evstart-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		5DA0FF444A07A9DE9D342A81 /* Pods-evstart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-evstart.release.xcconfig"; path = "Target Support Files/Pods-evstart/Pods-evstart.release.xcconfig"; sourceTree = "<group>"; };
@@ -145,6 +146,7 @@
 		13B07FAE1A68108700A75B9A /* evstart */ = {
 			isa = PBXGroup;
 			children = (
+				4FA6C08F2483C3D9006AC842 /* evstart.entitlements */,
 				4F2C5F692472E6D500F9F9DC /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -337,6 +339,9 @@
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = 6S322V4U35;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -725,8 +730,10 @@
 			baseConfigurationReference = DE7889239E4C487984D82EAA /* Pods-evstart.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = evstart/evstart.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = 6S322V4U35;
 				INFOPLIST_FILE = evstart/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -745,7 +752,9 @@
 			baseConfigurationReference = 5DA0FF444A07A9DE9D342A81 /* Pods-evstart.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = evstart/evstart.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 6S322V4U35;
 				INFOPLIST_FILE = evstart/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (

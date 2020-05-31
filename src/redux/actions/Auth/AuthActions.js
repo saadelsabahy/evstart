@@ -45,7 +45,7 @@ export const onLoginPressed = navigation => async (dispatch, getState) => {
       var loginResponse = await get_request({
          target: `UMAPI/api/User/Authenticate?userName=${loginName}&password=${loginPassword}&encrypteddata=${false}`,
       });
-      console.log('loginResponse', loginResponse);
+
       try {
          if (loginResponse.statusCode == 200) {
             const {
@@ -92,6 +92,7 @@ export const onLogoutPressed = navigation => async dispatch => {
       dispatch({ type: LOGOUT });
       await AsyncStorage.clear();
    } catch (error) {
-      console.log(error);
+      console.log('logout error', error);
+      firebase.crashlytics('SIGN_OUT', error.message);
    }
 };

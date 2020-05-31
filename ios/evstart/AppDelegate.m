@@ -13,8 +13,8 @@
 #import <Firebase.h>
 #import "RNFirebaseNotifications.h"
 #import "RNFirebaseMessaging.h"
-#import "RNFirebaseMessaging.h"
- #import <RNSplashScreen.h>
+#import <RNSplashScreen.h>
+#import <UserNotifications/UserNotifications.h>
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -33,6 +33,8 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
+  [application registerForRemoteNotifications];
   [RNSplashScreen show];
   return YES;
 }
@@ -57,4 +59,6 @@
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
   [[RNFirebaseMessaging instance] didRegisterUserNotificationSettings:notificationSettings];
 }
+
+
 @end
