@@ -68,7 +68,14 @@ const AbsenseRequestModal = ({
          isVisible={isVisible}
          style={styles.modal}
          avoidKeyboard
-         onBackButtonPress={hideModal}>
+         onBackButtonPress={hideModal}
+         onModalHide={() => {
+            setabsenseReasonError('');
+            setstartDateErrorText('');
+            setendDateErrorText('');
+            dispatch(onAbsenseReasonChange(''));
+            dispatch(clearApsenseRequestDates());
+         }}>
          <View style={{ flex: 1, justifyContent: 'flex-end' }}>
             <View style={styles.contentContainer}>
                <View
@@ -84,11 +91,6 @@ const AbsenseRequestModal = ({
                      name={'close'}
                      type={'material-community'}
                      onPress={() => {
-                        setabsenseReasonError('');
-                        setstartDateErrorText('');
-                        setendDateErrorText('');
-                        dispatch(onAbsenseReasonChange(''));
-                        dispatch(clearApsenseRequestDates());
                         hideModal();
                      }}
                      iconContainerStyle={{
