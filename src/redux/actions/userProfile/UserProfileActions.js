@@ -47,10 +47,13 @@ const options = {
    },
 };
 export const getProfileData = () => async (dispatch, getState) => {
+   const { commitMentLabel } = getState().UserProfile;
    dispatch({ type: GET_PROFILE_INFO_SPINNER, payload: true });
    const userId = await AsyncStorage.getItem('userId');
    const getProfileInfoResponse = await get_request({
-      target: `NESAPI/api/ParentProfile?UserID=${userId}&From=${currentWeekStart}&To=${currentWeekEnd}`,
+      target: `NESAPI/api/ParentProfile?UserID=${userId}&From=${
+         commitMentLabel == 'this week' ? currentWeekStart : lastMonthStart
+      }&To=${commitMentLabel == 'this week' ? currentWeekEnd : endOfLastMonth}`,
    });
 
    if (getProfileInfoResponse.statusCode === 200) {
@@ -230,7 +233,7 @@ export const clearApsenseRequestDates = () => dispatch => {
    });
 };
 export const onAbsenseReasonChange = text => dispatch => {
-   dispatch({ type: ABSENSE_REASON_CHANGE, payload: text });
+   dispatch({ type: ABSENSE_REASON_CHANGE, payload: text.trimStart() });
 };
 export const handleAbsenseModalUnmount = () => dispatch => {
    dispatch({

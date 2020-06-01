@@ -26,14 +26,21 @@ const Duration = ({
    const [mode, setMode] = useState('date');
 
    const showDatePicker = duration => {
-      setDatePickerVisibility(true);
-      setMode('date');
-      setCurrentActive(duration);
+      if (duration == 'endDate' && !startDate) {
+         modalMessage.current.showMessage({
+            type: 'danger',
+            message: 'you must select start date first',
+         });
+      } else {
+         setDatePickerVisibility(true);
+         setMode('date');
+         setCurrentActive(duration);
+      }
    };
 
    const hideDatePicker = () => {
       setDatePickerVisibility(false);
-      setCurrentActive('');
+      // setCurrentActive('');
    };
    const tommorowOrAfterTommorow =
       currentActive == 'startDate'

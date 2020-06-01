@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
 import {
@@ -21,6 +21,7 @@ import { CustomButton } from '../button';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Icon } from '../Icon';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
+import FlashMessage from 'react-native-flash-message';
 const AbsenseRequestModal = ({
    isVisible,
    onConfirmAbsenceRequest,
@@ -29,6 +30,7 @@ const AbsenseRequestModal = ({
    loading,
 }) => {
    const dispatch = useDispatch();
+   const modalFlashMessage = useRef(null);
    const [startDateErrorText, setstartDateErrorText] = useState('');
    const [endDateErrorText, setendDateErrorText] = useState('');
    const [absenseReasonError, setabsenseReasonError] = useState('');
@@ -62,77 +64,91 @@ const AbsenseRequestModal = ({
       }
    };
    return (
-      <Modal isVisible={isVisible} style={styles.modal} avoidKeyboard>
-         <View style={styles.contentContainer}>
-            <View
-               style={{
-                  flex: 1,
-                  width: '100%',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  height: '15%',
-               }}>
-               <Icon
-                  name={'close'}
-                  type={'material-community'}
-                  onPress={() => {
-                     setabsenseReasonError('');
-                     setstartDateErrorText('');
-                     setendDateErrorText('');
-                     dispatch(onAbsenseReasonChange(''));
-                     dispatch(clearApsenseRequestDates());
-                     hideModal();
-                  }}
-                  iconContainerStyle={{
-                     flex: 0.3,
-                     alignItems: 'flex-start',
-                     justifyContent: 'center',
-                  }}
-                  color={TEXT_COLOR}
-                  size={responsiveFontSize(4)}
-               />
-
+      <Modal
+         isVisible={isVisible}
+         style={styles.modal}
+         avoidKeyboard
+         onBackButtonPress={hideModal}>
+         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+            <View style={styles.contentContainer}>
                <View
                   style={{
                      flex: 1,
-                     alignSelf: 'center',
+                     width: '100%',
+                     flexDirection: 'row',
+                     justifyContent: 'space-between',
+                     alignItems: 'center',
+                     height: '15%',
                   }}>
-                  <CustomText
-                     text={`absense request for ${studentName}`}
-                     textStyle={{
-                        fontSize: responsiveFontSize(2.2),
+                  <Icon
+                     name={'close'}
+                     type={'material-community'}
+                     onPress={() => {
+                        setabsenseReasonError('');
+                        setstartDateErrorText('');
+                        setendDateErrorText('');
+                        dispatch(onAbsenseReasonChange(''));
+                        dispatch(clearApsenseRequestDates());
+                        hideModal();
                      }}
+                     iconContainerStyle={{
+                        flex: 0.3,
+                        alignItems: 'flex-start',
+                        justifyContent: 'center',
+                     }}
+                     color={TEXT_COLOR}
+                     size={responsiveFontSize(4)}
                   />
+
+                  <View
+                     style={{
+                        flex: 1,
+                        alignSelf: 'center',
+                     }}>
+                     <CustomText
+                        text={`absense request for ${studentName}`}
+                        textStyle={{
+                           fontSize: responsiveFontSize(2.2),
+                        }}
+                     />
+                  </View>
                </View>
+
+               <Duration
+                  startDate={absenseStartDate}
+                  endDate={absenseEndDate}
+                  handleConfirm={(date, active, hide) =>
+                     dispatch(onConfirmSelectDate(date, active, hide))
+                  }
+                  startDateError={startDateErrorText.length > 0}
+                  startDateErrorText={startDateErrorText}
+                  endDateError={endDateErrorText.length > 0}
+                  endDateErrorText={endDateErrorText}
+                  modalMessage={modalFlashMessage}
+               />
+
+               <TextArea
+                  placeholder={'Absense reason'}
+                  value={absenseReason}
+                  placeholderTextColor={'#999'}
+                  onChangeText={text => dispatch(onAbsenseReasonChange(text))}
+                  error={absenseReasonError.length > 0}
+                  errorText={absenseReasonError}
+               />
+               <CustomButton
+                  buttonContainerStyle={{ marginVertical: 10 }}
+                  buttonTitle={'confirm'}
+                  onButtonPressed={handleConfirmAbsenseRequest}
+                  loading={loading}
+                  spinnerColor={WHITE_COLOR}
+               />
             </View>
-
-            <Duration
-               startDate={absenseStartDate}
-               endDate={absenseEndDate}
-               handleConfirm={(date, active, hide) =>
-                  dispatch(onConfirmSelectDate(date, active, hide))
-               }
-               startDateError={startDateErrorText.length > 0}
-               startDateErrorText={startDateErrorText}
-               endDateError={endDateErrorText.length > 0}
-               endDateErrorText={endDateErrorText}
-            />
-
-            <TextArea
-               placeholder={'Absense reason'}
-               value={absenseReason}
-               placeholderTextColor={'#999'}
-               onChangeText={text => dispatch(onAbsenseReasonChange(text))}
-               error={absenseReasonError.length > 0}
-               errorText={absenseReasonError}
-            />
-            <CustomButton
-               buttonContainerStyle={{ marginVertical: 10 }}
-               buttonTitle={'confirm'}
-               onButtonPressed={handleConfirmAbsenseRequest}
-               loading={loading}
-               spinnerColor={WHITE_COLOR}
+            <FlashMessage
+               ref={modalFlashMessage}
+               position={'bottom'}
+               textStyle={styles.flashText}
+               titleStyle={styles.flashText}
+               duration={2000}
             />
          </View>
       </Modal>
@@ -157,6 +173,10 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'space-evenly',
       width: '100%',
+   },
+   flashText: {
+      textTransform: 'capitalize',
+      fontSize: responsiveFontSize(2),
    },
 });
 

@@ -18,22 +18,23 @@ const TextArea = ({
             placeholder={placeholder}
             placeholderTextColor={placeholderTextColor}
             underlineColorAndroid={'transparent'}
+            autoCorrect={null}
+            autoCapitalize="none"
             {...res}
          />
-         {error && (
-            <View
-               style={{
-                  alignSelf: 'center',
-               }}>
-               <CustomText
-                  textStyle={{
-                     alignSelf: 'flex-start',
-                     color: 'red',
-                  }}
-                  text={errorText}
-               />
-            </View>
-         )}
+
+         <View
+            style={{
+               alignSelf: 'center',
+            }}>
+            <CustomText
+               textStyle={{
+                  alignSelf: 'flex-start',
+                  color: 'red',
+               }}
+               text={errorText}
+            />
+         </View>
       </View>
    );
 };
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
       marginVertical: 10,
    },
    textarea: {
-      textAlignVertical: 'top',
+      // textAlignVertical: 'top',
       width: '100%',
       height: '95%',
       fontSize: responsiveFontSize(2),
@@ -59,10 +60,11 @@ const styles = StyleSheet.create({
       borderRadius: 3,
       color: TEXT_COLOR,
       fontFamily: 'NunitoSans-Light',
-      alignItems: 'center',
-      justifyContent: 'center',
+      /*  alignItems: 'center',
+      justifyContent: 'center', */
       padding: 5,
       paddingHorizontal: 10,
+      marginBottom: 5,
    },
 });
 

@@ -27,10 +27,11 @@ const DateTimeButton = ({
    iconContainerStyle,
    error,
    errorText,
+   disabled,
 }) => {
    return (
       <View style={{ flex: 1 }}>
-         <TouchableWithoutFeedback onPress={onPress}>
+         <TouchableWithoutFeedback onPress={onPress} disabled={disabled}>
             <View style={styles.container}>
                <View style={[styles.iconContainer, iconContainerStyle]}>
                   <Icon
