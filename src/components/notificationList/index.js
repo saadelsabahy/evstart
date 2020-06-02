@@ -10,10 +10,12 @@ const NotificationList = ({ data, handleRefresh, refreshing }) => {
    const notRedundency = Ids.map(id =>
       data.find(notification => notification.notificationId === id)
    );
-   console.log('notRedundency', notRedundency);
+
    return (
       <FlatList
-         data={notRedundency}
+         data={notRedundency.sort(
+            (a, b) => new Date().getDate() - new Date(b.TimeStamp).getDate()
+         )}
          keyExtractor={(item, index) => `${item.notificationId}`}
          style={{ flexGrow: 1 }}
          contentContainerStyle={{
