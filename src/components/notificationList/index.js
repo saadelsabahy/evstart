@@ -10,11 +10,17 @@ const NotificationList = ({ data, handleRefresh, refreshing }) => {
    const notRedundency = Ids.map(id =>
       data.find(notification => notification.notificationId === id)
    );
+   /*    console.log(
+      notRedundency.sort(
+         (a, b) => new Date().getTime() - new Date(b.TimeStamp).getDate()
+      )
+   ); */
 
    return (
       <FlatList
          data={notRedundency.sort(
-            (a, b) => new Date().getDate() - new Date(b.TimeStamp).getDate()
+            (a, b) =>
+               new Date(b.TimeStamp).getTime() - new Date(a.TimeStamp).getTime()
          )}
          keyExtractor={(item, index) => `${item.notificationId}`}
          style={{ flexGrow: 1 }}
@@ -28,7 +34,10 @@ const NotificationList = ({ data, handleRefresh, refreshing }) => {
          }) => {
             return (
                <NotificationCard
-                  notificationTimeText={TimeStamp}
+                  notificationTimeText={moment(
+                     TimeStamp,
+                     'MM/D/YYYY LT'
+                  ).format('LLL')}
                   /*  {moment(TimeStamp, 'LLLL').format(
                      'DD/MM/YYYY'
                   ) */

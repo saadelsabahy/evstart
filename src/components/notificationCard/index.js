@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
    container: {
       width: '97%',
       backgroundColor: WHITE_COLOR,
-      borderRadius: 7,
+      borderRadius: 10,
       ...Platform.select({
          android: {
             elevation: 2,
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
          },
       }),
       marginVertical: 10,
-      padding: 5,
+      padding: 10,
    },
    headContainer: {
       width: '99%',
