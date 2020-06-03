@@ -44,7 +44,12 @@ const options = {
    storageOptions: {
       skipBackup: true,
       path: 'images',
+      privateDirectory: true,
    },
+   maxWidth: 200,
+   maxHeight: 200,
+   quality: 0.7,
+   mediaType: 'photo',
 };
 export const getProfileData = () => async (dispatch, getState) => {
    const { commitMentLabel } = getState().UserProfile;
@@ -97,10 +102,6 @@ export const changeProfilePicture = () => async (dispatch, getState) => {
    ImagePicker.showImagePicker(
       {
          ...options,
-         maxWidth: 200,
-         maxHeight: 200,
-         quality: 0.7,
-         mediaType: 'photo',
       },
       response => {
          if (response.didCancel) {
@@ -108,8 +109,6 @@ export const changeProfilePicture = () => async (dispatch, getState) => {
          } else if (response.error) {
             console.log('ImagePicker Error: ', response.error);
          } else {
-            const source = { uri: response.uri };
-
             dispatch({
                type: USER_CHANGE_PHOTO_SUCCESSFULLY,
                payload: { response, showSaveButton: true },
