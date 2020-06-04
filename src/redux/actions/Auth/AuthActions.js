@@ -9,7 +9,7 @@ import {
 import { get_request, post_request } from '../../../utils/api';
 import { showMessage, hideMessage } from 'react-native-flash-message';
 import AsyncStorage from '@react-native-community/async-storage';
-import firebase from 'react-native-firebase';
+import firebase, { messaging } from 'react-native-firebase';
 export const onInputsChange = (inputName, inputValue) => {
    switch (inputName) {
       case 'loginName':
@@ -45,6 +45,7 @@ export const onLoginPressed = navigation => async (dispatch, getState) => {
       var loginResponse = await get_request({
          target: `UMAPI/api/User/Authenticate?userName=${loginName}&password=${loginPassword}&encrypteddata=${false}`,
       });
+      console.log(loginResponse);
 
       try {
          if (loginResponse.statusCode == 200) {
@@ -88,11 +89,10 @@ const loginFailed = dispatch => {
 //logout
 export const onLogoutPressed = navigation => async dispatch => {
    try {
-      await firebase.messaging().deleteToken();
+      await messaging().deleteToken();
       dispatch({ type: LOGOUT });
       await AsyncStorage.multiRemove(['fcmToken', 'userId']);
    } catch (error) {
       console.log('logout error', error);
-      firebase.crashlytics('SIGN_OUT', error.message);
    }
 };

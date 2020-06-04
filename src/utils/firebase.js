@@ -11,7 +11,11 @@ export const getFcmToken = async () => {
       try {
          firebase
             .messaging()
-            .requestPermission()
+            .requestPermission({
+               badge: true,
+
+               sound: true,
+            })
             .then(async () => {
                const fcmToken = await firebase.messaging().getToken();
                await AsyncStorage.setItem('fcmToken', fcmToken);

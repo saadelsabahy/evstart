@@ -14,8 +14,6 @@ export const getNotification = navigation => async (dispatch, getState) => {
    onRecieveNotificationListener = firebase
       .notifications()
       .onNotification(async notification => {
-         console.log('open', notification);
-
          const {
             _data: { ParentId, StudentName, TimeStamp, Type },
             _notificationId,
