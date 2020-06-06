@@ -234,7 +234,14 @@ const UserProfile = ({ navigation }) => {
                            return (
                               <StudentInfoCard
                                  childName={StudentName}
-                                 commitmentPercentage={CommitmentPercentage}
+                                 commitmentPercentage={`${Number(
+                                    Math.floor(
+                                       +CommitmentPercentage.substring(
+                                          -1,
+                                          CommitmentPercentage.indexOf('%')
+                                       )
+                                    )
+                                 ).toFixed()} %`}
                                  onPress={() =>
                                     onItemPressed(
                                        StudentName,
