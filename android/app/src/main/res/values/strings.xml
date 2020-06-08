@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">nesParentApp</string>
+    <string name="app_name">NESParentApp</string>
     <string name="default_notification_channel_id">Defaultchannel</string>
 </resources>

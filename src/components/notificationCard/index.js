@@ -49,7 +49,7 @@ const NotificationCard = ({
             </View>
             <View style={[styles.timeContainer, timeContainerStyle]}>
                <CustomText
-                  style={[styles.timeText, timeTextStyle]}
+                  textStyle={[styles.timeText, timeTextStyle]}
                   text={notificationTimeText}
                />
             </View>
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
    },
    timeText: {
       fontSize: responsiveFontSize(2.1),
-      color: '#999',
+      color: '#888',
    },
    detailsContainer: {
       width: '97%',

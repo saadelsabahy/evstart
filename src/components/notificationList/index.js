@@ -6,15 +6,11 @@ import { EmptyList } from '../noData';
 import { MAIN_COLOR } from '../../constants/colors';
 
 const NotificationList = ({ data, handleRefresh, refreshing }) => {
-   const Ids = [...new Set(data.map(item => item.notificationId))];
+   const Ids = [...new Set(data.map(item => item.transactionId))];
    const notRedundency = Ids.map(id =>
-      data.find(notification => notification.notificationId === id)
-   );
-   /*    console.log(
-      notRedundency.sort(
-         (a, b) => new Date().getTime() - new Date(b.TimeStamp).getDate()
-      )
-   ); */
+      data.find(notification => notification.transactionId === id)
+   ).filter(x => x);
+   console.log('notRedundency', notRedundency);
 
    return (
       <FlatList
@@ -38,16 +34,13 @@ const NotificationList = ({ data, handleRefresh, refreshing }) => {
                      TimeStamp,
                      'MM/D/YYYY LT'
                   ).format('LLL')}
-                  /*  {moment(TimeStamp, 'LLLL').format(
-                     'DD/MM/YYYY'
-                  ) */
                   notificationIconSize={20}
                   containerStyle={{ alignSelf: 'center' }}
                   notificationName={Type}
                   notificationDetailes={
-                     Type === 'In'
-                        ? `your child ${StudentName} leave the school`
-                        : `your child ${StudentName} enter the school`
+                     Type.toLowerCase() == 'in'
+                        ? `your child ${StudentName} enter the school`
+                        : `your child ${StudentName} leave the school`
                   }
                />
             );

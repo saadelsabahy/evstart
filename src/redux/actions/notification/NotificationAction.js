@@ -14,8 +14,10 @@ export const getNotification = navigation => async (dispatch, getState) => {
    onRecieveNotificationListener = firebase
       .notifications()
       .onNotification(async notification => {
+         console.log('open', notification);
+
          const {
-            _data: { ParentId, StudentName, TimeStamp, Type },
+            _data: { ParentId, StudentName, TimeStamp, Type, TransactionID },
             _notificationId,
          } = notification;
          onReceiveNotification(dispatch, {
@@ -24,6 +26,7 @@ export const getNotification = navigation => async (dispatch, getState) => {
             TimeStamp,
             Type,
             notificationId: _notificationId,
+            transactionId: TransactionID,
          });
       });
    // when app open in background
@@ -33,7 +36,7 @@ export const getNotification = navigation => async (dispatch, getState) => {
          console.log('background', notificationOpen);
          const {
             notification: {
-               _data: { ParentId, StudentName, TimeStamp, Type },
+               _data: { ParentId, StudentName, TimeStamp, Type, TransactionID },
                _notificationId,
             },
          } = notificationOpen;
@@ -43,6 +46,7 @@ export const getNotification = navigation => async (dispatch, getState) => {
             TimeStamp,
             Type,
             notificationId: _notificationId,
+            transactionId: TransactionID,
          });
       });
    //open when app is closed
@@ -54,7 +58,13 @@ export const getNotification = navigation => async (dispatch, getState) => {
             const {
                notification,
                notification: {
-                  _data: { ParentId, StudentName, TimeStamp, Type },
+                  _data: {
+                     ParentId,
+                     StudentName,
+                     TimeStamp,
+                     Type,
+                     TransactionID,
+                  },
                   _notificationId,
                },
             } = openWhenAppClosedListener;
@@ -65,12 +75,14 @@ export const getNotification = navigation => async (dispatch, getState) => {
 
             if (_notificationId !== lastOpenFromClosedId) {
                await AsyncStorage.setItem('lastNotification', _notificationId);
+               console.log('close', notification);
                onReceiveNotification(dispatch, {
                   ParentId,
                   StudentName,
                   TimeStamp,
                   Type,
                   notificationId: _notificationId,
+                  transactionId: TransactionID,
                });
             } else {
                console.log('returned');
@@ -104,7 +116,7 @@ export const getAllNotifications = () => async (dispatch, getState) => {
 // handle receive notification
 const onReceiveNotification = async (
    dispatch,
-   { ParentId, StudentName, TimeStamp, Type, notificationId }
+   { ParentId, StudentName, TimeStamp, Type, notificationId, transactionId }
 ) => {
    dispatch({ type: GET_NOTIFICATION_LOADER, payload: true });
    await addNotificationToFireStore(
@@ -112,7 +124,8 @@ const onReceiveNotification = async (
       StudentName,
       TimeStamp,
       Type,
-      notificationId
+      notificationId,
+      transactionId
    );
 
    const fireStoreData = await getAllDataFromFireStore(ParentId);
@@ -124,7 +137,8 @@ const addNotificationToFireStore = async (
    StudentName,
    TimeStamp,
    Type,
-   notificationId
+   notificationId,
+   transactionId
 ) => {
    try {
       await firebase
@@ -136,6 +150,7 @@ const addNotificationToFireStore = async (
             TimeStamp,
             Type,
             notificationId,
+            transactionId,
          });
    } catch (error) {
       console.log('add to fire store error', error);
