@@ -5,10 +5,11 @@ import {
    StyleSheet,
    Platform,
    TouchableOpacity,
+   Dimensions,
 } from 'react-native';
 import { BLACK_COLOR } from '../../constants/colors';
 import { CustomText } from '../customText';
-
+const { width, height } = Dimensions.get('window');
 const StudentInfoCard = ({
    containerStyle,
    childName,
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
    container: {
       backgroundColor: '#fff',
       width: '98%',
-      height: 60,
+      height: height / 10,
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',

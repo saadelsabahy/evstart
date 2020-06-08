@@ -39,7 +39,7 @@ const NotificationCard = ({
                <Icon
                   name={notificationIconName || 'bell-outline'}
                   style={[styles.headIcon, notificationIconStyle]}
-                  size={notificationIconSize || responsiveFontSize(4)}
+                  size={responsiveFontSize(3)}
                   color={MAIN_COLOR}
                />
                <CustomText

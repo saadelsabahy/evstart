@@ -1,15 +1,16 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { MAIN_COLOR, WHITE_COLOR } from '../../constants/colors';
-
+const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
    container: {
       flex: 1,
       backgroundColor: '#fff',
    },
    backContainer: {
-      width: 50,
-      height: 50,
-      borderRadius: 25,
+      borderRadius: Math.round(height / 2 + width / 2),
+      width: Math.round(height / 2 + width / 2) / 12,
+      height: Math.round(height / 2 + width / 2) / 12,
+
       backgroundColor: 'rgba(0,0,0,.2)',
       position: 'absolute',
       start: 10,
