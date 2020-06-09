@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
    profileImageContainer: {
       alignSelf: 'center',
       borderRadius: Math.round(height / 2 + width / 2),
-      width: Math.round(height / 2 + width / 2) / 6,
-      height: Math.round(height / 2 + width / 2) / 6,
+      width: Math.round(height / 2 + width / 2) / 5,
+      height: Math.round(height / 2 + width / 2) / 5,
       overflow: 'visible',
       backgroundColor: MAIN_COLOR,
       borderWidth: 1,
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
       width: '100%',
       height: '100%',
       resizeMode: 'cover',
-      borderRadius: 50,
+      borderRadius: Math.round(height / 2 + width / 2),
    },
    picImageIcon: {
       position: 'absolute',
