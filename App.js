@@ -12,6 +12,7 @@ import {
    StatusBar,
    SafeAreaView,
    I18nManager,
+   Dimensions,
 } from 'react-native';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { store, persistor } from './src/redux/store';
@@ -24,6 +25,7 @@ import moment from 'moment';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 import { MAIN_COLOR } from './src/constants/colors';
 import { getFcmToken } from './src/utils/firebase';
+const { height } = Dimensions.get('window');
 const App = () => {
    I18nManager.forceRTL(false);
    useEffect(() => {
@@ -46,8 +48,10 @@ const App = () => {
                   style={styles.flashMessage}
                   duration={1500}
                   titleStyle={{
-                     fontSize: responsiveFontSize(2),
+                     fontSize: responsiveFontSize(1.5),
                      textTransform: 'capitalize',
+                     marginBottom: 0,
+                     lineHeight: responsiveFontSize(1.5),
                   }}
                />
             </SafeAreaView>
@@ -63,8 +67,10 @@ const styles = StyleSheet.create({
    flashMessage: {
       width: '97%',
       alignSelf: 'center',
-
+      minHeight: 0,
+      height: height / 15,
       justifyContent: 'center',
+      marginTop: 0,
    },
 });
 
