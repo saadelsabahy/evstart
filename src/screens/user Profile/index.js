@@ -161,7 +161,6 @@ const UserProfile = ({ navigation }) => {
                      touchableStyle={styles.picImageIcon}
                      iconName={'account-edit'}
                      iconColor="#fff"
-                     iconSize={30}
                      onIconPressed={() => dispatch(changeProfilePicture())}
                   />
                </View>
