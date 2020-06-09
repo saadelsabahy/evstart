@@ -35,9 +35,9 @@ const styles = StyleSheet.create({
    },
    profileImageContainer: {
       alignSelf: 'center',
-      width: 100,
-      height: 100,
-      borderRadius: 50,
+      borderRadius: Math.round(height / 2 + width / 2),
+      width: Math.round(height / 2 + width / 2) / 8,
+      height: Math.round(height / 2 + width / 2) / 8,
       overflow: 'visible',
       backgroundColor: MAIN_COLOR,
       borderWidth: 1,
