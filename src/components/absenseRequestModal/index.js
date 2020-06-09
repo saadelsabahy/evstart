@@ -172,8 +172,10 @@ const styles = StyleSheet.create({
       width: '100%',
    },
    flashText: {
+      fontSize: responsiveFontSize(1.5),
       textTransform: 'capitalize',
-      fontSize: responsiveFontSize(2),
+      marginBottom: 0,
+      lineHeight: responsiveFontSize(1.5),
    },
 });
 
