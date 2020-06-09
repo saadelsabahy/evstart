@@ -1,7 +1,11 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { MAIN_COLOR, ERROR_RED_COLOR } from '../../constants/colors';
+import {
+   MAIN_COLOR,
+   ERROR_RED_COLOR,
+   SCREEN_HEIGHT,
+} from '../../constants/colors';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
 const CustomInput = ({
@@ -23,7 +27,7 @@ const CustomInput = ({
    iconLeftColor,
 }) => {
    return (
-      <View style={{ marginVertical: 10 }}>
+      <View style={{ marginVertical: SCREEN_HEIGHT / 25 }}>
          <View style={[styles.container, inputContainerStyle]}>
             {iconLeftName && (
                <Icon
@@ -61,7 +65,7 @@ const styles = StyleSheet.create({
    container: {
       flexDirection: 'row',
       width: '90%',
-      height: 60,
+      height: SCREEN_HEIGHT / 15,
       alignItems: 'center',
       justifyContent: 'space-between',
    },

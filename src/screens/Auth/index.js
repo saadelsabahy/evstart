@@ -128,7 +128,6 @@ const styles = StyleSheet.create({
    inputsContainer: {
       width: '100%',
       alignItems: 'center',
-      marginBottom: 10,
       height: SCREEN_HEIGHT * 0.6,
    },
    button: {
