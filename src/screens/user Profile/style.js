@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
       borderRadius: Math.round(height / 2 + width / 2),
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: 'rgba(0,0,0,.2)',
+      backgroundColor: 'rgba(0,0,0,.5)',
    },
    userInfoContainer: {
       alignItems: 'center',
