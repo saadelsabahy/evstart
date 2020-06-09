@@ -57,6 +57,7 @@ const UserProfile = ({ navigation }) => {
    useEffect(() => {
       dispatch(getProfileData());
    }, []);
+   console.log('img', userProfileImage);
 
    useFocusEffect(
       React.useCallback(() => {
@@ -127,7 +128,6 @@ const UserProfile = ({ navigation }) => {
             <IconButton
                iconName={'keyboard-backspace'}
                iconColor="#fff"
-               iconSize={25}
                onIconPressed={() => navigation.goBack()}
                touchableStyle={styles.backContainer}
             />

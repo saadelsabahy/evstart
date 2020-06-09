@@ -9,7 +9,7 @@ const NotificationList = ({ data, handleRefresh, refreshing }) => {
    const Ids = [...new Set(data.map(item => item.transactionId))];
    const notRedundency = Ids.map(id =>
       data.find(notification => notification.transactionId === id)
-   ).filter(x => x);
+   ).filter(x => x.transactionId);
    console.log('notRedundency', notRedundency);
 
    return (

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { responsiveFontSize } from 'react-native-responsive-dimensions';
 
 const IconButton = ({
    onIconPressed,
@@ -22,7 +23,7 @@ const IconButton = ({
          <Icon
             name={iconName}
             color={iconColor}
-            size={iconSize || 20}
+            size={iconSize || responsiveFontSize(4)}
             style={[iconStyle]}
          />
          {iconButtonText && (

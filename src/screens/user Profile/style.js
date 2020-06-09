@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
       borderRadius: Math.round(height / 2 + width / 2),
       width: Math.round(height / 2 + width / 2) / 12,
       height: Math.round(height / 2 + width / 2) / 12,
-
+      justifyContent: 'center',
       backgroundColor: 'rgba(0,0,0,.2)',
       position: 'absolute',
       start: 10,
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
    },
    saveButton: {
       width: '100%',
-      height: 40,
+      height: height / 15,
       borderRadius: 0,
       marginVertical: 3,
    },

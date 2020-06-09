@@ -23,18 +23,26 @@ const StudentInfoCard = ({
          activeOpacity={0.85}>
          <View
             style={{
-               width: '60%',
+               width: '90%',
                height: '100%',
-               justifyContent: 'center',
-               paddingStart: 10,
+               flexDirection: 'row',
+               alignItems: 'center',
+               justifyContent: 'space-between',
+               alignSelf: 'center',
             }}>
-            <CustomText text={childName} />
-         </View>
+            <View
+               style={{
+                  height: '100%',
+                  justifyContent: 'center',
+               }}>
+               <CustomText text={childName} />
+            </View>
 
-         <View style={[styles.infoContainer]}>
-            <View style={[styles.infoDataContainer]}>
-               <CustomText text={'commitment'} />
-               <CustomText text={commitmentPercentage} />
+            <View style={[styles.infoContainer]}>
+               <View style={[styles.infoDataContainer]}>
+                  <CustomText text={'commitment'} />
+                  <CustomText text={commitmentPercentage} />
+               </View>
             </View>
          </View>
       </TouchableOpacity>
@@ -45,9 +53,6 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       width: '98%',
       height: height / 10,
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
       borderRadius: 5,
       ...Platform.select({
          android: {
@@ -60,12 +65,10 @@ const styles = StyleSheet.create({
             shadowRadius: 3,
          },
       }),
-      paddingHorizontal: 5,
       marginVertical: 10,
       alignSelf: 'center',
    },
    infoContainer: {
-      width: '40%',
       height: '100%',
       alignItems: 'center',
       justifyContent: 'center',
