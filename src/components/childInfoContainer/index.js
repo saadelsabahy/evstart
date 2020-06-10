@@ -32,10 +32,13 @@ const StudentInfoCard = ({
             }}>
             <View
                style={{
-                  height: '100%',
                   justifyContent: 'center',
+                  flexWrap: 'wrap',
+                  flexDirection: 'row',
+                  width: '60%',
+                  alignItems: 'center',
                }}>
-               <CustomText text={childName} />
+               <CustomText text={`${childName}`} />
             </View>
 
             <View style={[styles.infoContainer]}>
@@ -72,6 +75,7 @@ const styles = StyleSheet.create({
       height: '100%',
       alignItems: 'center',
       justifyContent: 'center',
+      width: '40%',
    },
    infoDataContainer: {
       alignItems: 'center',

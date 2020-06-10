@@ -106,8 +106,10 @@ const AbsenseRequestModal = ({
                      style={{
                         flex: 1,
                         alignSelf: 'center',
+                        flexWrap: 'wrap',
+                        flexDirection: 'row',
                      }}>
-                     <CustomText text={`absense request for ${studentName}`} />
+                     <CustomText text={`absense request for  ${studentName}`} />
                   </View>
                </View>
 
