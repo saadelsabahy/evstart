@@ -124,7 +124,7 @@ export const updateProfilePhoto = (goBack, navigation) => async (
 ) => {
    dispatch({ type: UPDATE_PROFILE_SPINNER, payload: true });
    const {
-      selectedImage: { uri, type, fileName },
+      selectedImage: { uri, type, fileName, path },
       selectedImage,
    } = getState().UserProfile;
    const userId = await AsyncStorage.getItem('userId');
@@ -132,7 +132,7 @@ export const updateProfilePhoto = (goBack, navigation) => async (
    form.append('image', {
       uri: Platform.OS == 'android' ? uri : uri.replace('file://', ''),
       type,
-      name: Platform.OS == 'android' ? fileName : 'image.jpg',
+      name: Platform.OS == 'android' ? fileName : uri.split('/').pop(),
    });
    console.log(selectedImage);
 

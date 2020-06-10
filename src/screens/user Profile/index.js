@@ -25,8 +25,12 @@ import { CustomDropDown } from '../../components/dropDown';
 import { WHITE_COLOR } from '../../constants/colors';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 import { useFocusEffect } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
+
 const UserProfile = ({ navigation }) => {
    const dispatch = useDispatch();
+   const isFocused = useIsFocused();
+
    const [showAbsenseRequestModal, setshowAbsenseRequestModal] = useState(
       false
    );
@@ -55,8 +59,12 @@ const UserProfile = ({ navigation }) => {
       absenseRequestSpinner: state.UserProfile.absenseRequestSpinner,
    }));
    useEffect(() => {
-      dispatch(getProfileData());
-   }, []);
+      if (isFocused) {
+         dispatch(getProfileData());
+      } else {
+         return;
+      }
+   }, [isFocused]);
    console.log('img', userProfileImage);
 
    useFocusEffect(
