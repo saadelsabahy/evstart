@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import AuthStack from './AuthStack';
-import Splash from '../screens/splash';
 import HomeStack from './HomeStack';
 import { NavigationContainer } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
