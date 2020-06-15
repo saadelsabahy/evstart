@@ -30,10 +30,9 @@ const NotificationList = ({ data, handleRefresh, refreshing }) => {
          }) => {
             return (
                <NotificationCard
-                  notificationTimeText={moment(
-                     TimeStamp,
-                     'MM/D/YYYY LT'
-                  ).format('LLL')}
+                  notificationTimeText={moment(TimeStamp, 'DD/MM/YYYY ').format(
+                     'LLL'
+                  )}
                   notificationIconSize={20}
                   containerStyle={{ alignSelf: 'center' }}
                   notificationName={Type}
