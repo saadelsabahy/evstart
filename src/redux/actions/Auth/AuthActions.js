@@ -45,7 +45,6 @@ export const onLoginPressed = navigation => async (dispatch, getState) => {
       var loginResponse = await get_request({
          target: `UMAPI/api/User/Authenticate?userName=${loginName}&password=${loginPassword}&encrypteddata=${false}`,
       });
-      console.log(loginResponse);
 
       try {
          if (loginResponse.statusCode == 200) {
@@ -54,7 +53,7 @@ export const onLoginPressed = navigation => async (dispatch, getState) => {
             } = loginResponse;
             const body = JSON.stringify({ UserID: Id, UsrToken: fcmToken });
             const sendFcmTokenResponse = await post_request({
-               target: 'NESTokens/api/UserNotifications',
+               target: 'Tokens/api/UserNotifications',
                body,
             });
             console.log('sendFcmTokenResponse', sendFcmTokenResponse);

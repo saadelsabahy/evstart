@@ -1,4 +1,4 @@
-const base_url = 'http://81.10.108.100/';
+const base_url = 'http://att.nes-eg.net/';
 export const image_url = base_url;
 
 import AsyncStorage from '@react-native-community/async-storage';

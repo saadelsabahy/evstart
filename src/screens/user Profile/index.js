@@ -228,6 +228,8 @@ const UserProfile = ({ navigation }) => {
                   ) : (
                      <FlatList
                         data={Students}
+                        /*  style={{ flex: 1 }}
+                        contentContainerStyle={{ flexGrow: 1 }} */
                         keyExtractor={(item, index) => `${index}`}
                         renderItem={({
                            item: {
@@ -259,7 +261,9 @@ const UserProfile = ({ navigation }) => {
                               />
                            );
                         }}
-                        ListEmptyComponent={() => <EmptyList />}
+                        ListEmptyComponent={() => (
+                           <EmptyList emptyText={'no children found'} />
+                        )}
                      />
                   )}
                </View>
