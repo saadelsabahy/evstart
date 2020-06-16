@@ -9,15 +9,18 @@ const NotificationList = ({ data, handleRefresh, refreshing }) => {
    const Ids = [...new Set(data.map(item => item.transactionId))];
    const notRedundency = Ids.map(id =>
       data.find(notification => notification.transactionId === id)
-   ).filter(x => x.transactionId);
+   )
+      .filter(x => x.transactionId)
+      .sort(
+         (a, b) =>
+            new Date(moment(b.TimeStamp, 'YYYY-MM-DD hh:mm:ss')).getTime() -
+            new Date(moment(a.TimeStamp, 'YYYY-MM-DD hh:mm:ss')).getTime()
+      );
    console.log('notRedundency', notRedundency);
 
    return (
       <FlatList
-         data={notRedundency.sort(
-            (a, b) =>
-               new Date(b.TimeStamp).getTime() - new Date(a.TimeStamp).getTime()
-         )}
+         data={notRedundency}
          keyExtractor={(item, index) => `${item.notificationId}`}
          style={{ flexGrow: 1 }}
          contentContainerStyle={{
