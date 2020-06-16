@@ -16,7 +16,8 @@ const NotificationList = ({ data, handleRefresh, refreshing }) => {
       <FlatList
          data={notRedundency.sort(
             (a, b) =>
-               new Date(b.TimeStamp).getTime() - new Date(a.TimeStamp).getTime()
+               new Date(moment(b.TimeStamp, 'DD/MM/YYYY LT')).getTime() -
+               new Date(moment(a.TimeStamp, 'DD/MM/YYYY LT')).getTime()
          )}
          keyExtractor={(item, index) => `${item.notificationId}`}
          style={{ flexGrow: 1 }}
@@ -30,9 +31,10 @@ const NotificationList = ({ data, handleRefresh, refreshing }) => {
          }) => {
             return (
                <NotificationCard
-                  notificationTimeText={moment(TimeStamp, 'DD/MM/YYYY ').format(
-                     'LLL'
-                  )}
+                  notificationTimeText={moment(
+                     TimeStamp,
+                     'DD/MM/YYYY LT'
+                  ).format('LLL')}
                   notificationIconSize={20}
                   containerStyle={{ alignSelf: 'center' }}
                   notificationName={Type}
