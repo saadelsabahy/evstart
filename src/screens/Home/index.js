@@ -20,6 +20,7 @@ import NotificationList from '../../components/notificationList';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useIsFocused } from '@react-navigation/native';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
+import { PushNotificationConfigration } from '../../utils/PushNotificationConfig';
 const Home = ({ navigation, route }) => {
    const dispatch = useDispatch();
    const isFocused = useIsFocused();
@@ -34,12 +35,13 @@ const Home = ({ navigation, route }) => {
    useEffect(() => {
       if (isFocused) {
          dispatch(getAllNotifications());
-         dispatch(getNotification(navigation));
+         PushNotificationConfigration();
+         // dispatch(getNotification(navigation));
       } else {
          return;
       }
       return () => {
-         deleteNotificationOnUnmount();
+         /* deleteNotificationOnUnmount(); */
       };
    }, [isFocused]);
 

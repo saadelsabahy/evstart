@@ -6,7 +6,7 @@ export const getFcmToken = async () => {
    if (enabled) {
       const fcmToken = await firebase.messaging().getToken();
       await AsyncStorage.setItem('fcmToken', fcmToken);
-      console.log(fcmToken);
+      console.log('fcmToken....', fcmToken);
    } else {
       try {
          firebase
@@ -19,7 +19,7 @@ export const getFcmToken = async () => {
             .then(async () => {
                const fcmToken = await firebase.messaging().getToken();
                await AsyncStorage.setItem('fcmToken', fcmToken);
-               console.log(fcmToken);
+               console.log('fcmToken....', fcmToken);
             })
             .catch(e => {
                console.log('permission error', e);
