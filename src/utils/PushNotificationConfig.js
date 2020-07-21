@@ -10,7 +10,7 @@ export const PushNotificationConfigration = () => {
       // (required) Called when a remote or local notification is opened or received
       onNotification: function(notification) {
          console.log('NOTIFICATION:', notification);
-         alert('wow...');
+         alert('hello fron notification...');
          // process the notification here
 
          // required on iOS only
@@ -26,7 +26,7 @@ export const PushNotificationConfigration = () => {
          sound: true,
       },
 
-      //popInitialNotification: true,
+      popInitialNotification: true,
       requestPermissions: true,
    });
 };
