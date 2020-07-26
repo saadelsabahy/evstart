@@ -66,7 +66,9 @@
 //   [[RNFirebaseMessaging instance] didRegisterUserNotificationSettings:notificationSettings];
 // }
 
-
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+  [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+}
 
 // Required to register for notifications
 - (void)application:(UIApplication *)application
