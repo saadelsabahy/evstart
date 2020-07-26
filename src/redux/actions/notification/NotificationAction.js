@@ -10,86 +10,25 @@ import AsyncStorage from '@react-native-community/async-storage';
 let onRecieveNotificationListener, onOpenNotificationListener;
 export const getNotification = navigation => async (dispatch, getState) => {
    navigation.navigate('Home');
+
    //when app opend
    onRecieveNotificationListener = firebase
       .notifications()
       .onNotification(async notification => {
          console.log('open', notification);
-
-         const {
-            _data: { ParentId, StudentName, TimeStamp, Type, TransactionID },
-            _notificationId,
-         } = notification;
-         onReceiveNotification(dispatch, {
-            ParentId,
-            StudentName,
-            TimeStamp,
-            Type,
-            notificationId: _notificationId,
-            transactionId: TransactionID,
-         });
       });
    // when app open in background
    onOpenNotificationListener = firebase
       .notifications()
       .onNotificationOpened(async notificationOpen => {
          console.log('background', notificationOpen);
-         const {
-            notification: {
-               _data: { ParentId, StudentName, TimeStamp, Type, TransactionID },
-               _notificationId,
-            },
-         } = notificationOpen;
-         onReceiveNotification(dispatch, {
-            ParentId,
-            StudentName,
-            TimeStamp,
-            Type,
-            notificationId: _notificationId,
-            transactionId: TransactionID,
-         });
       });
    //open when app is closed
    firebase
       .notifications()
       .getInitialNotification()
       .then(async openWhenAppClosedListener => {
-         if (openWhenAppClosedListener) {
-            const {
-               notification,
-               notification: {
-                  _data: {
-                     ParentId,
-                     StudentName,
-                     TimeStamp,
-                     Type,
-                     TransactionID,
-                  },
-                  _notificationId,
-               },
-            } = openWhenAppClosedListener;
-
-            const lastOpenFromClosedId = await AsyncStorage.getItem(
-               'lastNotification'
-            );
-
-            if (_notificationId !== lastOpenFromClosedId) {
-               await AsyncStorage.setItem('lastNotification', _notificationId);
-               console.log('close', notification);
-               onReceiveNotification(dispatch, {
-                  ParentId,
-                  StudentName,
-                  TimeStamp,
-                  Type,
-                  notificationId: _notificationId,
-                  transactionId: TransactionID,
-               });
-            } else {
-               console.log('returned');
-
-               return;
-            }
-         }
+         console.log('closed');
       })
       .catch(e => console.log('recieve close app notification error', e));
 };
