@@ -108,11 +108,34 @@ export const getAllNotifications = () => async (dispatch, getState) => {
          type: GET_NOTIFICATON_SUCCESS,
          payload: getNotificationResponse,
       });
+      firebase
+         .firestore()
+         .collection('notificationBadge')
+         .doc(userId)
+         .update({ badgeCount: 0 });
    } catch (error) {
       console.log('get notification error', error);
       dispatch({ type: GET_NOTIFICATION_FAILED });
    }
 };
+
+// get firestore data
+const getAllDataFromFireStore = async ParentId => {
+   let data = [];
+   await firebase
+      .firestore()
+      .collection(`UserNotification`)
+      .doc(`${ParentId}`)
+      .get()
+      .then(querySnapshot => {
+         querySnapshot.forEach(doc => {
+            data.push(doc._data);
+         });
+      })
+      .catch(e => console.log('get firedata error', e));
+   return data;
+};
+
 // handle receive notification
 const onReceiveNotification = async (
    dispatch,
@@ -155,19 +178,4 @@ const addNotificationToFireStore = async (
    } catch (error) {
       console.log('add to fire store error', error);
    }
-};
-// get firestore data
-const getAllDataFromFireStore = async ParentId => {
-   let data = [];
-   await firebase
-      .firestore()
-      .collection(`${ParentId}`)
-      .get()
-      .then(querySnapshot => {
-         querySnapshot.forEach(doc => {
-            data.push(doc._data);
-         });
-      })
-      .catch(e => console.log('get firedata error', e));
-   return data;
 };
