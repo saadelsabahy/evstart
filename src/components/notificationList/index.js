@@ -6,17 +6,17 @@ import { EmptyList } from '../noData';
 import { MAIN_COLOR } from '../../constants/colors';
 
 const NotificationList = ({ data, handleRefresh, refreshing }) => {
-   const Ids = [...new Set(data.map(item => item.transactionId))];
+   const Ids = [...new Set(data.map(item => item.TransactionID))];
    const notRedundency = Ids.map(id =>
-      data.find(notification => notification.transactionId === id)
+      data.find(notification => notification.TransactionID === id)
    )
-      .filter(x => x.transactionId)
+      .filter(x => x.TransactionID)
       .sort(
          (a, b) =>
             new Date(moment(b.TimeStamp, 'YYYY-MM-DD hh:mm:ss')).getTime() -
             new Date(moment(a.TimeStamp, 'YYYY-MM-DD hh:mm:ss')).getTime()
       );
-   // console.log('notRedundency', notRedundency);
+   console.log('notRedundency', notRedundency);
 
    return (
       <FlatList

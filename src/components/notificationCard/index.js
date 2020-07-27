@@ -32,7 +32,7 @@ const NotificationCard = ({
    return (
       <TouchableOpacity
          style={[styles.container, containerStyle]}
-         activeOpacity={0.9}
+         activeOpacity={0.95}
          onPress={onNotificationCardPressed}>
          <View style={[styles.headContainer, headerContainerStyle]}>
             <View style={[styles.textAndIconContainer, textAndIconContainer]}>
@@ -68,17 +68,15 @@ const styles = StyleSheet.create({
       width: '97%',
       backgroundColor: WHITE_COLOR,
       borderRadius: 10,
-      ...Platform.select({
-         android: {
-            elevation: 2,
-         },
-         ios: {
-            shadowColor: BLACK_COLOR,
-            shadowOffset: { height: 3 },
-            shadowOpacity: 0.1,
-            shadowRadius: 3,
-         },
-      }),
+      shadowColor: '#000',
+      shadowOffset: {
+         width: 0,
+         height: 3,
+      },
+      shadowOpacity: 0.27,
+      shadowRadius: 4.65,
+
+      elevation: 6,
       marginVertical: 10,
       padding: 10,
    },

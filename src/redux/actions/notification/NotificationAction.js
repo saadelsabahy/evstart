@@ -64,15 +64,15 @@ const getAllDataFromFireStore = async ParentId => {
    await firebase
       .firestore()
       .collection(`UserNotification`)
-      .doc(`${ParentId}`)
       .get()
       .then(querySnapshot => {
          querySnapshot.forEach(doc => {
+            // console.log(doc._data);
             data.push(doc._data);
          });
       })
       .catch(e => console.log('get firedata error', e));
-   return data;
+   return data.filter(item => item.ParentId == ParentId);
 };
 
 // handle receive notification
