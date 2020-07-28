@@ -51,7 +51,7 @@ export const getAllNotifications = () => async (dispatch, getState) => {
          .firestore()
          .collection('notificationBadge')
          .doc(userId)
-         .update({ badgeCount: 0 });
+         .update({ badgeCount: 0, userId });
    } catch (error) {
       console.log('get notification error', error);
       dispatch({ type: GET_NOTIFICATION_FAILED });

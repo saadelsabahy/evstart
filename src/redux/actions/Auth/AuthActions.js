@@ -53,7 +53,7 @@ export const onLoginPressed = navigation => async (dispatch, getState) => {
             } = loginResponse;
             const body = JSON.stringify({ UserID: Id, UsrToken: fcmToken });
             const sendFcmTokenResponse = await post_request({
-               target: 'Tokens/api/UserNotifications',
+               target: 'NESTokens/api/UserNotifications',
                body,
             });
             console.log('sendFcmTokenResponse', sendFcmTokenResponse);

@@ -16,12 +16,12 @@ const NotificationList = ({ data, handleRefresh, refreshing }) => {
             new Date(moment(b.TimeStamp, 'YYYY-MM-DD hh:mm:ss')).getTime() -
             new Date(moment(a.TimeStamp, 'YYYY-MM-DD hh:mm:ss')).getTime()
       );
-   console.log('notRedundency', notRedundency);
+   // console.log('notRedundency', notRedundency);
 
    return (
       <FlatList
          data={notRedundency}
-         keyExtractor={(item, index) => `${item.notificationId}`}
+         keyExtractor={(item, index) => `${item.TransactionID}`}
          style={{ flexGrow: 1 }}
          contentContainerStyle={{
             flexGrow: 1,

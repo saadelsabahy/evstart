@@ -35,7 +35,7 @@ const Home = ({ navigation, route }) => {
    useEffect(() => {
       if (isFocused) {
          dispatch(getAllNotifications());
-         // PushNotificationConfigration();
+         PushNotificationConfigration(dispatch);
          // dispatch(getNotification(navigation));
       } else {
          return;
