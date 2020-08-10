@@ -1,0 +1,11 @@
+{
+   "Simulator Target Bundle": "eg.edu.moe.nes.nesParentApp",
+   "aps": {
+      "alert": {
+         "title": "Test..",
+         "body": "Testing a notification"
+      },
+      "sound": "default",
+      "badge": 10
+   }
+}
